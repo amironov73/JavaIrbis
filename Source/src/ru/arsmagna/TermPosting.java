@@ -1,5 +1,9 @@
 package ru.arsmagna;
 
+import ru.arsmagna.infrastructure.ServerResponse;
+
+import java.util.ArrayList;
+
 /**
  * Постинг терма.
  */
@@ -36,7 +40,7 @@ public class TermPosting
      * Клонирование.
      * @return Копию.
      */
-    public TermPosting Clone()
+    public TermPosting clone()
     {
         TermPosting result = new TermPosting();
         result.mfn = mfn;
@@ -46,6 +50,41 @@ public class TermPosting
         result.text = text;
 
         return result;
+    }
+
+    public static TermPosting[] parse
+        (
+            ServerResponse response
+        )
+    {
+        ArrayList<TermPosting> result = new ArrayList<>();
+        while (true)
+        {
+            String line = response.readUtf();
+            if (Utility.isNullOrEmpty(line))
+            {
+                break;
+            }
+
+            String[] parts = line.split("#", 5);
+            if (parts.length < 4)
+            {
+                break;
+            }
+
+            TermPosting item = new TermPosting();
+            item.mfn = Integer.parseInt(parts[0]);
+            item.tag = Integer.parseInt(parts[1]);
+            item.occurrence = Integer.parseInt(parts[2]);
+            item.count = Integer.parseInt(parts[3]);
+            if (parts.length > 4)
+            {
+                item.text = parts[4];
+            }
+            result.add(item);
+        }
+
+        return result.toArray(new TermPosting[0]);
     }
 
     //=========================================================================

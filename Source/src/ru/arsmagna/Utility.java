@@ -3,11 +3,24 @@ package ru.arsmagna;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 
 public class Utility
 {
+    public static final int MAX_PACKET = 32758;
+
     public static byte[] CRLF = { 0x0D, 0x0A };
     public static byte[] LF = { 0x0A };
+
+    /**
+     * Коды возврата, допустимые в команде ReadRecord.
+     */
+    public static int[] READ_RECORD_CODES = { -201, -600, -602, -603 };
+
+    /**
+     * Коды возврата, допустимые в команде ReadTerms.
+     */
+    public static int[] READ_TERMS_CODES = { -202, -203, -204 };
 
     public static int find(int[] array, int item)
     {
@@ -41,4 +54,32 @@ public class Utility
             destination.write(buffer, 0, readed);
         }
     }
+
+    public static String ReadTo
+        (
+            StringReader reader,
+            char delimiter
+        )
+        throws IOException
+    {
+        StringBuilder result = new StringBuilder();
+
+        while (true)
+        {
+            int next = reader.read();
+            if (next < 0)
+            {
+                break;
+            }
+            char c = (char)next;
+            if (c == delimiter)
+            {
+                break;
+            }
+            result.append(c);
+        }
+
+        return result.toString();
+    }
+
 }

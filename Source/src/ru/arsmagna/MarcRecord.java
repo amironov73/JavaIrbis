@@ -1,5 +1,6 @@
 package ru.arsmagna;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -81,6 +82,30 @@ public class MarcRecord
         }
 
         return result;
+    }
+
+    public static void ParseSingle
+        (
+            MarcRecord record,
+            String[] text
+        )
+        throws IOException
+    {
+        String line = text[0];
+        String[] parts = line.split("#");
+        record.mfn = Integer.parseInt(parts[0]);
+        if (parts.length != 1)
+        {
+            record.status = Integer.parseInt(parts[2]);
+        }
+        line = text[1];
+        parts = line.split("#");
+        record.version = Integer.parseInt(parts[1]);
+        for (int i = 2; i < text.length; i++)
+        {
+            RecordField field = RecordField.parse(text[i]);
+            record.fields.add(field);
+        }
     }
 
     //=========================================================================

@@ -1,5 +1,8 @@
 package ru.arsmagna;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -82,6 +85,34 @@ public class RecordField
         for (SubField sub: subFields)
         {
             result.subFields.add(sub.clone());
+        }
+
+        return result;
+    }
+
+    public static RecordField parse
+        (
+            String line
+        )
+        throws IOException
+    {
+        StringReader reader = new StringReader(line);
+        String tagText = Utility.ReadTo(reader, '#');
+        int tag = Integer.parseInt(tagText);
+        RecordField result = new RecordField(tag);
+        result.value = Utility.ReadTo(reader, '^');
+        while (true)
+        {
+            int next = reader.read();
+            if (next < 0)
+            {
+                break;
+            }
+
+            char code = Character.toLowerCase((char)next);
+            String value = Utility.ReadTo(reader, '^');
+            SubField subField = new SubField(code, value);
+            result.subFields.add(subField);
         }
 
         return result;

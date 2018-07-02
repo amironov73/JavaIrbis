@@ -140,7 +140,7 @@ public class ServerResponse
             result.add(line);
         }
 
-        return (String[])result.toArray();
+        return result.toArray(new String[0]);
     }
 
     public String[] readRemainingUtfLines()
@@ -152,7 +152,7 @@ public class ServerResponse
             result.add(line);
         }
 
-        return (String[])result.toArray();
+        return result.toArray(new String[0]);
     }
 
     public String readRemainingUtfText() throws IOException
@@ -160,7 +160,7 @@ public class ServerResponse
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         Utility.copyTo(stream, buffer);
         byte[] bytes = buffer.toByteArray();
-        String result = new String(bytes, IrbisEncoding.ansi());
+        String result = new String(bytes, IrbisEncoding.utf());
 
         return result;
     }

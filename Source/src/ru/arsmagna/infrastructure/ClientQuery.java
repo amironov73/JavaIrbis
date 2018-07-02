@@ -59,8 +59,8 @@ public class ClientQuery
         addAnsi(new Character(connection.workstation).toString());
         addAnsi(commandCode);
         add(connection.clientId);
-        add(connection.queryId);
         connection.queryId++;
+        add(connection.queryId);
         addAnsi(connection.password);
         addAnsi(connection.username);
         addLineFeed();
@@ -96,8 +96,8 @@ public class ClientQuery
     {
         if (!Utility.isNullOrEmpty(text))
         {
-            ByteBuffer bytes = IrbisEncoding.ansi().encode(text);
-            stream.write(bytes.array());
+            byte[] bytes = text.getBytes(IrbisEncoding.ansi());
+            stream.write(bytes);
         }
     }
 
@@ -110,8 +110,8 @@ public class ClientQuery
     {
         if (!Utility.isNullOrEmpty(text))
         {
-            ByteBuffer bytes = IrbisEncoding.utf().encode(text);
-            stream.write(bytes.array());
+            byte[] bytes = text.getBytes(IrbisEncoding.utf());
+            stream.write(bytes);
         }
         addLineFeed();
     }
