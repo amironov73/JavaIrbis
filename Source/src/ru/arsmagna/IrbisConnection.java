@@ -164,7 +164,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "G");
+        ClientQuery query = new ClientQuery(this, FORMAT_RECORD);
         query.addAnsi(database);
         query.addAnsi(format);
         query.add(1);
@@ -182,7 +182,7 @@ public class IrbisConnection
             MarcRecord record
         ) throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "G");
+        ClientQuery query = new ClientQuery(this, FORMAT_RECORD);
         query.addAnsi(database);
         query.addAnsi(format);
         query.add(-2);
@@ -225,7 +225,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "O");
+        ClientQuery query = new ClientQuery(this, GET_MAX_MFN);
         query.addAnsiNoLF(databaseName);
         ServerResponse response = execute(query);
         response.checkReturnCode();

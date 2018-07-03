@@ -7,6 +7,9 @@ import java.io.StringReader;
 
 public class Utility
 {
+    /**
+     * Максимальное количество записей в пакете.
+     */
     public static final int MAX_PACKET = 32758;
 
     public static byte[] CRLF = { 0x0D, 0x0A };
@@ -21,6 +24,21 @@ public class Utility
      * Коды возврата, допустимые в команде ReadTerms.
      */
     public static int[] READ_TERMS_CODES = { -202, -203, -204 };
+
+    /**
+     * Список баз данных для администратора.
+     */
+    public static final String ADMINISTRATOR_DATABASE_LIST = "dbnam1.mnu";
+
+    /**
+     * Список баз данных для каталогизатора.
+     */
+
+    public static final String CATALOGER_DATABASE_LIST = "dbnam2.mnu";
+    /**
+     * Список баз данных для читателя.
+     */
+    public static final String READER_DATABASE_LIST = "dbnam3.mnu";
 
     public static int find(int[] array, int item)
     {
