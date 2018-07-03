@@ -14,6 +14,12 @@ public class SimplestClient
             connection.password = "password";
             connection.connect();
 
+            IrbisVersion version = connection.getServerVersion();
+            System.out.println(version);
+
+            ServerStat stat = connection.getServerStat();
+            System.out.println(stat);
+
             int maxMfn = connection.getMaxMfn();
             System.out.printf("Max MFN (IBIS)=%d", maxMfn);
             System.out.println();

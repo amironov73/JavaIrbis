@@ -2,6 +2,8 @@ package ru.arsmagna;
 
 import ru.arsmagna.infrastructure.*;
 
+import static ru.arsmagna.infrastructure.CommandCode.*;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -71,7 +73,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "G");
+        ClientQuery query = new ClientQuery(this, ACTUALIZE_RECORD);
         query.addAnsi(database);
         query.add(mfn);
         ServerResponse response = execute(query);
@@ -82,7 +84,7 @@ public class IrbisConnection
     {
         queryId = 0;
         clientId = 100000 + new Random().nextInt(800000);
-        ClientQuery query = new ClientQuery(this, "A");
+        ClientQuery query = new ClientQuery(this, REGISTER_CLIENT);
         query.addAnsi(username);
         query.addAnsiNoLF(password);
         ServerResponse response = execute(query);
@@ -101,7 +103,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "T");
+        ClientQuery query = new ClientQuery(this, CREATE_DATABASE);
         query.addAnsi(databaseName);
         query.addAnsi(description);
         query.add(readerAccess);
@@ -115,7 +117,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "Z");
+        ClientQuery query = new ClientQuery(this, CREATE_DICTIONARY);
         query.addAnsi(databaseName);
         ServerResponse response = execute(query);
         response.checkReturnCode();
@@ -127,7 +129,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "W");
+        ClientQuery query = new ClientQuery(this, DELETE_DATABASE);
         query.addAnsi(databaseName);
         ServerResponse response = execute(query);
         response.checkReturnCode();
@@ -135,7 +137,7 @@ public class IrbisConnection
 
     public void disconnect() throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "B");
+        ClientQuery query = new ClientQuery(this, UNREGISTER_CLIENT);
         query.addAnsiNoLF(username);
         execute(query);
     }
@@ -197,6 +199,26 @@ public class IrbisConnection
         return getMaxMfn(database);
     }
 
+    public ServerStat getServerStat() throws IOException
+    {
+        ClientQuery query = new ClientQuery(this, GET_SERVER_STAT);
+        ServerResponse response = execute(query);
+        response.getReturnCode();
+        ServerStat result = ServerStat.parse(response);
+
+        return result;
+    }
+
+    public IrbisVersion getServerVersion() throws IOException
+    {
+        ClientQuery query = new ClientQuery(this, SERVER_INFO);
+        ServerResponse response = execute(query);
+        response.getReturnCode();
+        IrbisVersion result = IrbisVersion.parse(response);
+
+        return result;
+    }
+
     public int getMaxMfn
         (
             String databaseName
@@ -217,15 +239,15 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "!");
+        ClientQuery query = new ClientQuery(this, LIST_FILES);
         query.addAnsi(specification.toString());
         ServerResponse response = execute(query);
         ArrayList<String> result = new ArrayList<String>();
         String[] lines = response.readRemainingAnsiLines();
-        for (String line: lines)
+        for (String line : lines)
         {
             String[] converted = IrbisText.fromIrbisToManyLines(line);
-            for (String one: converted)
+            for (String one : converted)
             {
                 result.add(one);
             }
@@ -240,18 +262,18 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "!");
-        for (FileSpecification specification: specifications)
+        ClientQuery query = new ClientQuery(this, LIST_FILES);
+        for (FileSpecification specification : specifications)
         {
             query.addAnsi(specification.toString());
         }
         ServerResponse response = execute(query);
         ArrayList<String> result = new ArrayList<String>();
         String[] lines = response.readRemainingAnsiLines();
-        for (String line: lines)
+        for (String line : lines)
         {
             String[] converted = IrbisText.fromIrbisToManyLines(line);
-            for (String one: converted)
+            for (String one : converted)
             {
                 result.add(one);
             }
@@ -262,7 +284,7 @@ public class IrbisConnection
 
     public void noOp() throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "N");
+        ClientQuery query = new ClientQuery(this, NOP);
         execute(query);
     }
 
@@ -288,7 +310,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "I");
+        ClientQuery query = new ClientQuery(this, READ_POSTINGS);
         query.addAnsi(parameters.database);
         query.add(parameters.numberOfPostings);
         query.add(parameters.numberOfPostings);
@@ -296,10 +318,9 @@ public class IrbisConnection
         if (parameters.listOftTerms == null)
         {
             query.addUtf(parameters.term);
-        }
-        else
+        } else
         {
-            for (String term: parameters.listOftTerms)
+            for (String term : parameters.listOftTerms)
             {
                 query.addUtf(term);
             }
@@ -318,7 +339,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "C");
+        ClientQuery query = new ClientQuery(this, READ_RECORD);
         query.addAnsi(database);
         query.add(mfn);
         ServerResponse response = execute(query);
@@ -338,7 +359,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "C");
+        ClientQuery query = new ClientQuery(this, READ_RECORD);
         query.addAnsi(database);
         query.add(mfn);
         query.add(versionNumber);
@@ -357,7 +378,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        String command = parameters.reverseOrder ? "P" : "H";
+        String command = parameters.reverseOrder ? READ_TERMS_REVERSE : READ_TERMS;
         ClientQuery query = new ClientQuery(this, command);
         query.addAnsi(parameters.database);
         query.addUtf(parameters.startTerm);
@@ -376,7 +397,7 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "L");
+        ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
         query.addAnsi(specification.toString());
         ServerResponse response = execute(query);
         String text = response.readAnsi();
@@ -390,8 +411,8 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "L");
-        for (FileSpecification specification: specifications)
+        ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
+        for (FileSpecification specification : specifications)
         {
             query.addAnsi(specification.toString());
         }
@@ -420,7 +441,7 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "Y");
+        ClientQuery query = new ClientQuery(this, RELOAD_DICTIONARY);
         query.addAnsi(databaseName);
         execute(query);
     }
@@ -431,14 +452,14 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "X");
+        ClientQuery query = new ClientQuery(this, RELOAD_MASTER_FILE);
         query.addAnsi(databaseName);
         execute(query);
     }
 
     public void restartServer() throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "+8");
+        ClientQuery query = new ClientQuery(this, RESTART_SERVER);
         execute(query);
     }
 
@@ -448,7 +469,7 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
-        ClientQuery query = new ClientQuery(this, "K");
+        ClientQuery query = new ClientQuery(this, SEARCH);
         query.addAnsi(database);
         query.addUtf(expression);
         query.add(0); // number of records - MAX_PACKET
@@ -482,7 +503,7 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "S");
+        ClientQuery query = new ClientQuery(this, EMPTY_DATABASE);
         query.addAnsi(databaseName);
         execute(query);
     }
@@ -493,7 +514,7 @@ public class IrbisConnection
         )
         throws IOException
     {
-        ClientQuery query = new ClientQuery(this, "U");
+        ClientQuery query = new ClientQuery(this, UNLOCK_DATABASE);
         query.addAnsi(databaseName);
         execute(query);
     }
@@ -510,9 +531,9 @@ public class IrbisConnection
             return;
         }
 
-        ClientQuery query = new ClientQuery(this, "Q");
+        ClientQuery query = new ClientQuery(this, UNLOCK_RECORDS);
         query.addAnsi(databaseName);
-        for (int mfn: mfnList)
+        for (int mfn : mfnList)
         {
             query.add(mfn);
         }
@@ -530,8 +551,8 @@ public class IrbisConnection
             return;
         }
 
-        ClientQuery query = new ClientQuery(this, "8");
-        for (String line: lines)
+        ClientQuery query = new ClientQuery(this, UPDATE_INI_FILE);
+        for (String line : lines)
         {
             query.addAnsi(line);
         }
