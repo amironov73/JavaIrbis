@@ -155,6 +155,16 @@ public class ServerResponse
         return result.toArray(new String[0]);
     }
 
+    public String readRemainingAnsiText() throws IOException
+    {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        Utility.copyTo(stream, buffer);
+        byte[] bytes = buffer.toByteArray();
+        String result = new String(bytes, IrbisEncoding.ansi());
+
+        return result;
+    }
+
     public String readRemainingUtfText() throws IOException
     {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();

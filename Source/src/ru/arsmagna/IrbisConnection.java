@@ -313,7 +313,7 @@ public class IrbisConnection
         ClientQuery query = new ClientQuery(this, READ_POSTINGS);
         query.addAnsi(parameters.database);
         query.add(parameters.numberOfPostings);
-        query.add(parameters.numberOfPostings);
+        query.add(parameters.firstPosting);
         query.addAnsi(parameters.format);
         if (parameters.listOftTerms == null)
         {

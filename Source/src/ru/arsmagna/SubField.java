@@ -72,6 +72,57 @@ public class SubField
         return result;
     }
 
+    /**
+     * Сравнение подполей для сортировки.
+     * @param subField1 Первое подполе.
+     * @param subField2 Второе подполе.
+     * @return Результат сравнения.
+     */
+    public static int compare
+        (
+            SubField subField1,
+            SubField subField2
+        )
+    {
+        int result = compareCodes(subField1.code, subField2.code);
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = subField1.value.compareTo(subField2.value);
+
+        return result;
+    }
+
+    /**
+     * Сравнение кодов подполей.
+     * @param code1 Первый код.
+     * @param code2 Второй код.
+     * @return Результат сравнения.
+     */
+    public static int compareCodes
+        (
+            char code1,
+            char code2
+        )
+    {
+        return new Character(normalize(code1)).compareTo(normalize(code2));
+    }
+
+    /**
+     * Нормализация кода подполя.
+     * @param code Исходный код.
+     * @return Нормализованный код.
+     */
+    public static char normalize
+        (
+            char code
+        )
+    {
+        return Character.toLowerCase(code);
+    }
+
     //=========================================================================
 
     @Override

@@ -2,6 +2,7 @@ package simplest.client;
 
 import ru.arsmagna.*;
 import ru.arsmagna.infrastructure.*;
+import ru.arsmagna.menus.MenuFile;
 
 public class SimplestClient
 {
@@ -76,11 +77,15 @@ public class SimplestClient
                 System.out.println(posting);
             }
 
+            specification = new FileSpecification(IrbisPath.MASTER_FILE, "IBIS", "NAZN.MNU");
+            MenuFile menu = MenuFile.read(connection, specification);
+            System.out.println(menu);
+
             connection.disconnect();
         }
         catch (Exception ex)
         {
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 }
