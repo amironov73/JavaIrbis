@@ -282,6 +282,16 @@ public class IrbisConnection
         return result.toArray(new String[0]);
     }
 
+    public IrbisProcessInfo[] listProcesses() throws IOException
+    {
+        ClientQuery query = new ClientQuery(this, GET_PROCESS_LIST);
+        ServerResponse response = execute(query);
+        response.getReturnCode();
+        IrbisProcessInfo[] result = IrbisProcessInfo.parse(response);
+
+        return result;
+    }
+
     public void noOp() throws IOException
     {
         ClientQuery query = new ClientQuery(this, NOP);

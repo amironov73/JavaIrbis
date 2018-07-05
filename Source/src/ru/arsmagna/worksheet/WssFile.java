@@ -1,5 +1,6 @@
 package ru.arsmagna.worksheet;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -29,5 +30,6 @@ public class WssFile
      */
     public WssFile()
     {
+        items = new ArrayList<>();
     }
 }

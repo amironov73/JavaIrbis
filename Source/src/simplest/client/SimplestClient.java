@@ -4,6 +4,8 @@ import ru.arsmagna.*;
 import ru.arsmagna.infrastructure.*;
 import ru.arsmagna.menus.MenuFile;
 
+import java.util.Arrays;
+
 public class SimplestClient
 {
     public static void main(String[] args)
@@ -17,6 +19,9 @@ public class SimplestClient
 
             IrbisVersion version = connection.getServerVersion();
             System.out.println(version);
+
+            IrbisProcessInfo[] processes = connection.listProcesses();
+            System.out.println(Arrays.toString(processes));
 
             ServerStat stat = connection.getServerStat();
             System.out.println(stat);

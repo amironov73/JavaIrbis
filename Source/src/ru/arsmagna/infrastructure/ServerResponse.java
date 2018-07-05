@@ -123,6 +123,30 @@ public class ServerResponse
         return new String(line, IrbisEncoding.ansi());
     }
 
+    /**
+     * Считывание не менее указанного количества строк.
+     * @param count
+     * @return
+     */
+    public String[] readAnsi
+        (
+            int count
+        )
+    {
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < count; i++)
+        {
+            String line = readAnsi();
+            if (Utility.isNullOrEmpty(line))
+            {
+                return null;
+            }
+            result.add(line);
+        }
+
+        return result.toArray(new String[0]);
+    }
+
     public int readInt32()
     {
         String text = readAnsi();
@@ -181,6 +205,30 @@ public class ServerResponse
         String result = new String(line, IrbisEncoding.utf());
 
         return result;
+    }
+
+    /**
+     * Считывание не менее указанного количества строк.
+     * @param count
+     * @return
+     */
+    public String[] readUtf
+        (
+            int count
+        )
+    {
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < count; i++)
+        {
+            String line = readUtf();
+            if (Utility.isNullOrEmpty(line))
+            {
+                return null;
+            }
+            result.add(line);
+        }
+
+        return result.toArray(new String[0]);
     }
 
     //=========================================================================
