@@ -33,4 +33,17 @@ public class IrbisText
 
         return new String[0];
     }
+
+    public static String[] fromWriteRecord
+        (
+            String text
+        )
+    {
+        if (!Utility.isNullOrEmpty(text))
+        {
+            return text.split(SHORT_DELIMITER);
+        }
+
+        return new String[0];
+    }
 }

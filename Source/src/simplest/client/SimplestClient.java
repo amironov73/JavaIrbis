@@ -13,9 +13,12 @@ public class SimplestClient
         try
         {
             IrbisConnection connection = new IrbisConnection();
+            System.out.printf("Connected=%d", connection.isConnected() ? 1 : 0);
             connection.username = "user";
             connection.password = "password";
+            connection.workstation = 'A';
             connection.connect();
+            System.out.printf("Connected=%d", connection.isConnected() ? 1 : 0);
 
             IrbisVersion version = connection.getServerVersion();
             System.out.println(version);
@@ -23,10 +26,13 @@ public class SimplestClient
             IrbisProcessInfo[] processes = connection.listProcesses();
             System.out.println(Arrays.toString(processes));
 
+            UserInfo[] users = connection.getUserList();
+            System.out.println(Arrays.toString(users));
+
             ServerStat stat = connection.getServerStat();
             System.out.println(stat);
 
-            int maxMfn = connection.getMaxMfn();
+            int maxMfn = connection.getMaxMfn("IBIS");
             System.out.printf("Max MFN (IBIS)=%d", maxMfn);
             System.out.println();
 
@@ -85,6 +91,73 @@ public class SimplestClient
             specification = new FileSpecification(IrbisPath.MASTER_FILE, "IBIS", "NAZN.MNU");
             MenuFile menu = MenuFile.read(connection, specification);
             System.out.println(menu);
+
+            record = new MarcRecord();
+            record.fields.add(new RecordField(300, "Какие-то примечания"));
+            maxMfn = connection.writeRecord(record, false, true, false);
+            System.out.printf("New max MFN=%d", maxMfn);
+            System.out.println();
+            System.out.println(record);
+
+            MarcRecord[] records = new MarcRecord[10];
+            for (int i = 0; i < records.length; i++)
+            {
+                records[i] = new MarcRecord();
+                records[i].fields.add(new RecordField(300, "Комментарий " + (i + 1)));
+            }
+            int returnCode = connection.writeRecords(records, false, true, false);
+            System.out.printf("Return Code=%d", returnCode);
+            System.out.println();
+            for (int i = 0; i < records.length; i++)
+            {
+                System.out.println(records[i]);
+            }
+
+            specification = new FileSpecification(IrbisPath.MASTER_FILE, "IBIS", "no_such_file.txt");
+            specification.content = "No such file";
+            connection.writeTextFile(specification);
+
+            String noSuchBase = "NOSUCH";
+            connection.createDatabase(noSuchBase, "Description", true, null);
+            System.out.println("Database created");
+
+            records = new MarcRecord[10];
+            for (int i = 0; i < records.length; i++)
+            {
+                records[i] = new MarcRecord();
+                records[i].database = noSuchBase;
+                records[i].fields.add(new RecordField(300, "Комментарий " + (i + 1)));
+            }
+            connection.writeRecords(records, false, false, true);
+            System.out.println("Records saved");
+
+            connection.createDictionary(noSuchBase);
+            System.out.println("Dictionary created");
+
+            connection.reloadMasterFile(noSuchBase);
+            System.out.println("Master file reloaded");
+
+            connection.reloadDictionary(noSuchBase);
+            System.out.printf("Dictionary reloaded");
+
+            connection.truncateDatabase(noSuchBase);
+            System.out.println("Database truncated");
+
+            connection.unlockDatabase(noSuchBase);
+            System.out.println("Database unlocked");
+
+            connection.deleteDatabase(noSuchBase);
+            System.out.println("Database deleted");
+
+            connection.actualizeRecord("IBIS", 1);
+            System.out.println("Record actualized");
+
+            int[] mfns = new int[]{1, 2, 3};
+            connection.unlockRecords("IBIS", mfns);
+            System.out.println("Records unlocked");
+
+            connection.restartServer();
+            System.out.println("Server restarted");
 
             connection.disconnect();
         }

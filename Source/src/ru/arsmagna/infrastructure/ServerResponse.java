@@ -137,7 +137,7 @@ public class ServerResponse
         for (int i = 0; i < count; i++)
         {
             String line = readAnsi();
-            if (Utility.isNullOrEmpty(line))
+            if (line == null)
             {
                 return null;
             }
@@ -221,7 +221,7 @@ public class ServerResponse
         for (int i = 0; i < count; i++)
         {
             String line = readUtf();
-            if (Utility.isNullOrEmpty(line))
+            if (line == null)
             {
                 return null;
             }

@@ -100,11 +100,11 @@ public class FileSpecification
         {
             case 0:
             case 1:
-                result = new Integer(path).toString() + ".." + result;
+                result = Integer.toString(path) + ".." + result;
                 break;
 
             default:
-                result = new Integer(path).toString() + '.' + database + '.' + fileName;
+                result = Integer.toString(path) + '.' + database + '.' + result;
                 break;
         }
 

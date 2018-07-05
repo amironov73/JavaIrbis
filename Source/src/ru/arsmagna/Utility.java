@@ -40,7 +40,29 @@ public class Utility
      */
     public static final String READER_DATABASE_LIST = "dbnam3.mnu";
 
-    public static int find(int[] array, int item)
+    /**
+     * Превращаем пустую строку в null.
+     * @param text Текст для проверки.
+     * @return Тот же текст либо null.
+     */
+    public static String emptyToNull
+        (
+            String text
+        )
+    {
+        if (text == null || text.equals(""))
+        {
+            return null;
+        }
+
+        return text;
+    }
+
+    public static int find
+        (
+            int[] array,
+            int item
+        )
     {
         for (int i=0; i < array.length; i++)
         {
@@ -53,12 +75,52 @@ public class Utility
         return -1;
     }
 
-    public static boolean isNullOrEmpty(String text)
+    public static String iif
+        (
+            String first,
+            String second
+        )
+    {
+        if (first != null)
+        {
+            return first;
+        }
+
+        return second;
+    }
+
+    public static String iif
+        (
+            String first,
+            String second,
+            String third
+        )
+    {
+        if (first != null)
+        {
+            return first;
+        }
+        if (second != null)
+        {
+            return second;
+        }
+
+        return third;
+    }
+
+    public static boolean isNullOrEmpty
+        (
+            String text
+        )
     {
         return text == null || text.length() == 0;
     }
 
-    public static void copyTo(InputStream source, OutputStream destination)
+    public static void copyTo
+        (
+            InputStream source,
+            OutputStream destination
+        )
         throws IOException
     {
         byte[] buffer = new byte[1024];

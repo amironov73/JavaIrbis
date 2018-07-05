@@ -96,7 +96,7 @@ public class MarcRecord
         record.mfn = Integer.parseInt(parts[0]);
         if (parts.length != 1)
         {
-            record.status = Integer.parseInt(parts[2]);
+            record.status = Integer.parseInt(parts[1]);
         }
         line = text[1];
         parts = line.split("#");

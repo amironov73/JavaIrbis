@@ -2,13 +2,18 @@ package ru.arsmagna;
 
 import ru.arsmagna.infrastructure.*;
 
+import static ru.arsmagna.Utility.iif;
 import static ru.arsmagna.infrastructure.CommandCode.*;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * Подключение к серверу ИРБИС64.
+ */
 public class IrbisConnection
 {
     /**
@@ -66,6 +71,17 @@ public class IrbisConnection
 
     //=========================================================================
 
+    private boolean _isConnected;
+
+    //=========================================================================
+
+    /**
+     * Актуализация записи с указанным MFN.
+     * @param database Имя базы данных.
+     * @param mfn MFN.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
     public void actualizeRecord
         (
             String database,
@@ -80,8 +96,19 @@ public class IrbisConnection
         response.checkReturnCode();
     }
 
+    /**
+     * Подключение к серверу ИРБИС64.
+     * @return INI-файл пользователя.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
     public String[] connect() throws IOException, IrbisException
     {
+        if (_isConnected)
+        {
+            return new String[0];
+        }
+
         queryId = 0;
         clientId = 100000 + new Random().nextInt(800000);
         ClientQuery query = new ClientQuery(this, REGISTER_CLIENT);
@@ -91,9 +118,19 @@ public class IrbisConnection
         response.checkReturnCode();
         response.readAnsi();
         response.readAnsi();
+        _isConnected = true;
         return response.readRemainingAnsiLines();
     }
 
+    /**
+     * Создание базы данных.
+     * @param databaseName Имя создаваемой базы.
+     * @param description Описание в свободной форме.
+     * @param readerAccess Читатель будет иметь доступ?
+     * @param template Имя базы-шаблона (не используется).
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
     public void createDatabase
         (
             String databaseName,
@@ -111,6 +148,12 @@ public class IrbisConnection
         response.checkReturnCode();
     }
 
+    /**
+     * Создание словаря в базе данных.
+     * @param databaseName Имя базы данных.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
     public void createDictionary
         (
             String databaseName
@@ -123,6 +166,12 @@ public class IrbisConnection
         response.checkReturnCode();
     }
 
+    /**
+     * Удаление базы данных.
+     * @param databaseName Имя удаляемой базы.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
     public void deleteDatabase
         (
             String databaseName
@@ -135,13 +184,29 @@ public class IrbisConnection
         response.checkReturnCode();
     }
 
+    /**
+     * Отключение от сервера.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public void disconnect() throws IOException
     {
+        if (!_isConnected)
+        {
+            return;
+        }
+
         ClientQuery query = new ClientQuery(this, UNREGISTER_CLIENT);
         query.addAnsiNoLF(username);
         execute(query);
+        _isConnected = false;
     }
 
+    /**
+     * Выполнение произвольного запроса.
+     * @param query Запрос.
+     * @return Ответ сервера.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public ServerResponse execute
         (
             ClientQuery query
@@ -157,6 +222,14 @@ public class IrbisConnection
         return result;
     }
 
+    /**
+     * Форматирование записи с указанным MFN.
+     * @param format Текст формата.
+     * @param mfn MFN записи.
+     * @return Результат расформатирования.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
     public String formatRecord
         (
             String format,
@@ -176,11 +249,20 @@ public class IrbisConnection
         return result;
     }
 
+    /**
+     * Форматирование виртуальной записи.
+     * @param format Текст формата.
+     * @param record Запись.
+     * @return Результат расформатирования.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
     public String formatRecord
         (
             String format,
             MarcRecord record
-        ) throws IOException, IrbisException
+        )
+        throws IOException, IrbisException
     {
         ClientQuery query = new ClientQuery(this, FORMAT_RECORD);
         query.addAnsi(database);
@@ -194,26 +276,21 @@ public class IrbisConnection
         return result;
     }
 
-    public int getMaxMfn() throws IOException, IrbisException
-    {
-        return getMaxMfn(database);
-    }
-
-    public ServerStat getServerStat() throws IOException
+    public ServerStat getServerStat() throws IOException, IrbisException
     {
         ClientQuery query = new ClientQuery(this, GET_SERVER_STAT);
         ServerResponse response = execute(query);
-        response.getReturnCode();
+        response.checkReturnCode();
         ServerStat result = ServerStat.parse(response);
 
         return result;
     }
 
-    public IrbisVersion getServerVersion() throws IOException
+    public IrbisVersion getServerVersion() throws IOException, IrbisException
     {
         ClientQuery query = new ClientQuery(this, SERVER_INFO);
         ServerResponse response = execute(query);
-        response.getReturnCode();
+        response.checkReturnCode();
         IrbisVersion result = IrbisVersion.parse(response);
 
         return result;
@@ -233,6 +310,31 @@ public class IrbisConnection
         return response.returnCode;
     }
 
+    public UserInfo[] getUserList() throws IOException, IrbisException
+    {
+        ClientQuery query = new ClientQuery(this, GET_USER_LIST);
+        ServerResponse response = execute(query);
+        response.checkReturnCode();
+        UserInfo[] result = UserInfo.parse(response);
+
+        return result;
+    }
+
+    /**
+     * Подключен ли клиент в данный момент?
+     * @return true, если подключен.
+     */
+    public boolean isConnected()
+    {
+        return _isConnected;
+    }
+
+    /**
+     * Получение списка файлов с сервера.
+     * @param specification Спецификация файлов (поддерживаются метасимволы).
+     * @return Перечень файлов.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public String[] listFiles
         (
             FileSpecification specification
@@ -256,6 +358,12 @@ public class IrbisConnection
         return result.toArray(new String[0]);
     }
 
+    /**
+     * Получение списка файлов с сервера.
+     * @param specifications Спецификации файлов (поддерживаются метасимволы).
+     * @return Перечень файлов.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public String[] listFiles
         (
             FileSpecification[] specifications
@@ -268,7 +376,7 @@ public class IrbisConnection
             query.addAnsi(specification.toString());
         }
         ServerResponse response = execute(query);
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         String[] lines = response.readRemainingAnsiLines();
         for (String line : lines)
         {
@@ -282,11 +390,11 @@ public class IrbisConnection
         return result.toArray(new String[0]);
     }
 
-    public IrbisProcessInfo[] listProcesses() throws IOException
+    public IrbisProcessInfo[] listProcesses() throws IOException, IrbisException
     {
         ClientQuery query = new ClientQuery(this, GET_PROCESS_LIST);
         ServerResponse response = execute(query);
-        response.getReturnCode();
+        response.checkReturnCode();
         IrbisProcessInfo[] result = IrbisProcessInfo.parse(response);
 
         return result;
@@ -479,11 +587,32 @@ public class IrbisConnection
         )
         throws IOException, IrbisException
     {
+        SearchParameters parameters = new SearchParameters();
+        parameters.database = database;
+        parameters.searchExpression = expression;
+        parameters.numberOfRecords = 0;
+        parameters.firstRecord = 1;
+
+        return search(parameters);
+    }
+
+    public int[] search
+        (
+            SearchParameters parameters
+        )
+        throws IOException, IrbisException
+    {
+        // TODO handle > MAX_PACKET records
+
         ClientQuery query = new ClientQuery(this, SEARCH);
-        query.addAnsi(database);
-        query.addUtf(expression);
-        query.add(0); // number of records - MAX_PACKET
-        query.add(1); // first record
+        query.addAnsi(parameters.database);
+        query.addUtf(parameters.searchExpression);
+        query.add(parameters.numberOfRecords);
+        query.add(parameters.firstRecord);
+        query.addAnsi(parameters.formatSpecification);
+        query.add(parameters.minMfn);
+        query.add(parameters.maxMfn);
+        query.addAnsi(parameters.sequentialSpecification);
         ServerResponse response = execute(query);
         response.checkReturnCode();
         int howMany = Math.min(response.readInt32(), Utility.MAX_PACKET);
@@ -497,14 +626,6 @@ public class IrbisConnection
         }
 
         return result;
-    }
-
-    public int[] sequentialSearch
-        (
-            SearchParameters parameters
-        )
-    {
-        throw new UnsupportedOperationException();
     }
 
     public void truncateDatabase
@@ -569,32 +690,106 @@ public class IrbisConnection
         execute(query);
     }
 
-    public MarcRecord writeRecord
+    /**
+     * Сохранение записи на сервере.
+     * @param record Запись для сохранения (новая или ранее считанная).
+     * @param lockFlag Оставить запись заблокированной?
+     * @param actualize Актуализировать запись?
+     * @param dontParseResponse Не разбирать ответ сервера?
+     * @return Новый максимальный MFN.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
+    public int writeRecord
         (
             MarcRecord record,
             boolean lockFlag,
             boolean actualize,
             boolean dontParseResponse
         )
+        throws IOException, IrbisException
     {
-        throw new UnsupportedOperationException();
+        ClientQuery query = new ClientQuery(this, UPDATE_RECORD);
+        query.addAnsi(iif(record.database, database));
+        query.add(lockFlag);
+        query.add(actualize);
+        query.addUtf(record.toString());
+        ServerResponse response = execute(query);
+        response.checkReturnCode();
+
+        if (!dontParseResponse)
+        {
+            record.fields.clear();
+
+            String[] lines = response.readRemainingUtfLines();
+            if (lines.length > 1)
+            {
+                ArrayList<String> temp = new ArrayList<>();
+                temp.add(lines[0]);
+                temp.addAll(Arrays.asList(IrbisText.fromWriteRecord(lines[1])));
+                lines = temp.toArray(new String[0]);
+                MarcRecord.ParseSingle(record, lines);
+            }
+        }
+
+        return response.returnCode;
     }
 
-    public MarcRecord[] writeRecords
+    public int writeRecords
         (
             MarcRecord[] records,
             boolean lockFlag,
-            boolean actualize
+            boolean actualize,
+            boolean dontParseResponse
         )
+        throws IOException, IrbisException
     {
-        throw new UnsupportedOperationException();
+        if (records.length == 0)
+        {
+            return getMaxMfn(database);
+        }
+        if (records.length == 1)
+        {
+            return writeRecord(records[0], lockFlag, actualize, dontParseResponse);
+        }
+
+        ClientQuery query = new ClientQuery(this, SAVE_RECORD_GROUP);
+        query.add(lockFlag);
+        query.add(actualize);
+        for (MarcRecord record: records)
+        {
+            String line = iif(record.database, database)
+                + IrbisText.IRBIS_DELIMITER
+                + record.toString();
+            query.addUtf(line);
+        }
+        ServerResponse response = execute(query);
+        response.getReturnCode();
+
+        if (!dontParseResponse)
+        {
+            String[] lines = response.readRemainingUtfLines();
+            for (int i = 0; i < records.length; i++)
+            {
+                MarcRecord record = records[i];
+                record.fields.clear();
+                String[] splitted = IrbisText.fromWriteRecord(lines[i]);
+                MarcRecord.ParseSingle(record, splitted);
+            }
+        }
+
+        return response.returnCode;
     }
 
     public void writeTextFile
         (
             FileSpecification specification
         )
+        throws IOException
     {
-        throw new UnsupportedOperationException();
+        ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
+        query.addAnsi(specification.toString());
+        ServerResponse response = execute(query);
+        response.getReturnCode();
     }
 }

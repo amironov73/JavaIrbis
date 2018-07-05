@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
 import ru.arsmagna.infrastructure.ServerResponse;
+import static ru.arsmagna.Utility.emptyToNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,11 +22,6 @@ public class ServerStat
     public int clientCount;
 
     /**
-     * Неизвестное поле.
-     */
-    public int unknown;
-
-    /**
      * Общее количество команд, исполненных сервером
      * с момента его запуска.
      */
@@ -41,29 +37,62 @@ public class ServerStat
         ServerStat result = new ServerStat();
         result.totalCommandCount = response.readInt32();
         result.clientCount = response.readInt32();
-        result.unknown = response.readInt32();
+        int linesPerClient = response.readInt32();
+        if (linesPerClient == 0)
+        {
+            return result;
+        }
 
         ArrayList<ClientInfo> clients = new ArrayList<>();
-        while (true)
+        for (int i=0; i < result.clientCount; i++)
         {
-            String number = response.readAnsi();
-            String ipAddress = response.readAnsi();
-            if (Utility.isNullOrEmpty(number)
-                || Utility.isNullOrEmpty(ipAddress))
+            String[] lines = response.readAnsi(linesPerClient+1);
+            if (lines == null)
             {
                 break;
             }
 
             ClientInfo client = new ClientInfo();
-            client.number = number;
-            client.ipAddress = ipAddress;
-            client.port = response.readAnsi();
-            client.name = response.readAnsi();
-            client.id = response.readAnsi();
-            client.workstation = response.readAnsi();
-            client.registered = response.readAnsi();
-            client.acknowledged = response.readAnsi();
-            client.lastCommand = response.readAnsi();
+            if (lines.length != 0)
+            {
+                client.number = emptyToNull(lines[0]);
+            }
+            if (lines.length > 1)
+            {
+                client.ipAddress = emptyToNull(lines[1]);
+            }
+            if (lines.length > 2)
+            {
+                client.port = emptyToNull(lines[2]);
+            }
+            if (lines.length > 3)
+            {
+                client.name = emptyToNull(lines[3]);
+            }
+            if (lines.length > 4)
+            {
+                client.id = emptyToNull(lines[4]);
+            }
+            if (lines.length > 5)
+            {
+                client.workstation = emptyToNull(lines[5]);
+            }
+            if (lines.length > 6)
+            {
+                client.registered = emptyToNull(lines[6]);
+            }
+            if (lines.length > 7)
+            {
+                client.acknowledged = emptyToNull(lines[7]);
+            }
+            if (lines.length > 8)
+            {
+                client.lastCommand = emptyToNull(lines[8]);
+            }
+            if (lines.length > 9)
+            {
+                client.commandNumber = emptyToNull(lines[9]);
+            }
             clients.add(client);
         }
         result.runningClients = clients.toArray(new ClientInfo[0]);
@@ -79,7 +108,6 @@ public class ServerStat
         return "ServerStat{" +
             "runningClients=" + Arrays.toString(runningClients) +
             ", clientCount=" + clientCount +
-            ", unknown=" + unknown +
             ", totalCommandCount=" + totalCommandCount +
             '}';
     }
