@@ -2,7 +2,6 @@ package ru.arsmagna;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -97,10 +96,10 @@ public class RecordField
         throws IOException
     {
         StringReader reader = new StringReader(line);
-        String tagText = Utility.ReadTo(reader, '#');
+        String tagText = Utility.readTo(reader, '#');
         int tag = Integer.parseInt(tagText);
         RecordField result = new RecordField(tag);
-        result.value = Utility.ReadTo(reader, '^');
+        result.value = Utility.readTo(reader, '^');
         while (true)
         {
             int next = reader.read();
@@ -110,7 +109,7 @@ public class RecordField
             }
 
             char code = Character.toLowerCase((char)next);
-            String value = Utility.ReadTo(reader, '^');
+            String value = Utility.readTo(reader, '^');
             SubField subField = new SubField(code, value);
             result.subFields.add(subField);
         }
