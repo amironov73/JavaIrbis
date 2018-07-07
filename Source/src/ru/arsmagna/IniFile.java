@@ -6,7 +6,7 @@ import java.util.Collection;
 /**
  * INI-файл.
  */
-public class IniFile
+public final class IniFile
 {
     /**
      * Секции.

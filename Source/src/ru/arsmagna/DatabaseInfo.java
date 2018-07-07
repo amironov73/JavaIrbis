@@ -1,9 +1,11 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 /**
  * Информация о базе данных ИРБИС.
  */
-public class DatabaseInfo
+public final class DatabaseInfo
 {
     /**
      * Имя базы данных.
@@ -23,6 +25,8 @@ public class DatabaseInfo
     //=========================================================================
 
     @Override
+    @NotNull
+    @Contract(pure = true)
     public String toString()
     {
         return name + " - " + description;

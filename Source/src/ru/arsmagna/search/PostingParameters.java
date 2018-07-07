@@ -1,9 +1,11 @@
-package ru.arsmagna;
+package ru.arsmagna.search;
+
+import org.jetbrains.annotations.*;
 
 /**
  * Parameters for ReadPostingsCommand.
  */
-public class PostingParameters
+public final class PostingParameters
 {
     /**
      * База данных.
@@ -51,6 +53,7 @@ public class PostingParameters
      * Клонирование.
      * @return Копию.
      */
+    @NotNull
     public PostingParameters clone()
     {
         PostingParameters result = new PostingParameters();

@@ -1,11 +1,16 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 /**
  * Текстовое представление записи, используемое
  * в протоколе ИРБИС64-сервер.
  */
-public class ProtocolText
+public final class ProtocolText
 {
+    /**
+     * Разделитель текста, используемый ИРБИС64.
+     */
     public static final String DELIMITER = "\u001F\u001E";
 
     //=========================================================================
@@ -17,8 +22,8 @@ public class ProtocolText
      */
     public static void EncodeSubField
         (
-            StringBuilder builder,
-            SubField subField
+            @NotNull StringBuilder builder,
+            @NotNull SubField subField
         )
     {
         builder.append(SubField.DELIMITER);
@@ -33,8 +38,8 @@ public class ProtocolText
      */
     public static void EncodeField
         (
-            StringBuilder builder,
-            RecordField field
+            @NotNull StringBuilder builder,
+            @NotNull RecordField field
         )
     {
         builder.append(field.tag);
@@ -51,9 +56,10 @@ public class ProtocolText
      * @param record
      * @return Закодированная запись.
      */
+    @NotNull
     public static String EncodeRecord
         (
-            MarcRecord record
+            @NotNull MarcRecord record
         )
     {
         StringBuilder result = new StringBuilder();

@@ -1,9 +1,11 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 /**
  * MARC record subfield.
  */
-public class SubField
+public final class SubField
 {
     /**
      * Нет кода подполя, т. е. код пока не задан.
@@ -53,7 +55,11 @@ public class SubField
      * @param code Код подполя.
      * @param value Значение подполя.
      */
-    public SubField(char code, String value)
+    public SubField
+        (
+            char code,
+            @Nullable String value
+        )
     {
         this.code = code;
         this.value = value;
@@ -65,6 +71,7 @@ public class SubField
      * Клонирование.
      * @return Копию подполя.
      */
+    @NotNull
     public SubField clone()
     {
         SubField result = new SubField(code, value);
@@ -78,10 +85,11 @@ public class SubField
      * @param subField2 Второе подполе.
      * @return Результат сравнения.
      */
+    @Contract(pure = true)
     public static int compare
         (
-            SubField subField1,
-            SubField subField2
+            @NotNull SubField subField1,
+            @NotNull SubField subField2
         )
     {
         int result = compareCodes(subField1.code, subField2.code);
@@ -101,6 +109,7 @@ public class SubField
      * @param code2 Второй код.
      * @return Результат сравнения.
      */
+    @Contract(pure = true)
     public static int compareCodes
         (
             char code1,
@@ -115,6 +124,7 @@ public class SubField
      * @param code Исходный код.
      * @return Нормализованный код.
      */
+    @Contract(pure = true)
     public static char normalize
         (
             char code
@@ -125,7 +135,9 @@ public class SubField
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "^" + code + value;

@@ -1,5 +1,8 @@
-package ru.arsmagna;
+package ru.arsmagna.search;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import ru.arsmagna.Utility;
 import ru.arsmagna.infrastructure.*;
 
 import java.util.ArrayList;
@@ -7,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Информация о поисковом терме.
  */
-public class TermInfo
+public final class TermInfo
 {
     /**
      * Количество ссылок.
@@ -25,6 +28,7 @@ public class TermInfo
      * Клонирование.
      * @return Копию.
      */
+    @NotNull
     public TermInfo clone()
     {
         TermInfo result = new TermInfo();
@@ -36,11 +40,13 @@ public class TermInfo
 
     /**
      * Разбор ответа сервера.
+     * @param response Ответ сервера.
      * @return Прочитанные термы.
      */
+    @NotNull
     public static TermInfo[] parse
         (
-            ServerResponse response
+            @NotNull ServerResponse response
         )
     {
         ArrayList<TermInfo> result = new ArrayList<>();
@@ -66,7 +72,9 @@ public class TermInfo
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return count + "#" + text;

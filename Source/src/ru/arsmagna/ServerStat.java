@@ -1,7 +1,10 @@
 package ru.arsmagna;
 
-import ru.arsmagna.infrastructure.ServerResponse;
-import static ru.arsmagna.Utility.emptyToNull;
+import org.jetbrains.annotations.*;
+
+import ru.arsmagna.infrastructure.*;
+
+import static ru.arsmagna.Utility.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +12,7 @@ import java.util.Arrays;
 /**
  * Статистика работы ИРБИС-сервера.
  */
-public class ServerStat
+public final class ServerStat
 {
     /**
      * Подключенные клиенты.
@@ -29,9 +32,15 @@ public class ServerStat
 
     //=========================================================================
 
+    /**
+     * Разбор ответа сервера.
+     * @param response Ответ сервера.
+     * @return Статистика.
+     */
+    @NotNull
     public static ServerStat parse
         (
-            ServerResponse response
+            @NotNull ServerResponse response
         )
     {
         ServerStat result = new ServerStat();
@@ -102,7 +111,9 @@ public class ServerStat
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "ServerStat{" +

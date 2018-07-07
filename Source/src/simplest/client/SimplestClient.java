@@ -1,8 +1,11 @@
 package simplest.client;
 
 import ru.arsmagna.*;
-import ru.arsmagna.infrastructure.*;
 import ru.arsmagna.menus.MenuFile;
+import ru.arsmagna.search.PostingParameters;
+import ru.arsmagna.search.TermInfo;
+import ru.arsmagna.search.TermParameters;
+import ru.arsmagna.search.TermPosting;
 
 import java.util.Arrays;
 

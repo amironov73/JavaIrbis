@@ -1,16 +1,38 @@
 package ru.arsmagna;
 
-public class IrbisText
+import org.jetbrains.annotations.*;
+
+/**
+ * Манипуляции с текстом, свойственные ИРБИС.
+ */
+public final class IrbisText
 {
+    /**
+     * Разделитель строк в ИРБИС.
+     */
     public static final String IRBIS_DELIMITER = "\u001F\u001E";
+
+    /**
+     * Короткая версия разделителя строк.
+     */
     public static final String SHORT_DELIMITER = "\u001E";
+
+    /**
+     * Разделитель строк в MSDOS
+     */
     public static final String MSDOS_DELIMITER = "\r\n";
 
     public static final char[] SEARCH_DELIMITERS = { '#' };
 
-    public static String fromIrbisToSingleLine
+    /**
+     * Замена разделителей текста с ИРБИС на MS-DOS.
+     * @param text Текст с разделителями ИРБИС.
+     * @return Преобразованный текст.
+     */
+    @Nullable
+    public static String fromIrbisToDos
         (
-            String text
+            @Nullable String text
         )
     {
         if (!Utility.isNullOrEmpty(text))
@@ -21,9 +43,34 @@ public class IrbisText
         return text;
     }
 
-    public static String[] fromIrbisToManyLines
+    /**
+     * Замена разделителей текста с MS-DOS на ИРБИС.
+     * @param text Текст с разделителями MS-DOS
+     * @return Преобразованный текст.
+     */
+    @Nullable
+    public static String fromDosToIrbis
         (
-            String text
+            @Nullable String text
+        )
+    {
+        if (!Utility.isNullOrEmpty(text))
+        {
+            text = text.replaceAll(MSDOS_DELIMITER, IRBIS_DELIMITER);
+        }
+
+        return text;
+    }
+
+    /**
+     * Разбивка ответа сервера по строкам (полный вариант разделителя).
+     * @param text Текст ответа сервера.
+     * @return Массив строк.
+     */
+    @NotNull
+    public static String[] fromFullDelimiter
+        (
+            @Nullable String text
         )
     {
         if (!Utility.isNullOrEmpty(text))
@@ -34,9 +81,15 @@ public class IrbisText
         return new String[0];
     }
 
-    public static String[] fromWriteRecord
+    /**
+     * Строки, приходящие в ответ на команду WriteRecord.
+     * @param text Текст ответа сервера.
+     * @return Строки, в которых содержится модифицированная запись.
+     */
+    @NotNull
+    public static String[] fromShortDelimiter
         (
-            String text
+            @Nullable String text
         )
     {
         if (!Utility.isNullOrEmpty(text))

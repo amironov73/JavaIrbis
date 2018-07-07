@@ -1,9 +1,11 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 /**
  * Строчка в INI-файле.
  */
-public class IniLine
+public final class IniLine
 {
     /**
      * Ключ.
@@ -31,8 +33,8 @@ public class IniLine
      */
     public IniLine
         (
-            String key,
-            String value
+            @NotNull String key,
+            @Nullable String value
         )
     {
         this.key = key;
@@ -41,7 +43,9 @@ public class IniLine
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return key + "=" + value;

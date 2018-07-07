@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
 import ru.arsmagna.infrastructure.*;
+import ru.arsmagna.search.*;
 
 import static ru.arsmagna.Utility.iif;
 import static ru.arsmagna.infrastructure.CommandCode.*;
@@ -14,7 +15,7 @@ import java.util.Random;
 /**
  * Подключение к серверу ИРБИС64.
  */
-public class IrbisConnection
+public final class IrbisConnection
 {
     /**
      * Адрес сервера.
@@ -348,7 +349,7 @@ public class IrbisConnection
         String[] lines = response.readRemainingAnsiLines();
         for (String line : lines)
         {
-            String[] converted = IrbisText.fromIrbisToManyLines(line);
+            String[] converted = IrbisText.fromFullDelimiter(line);
             for (String one : converted)
             {
                 result.add(one);
@@ -380,7 +381,7 @@ public class IrbisConnection
         String[] lines = response.readRemainingAnsiLines();
         for (String line : lines)
         {
-            String[] converted = IrbisText.fromIrbisToManyLines(line);
+            String[] converted = IrbisText.fromFullDelimiter(line);
             for (String one : converted)
             {
                 result.add(one);
@@ -519,7 +520,7 @@ public class IrbisConnection
         query.addAnsi(specification.toString());
         ServerResponse response = execute(query);
         String text = response.readAnsi();
-        text = IrbisText.fromIrbisToSingleLine(text);
+        text = IrbisText.fromIrbisToDos(text);
         return text;
     }
 
@@ -546,7 +547,7 @@ public class IrbisConnection
                 break;
             }
 
-            text = IrbisText.fromIrbisToSingleLine(text);
+            text = IrbisText.fromIrbisToDos(text);
             result.add(text);
         }
 
@@ -726,7 +727,7 @@ public class IrbisConnection
             {
                 ArrayList<String> temp = new ArrayList<>();
                 temp.add(lines[0]);
-                temp.addAll(Arrays.asList(IrbisText.fromWriteRecord(lines[1])));
+                temp.addAll(Arrays.asList(IrbisText.fromShortDelimiter(lines[1])));
                 lines = temp.toArray(new String[0]);
                 MarcRecord.ParseSingle(record, lines);
             }
@@ -773,7 +774,7 @@ public class IrbisConnection
             {
                 MarcRecord record = records[i];
                 record.fields.clear();
-                String[] splitted = IrbisText.fromWriteRecord(lines[i]);
+                String[] splitted = IrbisText.fromShortDelimiter(lines[i]);
                 MarcRecord.ParseSingle(record, splitted);
             }
         }

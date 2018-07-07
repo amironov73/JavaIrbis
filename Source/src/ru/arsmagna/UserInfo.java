@@ -1,6 +1,8 @@
 package ru.arsmagna;
 
-import ru.arsmagna.infrastructure.ServerResponse;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import ru.arsmagna.infrastructure.*;
 
 import static ru.arsmagna.Utility.*;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * Информация о зарегистрированном пользователе системы
  * (по данным client_m.mnu).
  */
-public class UserInfo
+public final class UserInfo
 {
     /**
      * Номер по порядку в списке.
@@ -74,10 +76,11 @@ public class UserInfo
      * @param response Ответ сервера.
      * @return Перечень пользователей.
      */
+    @NotNull
     public static UserInfo[] parse
-    (
-        ServerResponse response
-    )
+        (
+            @NotNull ServerResponse response
+        )
     {
         ArrayList<UserInfo> result = new ArrayList<>();
 
@@ -87,6 +90,7 @@ public class UserInfo
         {
             return new UserInfo[0];
         }
+
         for (int i = 0; i < userCount; i++)
         {
             String[] lines = response.readAnsi(linesPerUser + 1);
@@ -140,7 +144,9 @@ public class UserInfo
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "UserInfo{" +

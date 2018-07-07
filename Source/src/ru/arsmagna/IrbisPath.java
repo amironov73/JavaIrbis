@@ -3,7 +3,7 @@ package ru.arsmagna;
 /**
  * Задает путь к файлам Ирбис.
  */
-public class IrbisPath
+public final class IrbisPath
 {
     /**
      * Общесистемный путь

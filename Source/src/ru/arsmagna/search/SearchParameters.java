@@ -1,9 +1,11 @@
-package ru.arsmagna;
+package ru.arsmagna.search;
+
+import org.jetbrains.annotations.*;
 
 /**
  * Параметры для команды SearchCommand.
  */
-public class SearchParameters
+public final class SearchParameters
 {
     /**
      * Имя базы данных.
@@ -71,6 +73,7 @@ public class SearchParameters
      * Клонирование.
      * @return Копию.
      */
+    @NotNull
     public SearchParameters clone()
     {
         SearchParameters result = new SearchParameters();

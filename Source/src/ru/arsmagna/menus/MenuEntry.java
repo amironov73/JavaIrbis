@@ -1,9 +1,11 @@
 package ru.arsmagna.menus;
 
+import org.jetbrains.annotations.*;
+
 /**
  * Пара строк в меню.
  */
-public class MenuEntry
+public final class MenuEntry
 {
     /**
      * Код (первая строка).
@@ -31,8 +33,8 @@ public class MenuEntry
      */
     public MenuEntry
         (
-            String code,
-            String comment
+            @NotNull String code,
+            @Nullable String comment
         )
     {
         this.code = code;
@@ -41,7 +43,9 @@ public class MenuEntry
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return code + " - " + comment;

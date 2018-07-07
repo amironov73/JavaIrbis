@@ -1,5 +1,7 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ import java.util.Collection;
 /**
  * MARC record field.
  */
-public class RecordField
+public final class RecordField
 {
     /**
      * Нет метки, т. е. метка ещё не установлена.
@@ -47,16 +49,19 @@ public class RecordField
      */
     public RecordField()
     {
-        subFields = new ArrayList<SubField>();
+        subFields = new ArrayList<>();
     }
 
     /**
      * Конструктор.
      * @param tag Метка поля.
      */
-    public RecordField(int tag)
+    public RecordField
+        (
+            int tag
+        )
     {
-        subFields = new ArrayList<SubField>();
+        subFields = new ArrayList<>();
         this.tag = tag;
     }
 
@@ -65,9 +70,13 @@ public class RecordField
      * @param tag Метка поля.
      * @param value Значение поля.
      */
-    public RecordField(int tag, String value)
+    public RecordField
+        (
+            int tag,
+            @Nullable String value
+        )
     {
-        subFields = new ArrayList<SubField>();
+        subFields = new ArrayList<>();
         this.tag = tag;
         this.value = value;
     }
@@ -78,7 +87,8 @@ public class RecordField
      * Клонирование поля с подполями.
      * @return Копию поля.
      */
-    public RecordField Clone()
+    @NotNull
+    public RecordField clone()
     {
         RecordField result = new RecordField(tag, value);
         for (SubField sub: subFields)
@@ -89,9 +99,15 @@ public class RecordField
         return result;
     }
 
+    /**
+     * Разбор строки.
+     * @param line
+     * @return
+     * @throws IOException
+     */
     public static RecordField parse
         (
-            String line
+            @NotNull String line
         )
         throws IOException
     {
@@ -119,6 +135,7 @@ public class RecordField
 
     //=========================================================================
 
+    @NotNull
     @Override
     public String toString()
     {

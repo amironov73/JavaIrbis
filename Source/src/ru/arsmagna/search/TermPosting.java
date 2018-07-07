@@ -1,6 +1,9 @@
-package ru.arsmagna;
+package ru.arsmagna.search;
 
-import ru.arsmagna.infrastructure.ServerResponse;
+import org.jetbrains.annotations.*;
+
+import ru.arsmagna.Utility;
+import ru.arsmagna.infrastructure.*;
 
 import java.util.ArrayList;
 
@@ -40,6 +43,7 @@ public class TermPosting
      * Клонирование.
      * @return Копию.
      */
+    @NotNull
     public TermPosting clone()
     {
         TermPosting result = new TermPosting();
@@ -52,9 +56,15 @@ public class TermPosting
         return result;
     }
 
+    /**
+     * Разбор ответа сервера.
+     * @param response Ответ сервера.
+     * @return Массив постингов.
+     */
+    @NotNull
     public static TermPosting[] parse
         (
-            ServerResponse response
+            @NotNull ServerResponse response
         )
     {
         ArrayList<TermPosting> result = new ArrayList<>();
@@ -89,7 +99,9 @@ public class TermPosting
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "TermPosting{" +

@@ -1,9 +1,11 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 /**
  * Путь на файл path.database.filename.
  */
-public class FileSpecification
+public final class FileSpecification
 {
     /**
      * Признак двоичного файла.
@@ -47,11 +49,11 @@ public class FileSpecification
      * @param fileName Имя файла.
      */
     public FileSpecification
-    (
-        int path,
-        String database,
-        String fileName
-    )
+        (
+            int path,
+            @Nullable String database,
+            @NotNull String fileName
+        )
     {
         this.path = path;
         this.database = database;
@@ -61,6 +63,7 @@ public class FileSpecification
     //=========================================================================
 
     @Override
+    @Contract(value = "null -> false", pure = true)
     public boolean equals(Object obj)
     {
         if (obj == null)
@@ -83,6 +86,7 @@ public class FileSpecification
             && this.fileName.equals(other.fileName);
     }
 
+    @NotNull
     @Override
     public String toString()
     {

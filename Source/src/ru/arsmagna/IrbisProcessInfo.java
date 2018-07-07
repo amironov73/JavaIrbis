@@ -1,6 +1,8 @@
 package ru.arsmagna;
 
-import ru.arsmagna.infrastructure.ServerResponse;
+import org.jetbrains.annotations.*;
+
+import ru.arsmagna.infrastructure.*;
 
 import static ru.arsmagna.Utility.*;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Информация о запущенном на сервере процессе.
  */
-public class IrbisProcessInfo
+public final class IrbisProcessInfo
 {
     /**
      * Просто порядковый номер в списке.
@@ -74,10 +76,11 @@ public class IrbisProcessInfo
      * @param response Ответ сервера.
      * @return Список процессов.
      */
+    @NotNull
     public static IrbisProcessInfo[] parse
-    (
-        ServerResponse response
-    )
+        (
+            @NotNull ServerResponse response
+        )
     {
         ArrayList<IrbisProcessInfo> result = new ArrayList<>();
         int processCount = response.readInt32();
@@ -86,6 +89,7 @@ public class IrbisProcessInfo
         {
             return new IrbisProcessInfo[0];
         }
+
         for (int i = 0; i < processCount; i++)
         {
             String[] lines = response.readAnsi(linesPerProcess + 1);
@@ -143,7 +147,9 @@ public class IrbisProcessInfo
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "IrbisProcessInfo{" +

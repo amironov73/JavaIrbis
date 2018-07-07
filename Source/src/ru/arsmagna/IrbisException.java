@@ -11,8 +11,27 @@ public class IrbisException extends Exception
     {
     }
 
-    public IrbisException(int errorCode)
+    public IrbisException
+        (
+            int errorCode
+        )
     {
         this.errorCode = errorCode;
+    }
+
+    public IrbisException
+        (
+            String message
+        )
+    {
+        super(message);
+    }
+
+    public IrbisException
+        (
+            Throwable cause
+        )
+    {
+        super(cause);
     }
 }

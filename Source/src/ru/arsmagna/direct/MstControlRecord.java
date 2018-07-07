@@ -6,7 +6,7 @@ package ru.arsmagna.direct;
  * базы данных или при ее инициализации) и поддерживается
  * автоматически.
  */
-public class MstControlRecord
+public final class MstControlRecord
 {
     /**
      * Размер управляющей записи.

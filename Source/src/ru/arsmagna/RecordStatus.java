@@ -3,7 +3,7 @@ package ru.arsmagna;
 /**
  * Статус записи.
  */
-public class RecordStatus
+public final class RecordStatus
 {
     /**
      * Запись логически удалена.

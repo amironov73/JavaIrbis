@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 
+/**
+ * Вспомогательные методы, не вошедшие в прочие классы.
+ */
 public class Utility
 {
     /**

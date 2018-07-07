@@ -1,5 +1,7 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,7 +9,7 @@ import java.util.Collection;
 /**
  * MARC record.
  */
-public class MarcRecord
+public final class MarcRecord
 {
     /**
      * База данных, в которой хранится запись.
@@ -78,16 +80,22 @@ public class MarcRecord
         result.index = index;
         for (RecordField field: fields)
         {
-            result.fields.add(field.Clone());
+            result.fields.add(field.clone());
         }
 
         return result;
     }
 
+    /**
+     * Разбор строк, возвращаемых сервером.
+     * @param record Запись, в которую помещать результат.
+     * @param text Строки, содержащие запись.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public static void ParseSingle
         (
-            MarcRecord record,
-            String[] text
+            @NotNull MarcRecord record,
+            @NotNull String[] text
         )
         throws IOException
     {
@@ -110,6 +118,7 @@ public class MarcRecord
 
     //=========================================================================
 
+    @NotNull
     @Override
     public String toString()
     {

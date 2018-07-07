@@ -1,10 +1,12 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 /**
  * Информация о клиенте, подключенном к серверу ИРБИС
  * (не обязательно о текущем).
  */
-public class ClientInfo
+public final class ClientInfo
 {
     /**
      * Порядковый номер.
@@ -59,7 +61,9 @@ public class ClientInfo
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "ClientInfo{" +

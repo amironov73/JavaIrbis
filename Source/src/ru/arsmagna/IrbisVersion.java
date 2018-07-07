@@ -1,11 +1,13 @@
 package ru.arsmagna;
 
-import ru.arsmagna.infrastructure.ServerResponse;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import ru.arsmagna.infrastructure.*;
 
 /**
  * Информация о версии ИРБИС-сервера.
  */
-public class IrbisVersion
+public final class IrbisVersion
 {
     /**
      * На кого приобретен.
@@ -29,9 +31,15 @@ public class IrbisVersion
 
     //=========================================================================
 
+    /**
+     * Разбор ответа сервера.
+     * @param response Ответ сервера.
+     * @return Версия сервера.
+     */
+    @NotNull
     public static IrbisVersion parse
         (
-            ServerResponse response
+            @NotNull ServerResponse response
         )
     {
         String[] lines = response.readRemainingAnsiLines();
@@ -55,7 +63,9 @@ public class IrbisVersion
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "IrbisVersion{" +

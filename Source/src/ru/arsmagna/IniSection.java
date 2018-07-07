@@ -1,12 +1,14 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Секция INI-файла.
  */
-public class IniSection
+public final class IniSection
 {
     /**
      * Имя секции.
@@ -25,7 +27,7 @@ public class IniSection
      */
     public IniSection()
     {
-        lines = new ArrayList<IniLine>();
+        lines = new ArrayList<>();
     }
 
     /**
@@ -38,12 +40,14 @@ public class IniSection
         )
     {
         this.name = name;
-        lines = new ArrayList<IniLine>();
+        lines = new ArrayList<>();
     }
 
     //=========================================================================
 
+    @NotNull
     @Override
+    @Contract(pure = true)
     public String toString()
     {
         return "[" + name + "]";

@@ -1,11 +1,12 @@
 package ru.arsmagna.menus;
 
+import org.jetbrains.annotations.*;
+
 import ru.arsmagna.*;
 import ru.arsmagna.infrastructure.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,13 +15,16 @@ import java.util.Scanner;
 /**
  * Файл меню.
  */
-public class MenuFile
+public final class MenuFile
 {
     /**
      * Признак конца меню.
      */
     public static final String STOP_MARKER = "*****";
 
+    /**
+     * Разделители меню.
+     */
     public static final String MENU_SEPARATORS = "[\\s\\-=:]";
 
     //=========================================================================
@@ -51,10 +55,11 @@ public class MenuFile
      * Добавление строчек в меню.
      * @return Собственно меню.
      */
+    @NotNull
     public MenuFile add
         (
-            String code,
-            String comment
+            @NotNull String code,
+            @Nullable String comment
         )
     {
         MenuEntry entry = new MenuEntry(code, comment);
@@ -69,7 +74,7 @@ public class MenuFile
      */
     public static String trimCode
         (
-            String code
+            @NotNull String code
         )
     {
         code = code.trim();
@@ -86,9 +91,10 @@ public class MenuFile
      * Отыскивает запись, соответствующую данному коду.
      * @return Запись либо null.
      */
+    @Nullable
     public MenuEntry getEntry
         (
-            String code
+            @NotNull String code
         )
     {
         for (MenuEntry entry: entries)
@@ -126,10 +132,11 @@ public class MenuFile
      * @param defaultValue Значение по умолчанию.
      * @return Найденное значение либо null.
      */
+    @Nullable
     public String getValue
         (
-            String code,
-            String defaultValue
+            @NotNull String code,
+            @Nullable String defaultValue
         )
     {
         MenuEntry found = getEntry(code);
@@ -143,9 +150,10 @@ public class MenuFile
      * @param scanner Поток.
      * @return Меню.
      */
+    @NotNull
     public static MenuFile parse
         (
-            Scanner scanner
+            @NotNull Scanner scanner
         )
     {
         MenuFile result = new MenuFile();
@@ -173,9 +181,10 @@ public class MenuFile
      * @param fileName Имя файла.
      * @return Меню.
      */
+    @NotNull
     public static MenuFile parse
         (
-            String fileName
+            @NotNull String fileName
         )
         throws IOException
     {
@@ -195,9 +204,10 @@ public class MenuFile
      * Парсинг ответа сервера.
      * @return Меню.
      */
+    @NotNull
     public static MenuFile parse
         (
-            ServerResponse response
+            @NotNull ServerResponse response
         )
         throws IOException
     {
@@ -215,10 +225,11 @@ public class MenuFile
      * @param specification Имя файла.
      * @return Меню.
      */
+    @NotNull
     public static MenuFile read
         (
-            IrbisConnection connection,
-            FileSpecification specification
+            @NotNull IrbisConnection connection,
+            @NotNull FileSpecification specification
         )
         throws IOException
     {
@@ -242,6 +253,7 @@ public class MenuFile
 
     //=========================================================================
 
+    @NotNull
     @Override
     public String toString()
     {
