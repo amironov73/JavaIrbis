@@ -1,0 +1,17 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+clone_folder: c:\projects\javairbis
+
+build_script:
+- cmd: >-
+    cd c:\projects\javairbis
+
+    mvn --version
+
+    mvn package
+
+
+artifacts:
+- path: target\*.jar
+  name: JAR
