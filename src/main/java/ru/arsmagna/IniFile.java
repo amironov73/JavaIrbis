@@ -6,8 +6,7 @@ import java.util.Collection;
 /**
  * INI-файл.
  */
-public final class IniFile
-{
+public final class IniFile {
     /**
      * Секции.
      */
@@ -18,8 +17,7 @@ public final class IniFile
     /**
      * Конструктор
      */
-    public IniFile()
-    {
-        sections = new ArrayList<IniSection>();
+    public IniFile() {
+        sections = new ArrayList<>();
     }
 }

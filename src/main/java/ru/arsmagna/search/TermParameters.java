@@ -1,12 +1,12 @@
 package ru.arsmagna.search;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Параметры для команды ReadTermsCommand.
  */
-public final class TermParameters
-{
+public final class TermParameters implements Cloneable {
+
     /**
      * Имя базы данных.
      */
@@ -36,11 +36,11 @@ public final class TermParameters
 
     /**
      * Клонирование.
+     *
      * @return Копию.
      */
     @NotNull
-    public TermParameters clone()
-    {
+    public TermParameters clone() {
         TermParameters result = new TermParameters();
         result.database = database;
         result.numberOfTerms = numberOfTerms;

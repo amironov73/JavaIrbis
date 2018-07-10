@@ -1,14 +1,10 @@
 package ru.arsmagna;
 
-import org.junit.*;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class IniFileTest
-{
+public class IniFileTest {
     @Test
-    public void construction_1()
-    {
+    public void construction_1() {
 
     }
 }

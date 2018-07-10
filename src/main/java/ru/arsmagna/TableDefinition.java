@@ -3,8 +3,8 @@ package ru.arsmagna;
 /**
  * Данные для команды TableCommand.
  */
-public final class TableDefinition
-{
+public final class TableDefinition {
+
     /**
      * Имя базы данных.
      */

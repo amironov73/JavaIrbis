@@ -1,12 +1,14 @@
 package ru.arsmagna.menus;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Пара строк в меню.
  */
-public final class MenuEntry
-{
+public final class MenuEntry {
+
     /**
      * Код (первая строка).
      */
@@ -22,32 +24,29 @@ public final class MenuEntry
     /**
      * Конструктор.
      */
-    public MenuEntry()
-    {
+    public MenuEntry() {
     }
 
     /**
      * Конструктор.
-     * @param code Код.
+     *
+     * @param code    Код.
      * @param comment Комментарий.
      */
     public MenuEntry
-        (
+    (
             @NotNull String code,
             @Nullable String comment
-        )
-    {
+    ) {
         this.code = code;
         this.comment = comment;
     }
 
     //=========================================================================
 
-    @NotNull
     @Override
     @Contract(pure = true)
-    public String toString()
-    {
+    public String toString() {
         return code + " - " + comment;
     }
 }

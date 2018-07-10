@@ -3,8 +3,7 @@ package ru.arsmagna.direct;
 /**
  * Лидер записи в файлах L01/N01.
  */
-public class NodeLeader
-{
+public class NodeLeader {
     /**
      * Номер записи (начиная с 1; в N01 номер первой записи
      * равен номеру корневой записи дерева.

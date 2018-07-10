@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,8 +9,7 @@ import java.util.Collection;
 /**
  * Секция INI-файла.
  */
-public final class IniSection
-{
+public final class IniSection {
     /**
      * Имя секции.
      */
@@ -25,31 +25,25 @@ public final class IniSection
     /**
      * Конструктор по умолчанию.
      */
-    public IniSection()
-    {
+    public IniSection() {
         lines = new ArrayList<>();
     }
 
     /**
      * Конструктор.
+     *
      * @param name Имя секции.
      */
-    public IniSection
-        (
-            String name
-        )
-    {
+    public IniSection (String name) {
         this.name = name;
         lines = new ArrayList<>();
     }
 
     //=========================================================================
 
-    @NotNull
     @Override
     @Contract(pure = true)
-    public String toString()
-    {
+    public String toString() {
         return "[" + name + "]";
     }
 }

@@ -1,12 +1,13 @@
 package ru.arsmagna;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Манипуляции с текстом, свойственные ИРБИС.
  */
-public final class IrbisText
-{
+public final class IrbisText {
+
     /**
      * Разделитель строк в ИРБИС.
      */
@@ -22,21 +23,17 @@ public final class IrbisText
      */
     public static final String MSDOS_DELIMITER = "\r\n";
 
-    public static final char[] SEARCH_DELIMITERS = { '#' };
+    public static final char[] SEARCH_DELIMITERS = {'#'};
 
     /**
      * Замена разделителей текста с ИРБИС на MS-DOS.
+     *
      * @param text Текст с разделителями ИРБИС.
      * @return Преобразованный текст.
      */
     @Nullable
-    public static String fromIrbisToDos
-        (
-            @Nullable String text
-        )
-    {
-        if (!Utility.isNullOrEmpty(text))
-        {
+    public static String fromIrbisToDos (@Nullable String text) {
+        if (!Utility.isNullOrEmpty(text)) {
             text = text.replaceAll(IRBIS_DELIMITER, MSDOS_DELIMITER);
         }
 
@@ -45,17 +42,13 @@ public final class IrbisText
 
     /**
      * Замена разделителей текста с MS-DOS на ИРБИС.
+     *
      * @param text Текст с разделителями MS-DOS
      * @return Преобразованный текст.
      */
     @Nullable
-    public static String fromDosToIrbis
-        (
-            @Nullable String text
-        )
-    {
-        if (!Utility.isNullOrEmpty(text))
-        {
+    public static String fromDosToIrbis (@Nullable String text) {
+        if (!Utility.isNullOrEmpty(text)) {
             text = text.replaceAll(MSDOS_DELIMITER, IRBIS_DELIMITER);
         }
 
@@ -64,17 +57,13 @@ public final class IrbisText
 
     /**
      * Разбивка ответа сервера по строкам (полный вариант разделителя).
+     *
      * @param text Текст ответа сервера.
      * @return Массив строк.
      */
     @NotNull
-    public static String[] fromFullDelimiter
-        (
-            @Nullable String text
-        )
-    {
-        if (!Utility.isNullOrEmpty(text))
-        {
+    public static String[] fromFullDelimiter (@Nullable String text) {
+        if (!Utility.isNullOrEmpty(text)) {
             return text.split(IRBIS_DELIMITER);
         }
 
@@ -83,17 +72,13 @@ public final class IrbisText
 
     /**
      * Строки, приходящие в ответ на команду WriteRecord.
+     *
      * @param text Текст ответа сервера.
      * @return Строки, в которых содержится модифицированная запись.
      */
     @NotNull
-    public static String[] fromShortDelimiter
-        (
-            @Nullable String text
-        )
-    {
-        if (!Utility.isNullOrEmpty(text))
-        {
+    public static String[] fromShortDelimiter(@Nullable String text) {
+        if (!Utility.isNullOrEmpty(text)) {
             return text.split(SHORT_DELIMITER);
         }
 

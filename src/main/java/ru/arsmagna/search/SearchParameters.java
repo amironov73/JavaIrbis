@@ -1,12 +1,11 @@
 package ru.arsmagna.search;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Параметры для команды SearchCommand.
  */
-public final class SearchParameters
-{
+public final class SearchParameters implements Cloneable {
     /**
      * Имя базы данных.
      */
@@ -62,8 +61,7 @@ public final class SearchParameters
     /**
      * Конструктор по умолчанию.
      */
-    public SearchParameters()
-    {
+    public SearchParameters() {
         firstRecord = 1;
     }
 
@@ -71,11 +69,11 @@ public final class SearchParameters
 
     /**
      * Клонирование.
+     *
      * @return Копию.
      */
     @NotNull
-    public SearchParameters clone()
-    {
+    public SearchParameters clone() {
         SearchParameters result = new SearchParameters();
         result.database = database;
         result.firstRecord = firstRecord;

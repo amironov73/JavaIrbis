@@ -3,8 +3,7 @@ package ru.arsmagna.worksheet;
 /**
  * Режим редактирования поля/подполя.
  */
-public class EditMode
-{
+public class EditMode {
     /**
      * Ввод без дополнительной обработки.
      * Простая строка ввода

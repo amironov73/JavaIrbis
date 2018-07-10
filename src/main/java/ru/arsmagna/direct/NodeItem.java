@@ -6,8 +6,8 @@ package ru.arsmagna.direct;
  * есть в записи, представлен в справочнике одним входом,
  * формат которого описывает следующая структура
  */
-public class NodeItem
-{
+public class NodeItem {
+
     /**
      * Длина ключа.
      */

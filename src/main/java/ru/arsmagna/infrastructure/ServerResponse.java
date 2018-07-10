@@ -1,8 +1,11 @@
 package ru.arsmagna.infrastructure;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import ru.arsmagna.*;
+import ru.arsmagna.IrbisEncoding;
+import ru.arsmagna.IrbisException;
+import ru.arsmagna.Utility;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,11 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import static ru.arsmagna.Utility.isNullOrEmpty;
+
 /**
  * Ответ сервера.
  */
-public final class ServerResponse
-{
+public final class ServerResponse {
+
     /**
      * Код команды.
      */
@@ -37,24 +42,24 @@ public final class ServerResponse
 
     //=========================================================================
 
+    private ByteArrayInputStream stream;
+
+    //=========================================================================
+
     /**
      * Конструктор.
+     *
      * @param networkStream Поток с ответом сервера.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public ServerResponse
-        (
-            @NotNull InputStream networkStream
-        )
-        throws IOException
-    {
+    public ServerResponse (@NotNull InputStream networkStream) throws IOException {
+        if (networkStream == null) { throw new IllegalArgumentException(); }
+
         ByteArrayOutputStream memory = new ByteArrayOutputStream();
         byte[] buffer = new byte[32 * 1024];
-        while (true)
-        {
+        while (true) {
             int read = networkStream.read(buffer);
-            if (read <= 0)
-            {
+            if (read <= 0) {
                 break;
             }
             memory.write(buffer, 0, read);
@@ -63,80 +68,58 @@ public final class ServerResponse
         command = readAnsi();
         clientId = readInt32();
         queryId = readInt32();
-        for (int i = 0; i < 7; i++)
-        {
+        for (int i = 0; i < 7; i++) {
             readAnsi();
         }
     }
 
     //=========================================================================
 
-    private ByteArrayInputStream stream;
-
-    //=========================================================================
-
     /**
      * Достигнут конец?
+     *
      * @return Флаг конца.
      */
-    public boolean isEof()
-    {
+    public boolean isEof() {
         return stream.available() == 0;
     }
 
     /**
      * Проверка кода возврата.
+     *
      * @param allowed Разрешенные коды.
      * @throws IrbisException
      */
-    public void checkReturnCode
-        (
-            int[] allowed
-        )
-        throws IrbisException
-    {
-        if (getReturnCode() < 0)
-        {
-            if (Utility.find(allowed, returnCode) < 0)
-            {
+    public void checkReturnCode (int[] allowed) throws IrbisException {
+        if (getReturnCode() < 0) {
+            if (Utility.find(allowed, returnCode) < 0) {
                 throw new IrbisException(returnCode);
             }
         }
     }
 
-    public void checkReturnCode() throws IrbisException
-    {
-        if (getReturnCode() < 0)
-        {
+    public void checkReturnCode() throws IrbisException {
+        if (getReturnCode() < 0) {
             throw new IrbisException(returnCode);
         }
     }
 
-    public byte[] getLine()
-    {
+    public byte[] getLine() {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
 
-        while (true)
-        {
+        while (true) {
             int one = stream.read();
-            if (one < 0)
-            {
+            if (one < 0) {
                 break;
             }
-            if (one == 0x0D)
-            {
+            if (one == 0x0D) {
                 one = stream.read();
-                if (one == 0x0A)
-                {
+                if (one == 0x0A) {
                     break;
-                }
-                else
-                {
+                } else {
                     // stream.pushBack();
                 }
-            }
-            else
-            {
+            } else {
                 result.write(one);
             }
         }
@@ -144,15 +127,13 @@ public final class ServerResponse
         return result.toByteArray();
     }
 
-    public int getReturnCode()
-    {
+    public int getReturnCode() {
         returnCode = readInt32();
 
         return returnCode;
     }
 
-    public String readAnsi()
-    {
+    public String readAnsi() {
         byte[] line = getLine();
 
         return new String(line, IrbisEncoding.ansi());
@@ -160,20 +141,15 @@ public final class ServerResponse
 
     /**
      * Считывание не менее указанного количества строк.
+     *
      * @param count
      * @return
      */
-    public String[] readAnsi
-        (
-            int count
-        )
-    {
+    public String[] readAnsi (int count) {
         ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             String line = readAnsi();
-            if (line == null)
-            {
+            if (isNullOrEmpty(line)) {
                 return null;
             }
             result.add(line);
@@ -182,19 +158,16 @@ public final class ServerResponse
         return result.toArray(new String[0]);
     }
 
-    public int readInt32()
-    {
+    public int readInt32() {
         String text = readAnsi();
         int result = Integer.parseInt(text);
 
         return result;
     }
 
-    public final String[] readRemainingAnsiLines()
-    {
-        ArrayList<String> result = new ArrayList<String>();
-        while (!isEof())
-        {
+    public final String[] readRemainingAnsiLines() {
+        ArrayList<String> result = new ArrayList<>();
+        while (!isEof()) {
             String line = readAnsi();
             result.add(line);
         }
@@ -202,11 +175,9 @@ public final class ServerResponse
         return result.toArray(new String[0]);
     }
 
-    public final String[] readRemainingUtfLines()
-    {
-        ArrayList<String> result = new ArrayList<String>();
-        while (!isEof())
-        {
+    public final String[] readRemainingUtfLines() {
+        ArrayList<String> result = new ArrayList<>();
+        while (!isEof()) {
             String line = readUtf();
             result.add(line);
         }
@@ -214,8 +185,7 @@ public final class ServerResponse
         return result.toArray(new String[0]);
     }
 
-    public final String readRemainingAnsiText() throws IOException
-    {
+    public final String readRemainingAnsiText() throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         Utility.copyTo(stream, buffer);
         byte[] bytes = buffer.toByteArray();
@@ -224,8 +194,7 @@ public final class ServerResponse
         return result;
     }
 
-    public final String readRemainingUtfText() throws IOException
-    {
+    public final String readRemainingUtfText() throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         Utility.copyTo(stream, buffer);
         byte[] bytes = buffer.toByteArray();
@@ -235,8 +204,7 @@ public final class ServerResponse
     }
 
     @NotNull
-    public final String readUtf()
-    {
+    public final String readUtf() {
         byte[] line = getLine();
         String result = new String(line, IrbisEncoding.utf());
 
@@ -245,21 +213,16 @@ public final class ServerResponse
 
     /**
      * Считывание не менее указанного количества строк.
+     *
      * @param count
      * @return
      */
     @Nullable
-    public final String[] readUtf
-        (
-            int count
-        )
-    {
+    public final String[] readUtf (int count) {
         ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             String line = readUtf();
-            if (line == null)
-            {
+            if (isNullOrEmpty(line)) {
                 return null;
             }
             result.add(line);

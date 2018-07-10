@@ -9,8 +9,8 @@ import java.util.Collection;
  * Записи состоят из трех частей: лидера, справочника
  * и ключей переменной длины.
  */
-public class NodeRecord
-{
+public class NodeRecord {
+
     /**
      * Длина записи в текущей реализации.
      */
@@ -38,8 +38,7 @@ public class NodeRecord
     /**
      * Конструктор.
      */
-    public NodeRecord()
-    {
+    public NodeRecord() {
         leader = new NodeLeader();
         items = new ArrayList<NodeItem>();
     }

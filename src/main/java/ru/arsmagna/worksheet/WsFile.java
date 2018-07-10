@@ -1,13 +1,15 @@
 package ru.arsmagna.worksheet;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Рабочий лист.
  */
-public class WsFile
-{
+public class WsFile {
+
     /**
      * Имя рабочего листа.
      */
@@ -21,6 +23,7 @@ public class WsFile
     /**
      * Произвольные пользовательские данные.
      */
+    @SuppressFBWarnings("UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD")
     public Object userData;
 
     //=========================================================================
@@ -28,8 +31,7 @@ public class WsFile
     /**
      * Конструктор по умолчанию.
      */
-    public WsFile()
-    {
+    public WsFile() {
         pages = new ArrayList<>();
     }
 }

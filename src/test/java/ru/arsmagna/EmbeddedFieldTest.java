@@ -1,18 +1,13 @@
 package ru.arsmagna;
 
-import org.junit.*;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class EmbeddedFieldTest
-{
+public class EmbeddedFieldTest {
     @Test
-    public void getEmbeddedFields_1()
-    {
+    public void getEmbeddedFields_1() {
     }
 
     @Test
-    public void getEmbeddedFields_2()
-    {
+    public void getEmbeddedFields_2() {
     }
 }

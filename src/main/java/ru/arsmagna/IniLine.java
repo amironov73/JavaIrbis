@@ -1,12 +1,13 @@
 package ru.arsmagna;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Строчка в INI-файле.
  */
-public final class IniLine
-{
+public final class IniLine {
     /**
      * Ключ.
      */
@@ -22,32 +23,29 @@ public final class IniLine
     /**
      * Конструктор по умолчанию.
      */
-    public IniLine()
-    {
+    public IniLine() {
     }
 
     /**
      * Конструктор.
-     * @param key Ключ.
+     *
+     * @param key   Ключ.
      * @param value Значение.
      */
     public IniLine
-        (
+    (
             @NotNull String key,
             @Nullable String value
-        )
-    {
+    ) {
         this.key = key;
         this.value = value;
     }
 
     //=========================================================================
 
-    @NotNull
     @Override
     @Contract(pure = true)
-    public String toString()
-    {
+    public String toString() {
         return key + "=" + value;
     }
 }

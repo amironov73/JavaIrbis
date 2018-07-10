@@ -1,12 +1,12 @@
 package ru.arsmagna.search;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Parameters for ReadPostingsCommand.
  */
-public final class PostingParameters
-{
+public final class PostingParameters implements Cloneable {
+
     /**
      * База данных.
      */
@@ -42,8 +42,7 @@ public final class PostingParameters
     /**
      * Конструктор.
      */
-    public PostingParameters()
-    {
+    public PostingParameters() {
         firstPosting = 1;
     }
 
@@ -51,11 +50,11 @@ public final class PostingParameters
 
     /**
      * Клонирование.
+     *
      * @return Копию.
      */
     @NotNull
-    public PostingParameters clone()
-    {
+    public PostingParameters clone() {
         PostingParameters result = new PostingParameters();
         result.database = database;
         result.firstPosting = firstPosting;

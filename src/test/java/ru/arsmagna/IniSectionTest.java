@@ -1,14 +1,12 @@
 package ru.arsmagna;
 
-import org.junit.*;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class IniSectionTest
-{
+public class IniSectionTest {
     @Test
-    public void toString_1()
-    {
+    public void toString_1() {
         IniSection section = new IniSection();
         assertEquals("[null]", section.toString());
 

@@ -1,12 +1,12 @@
 package ru.arsmagna.search;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Сценарий поиска.
  */
-public final class SearchScenario
-{
+public final class SearchScenario {
     /**
      * Название поиска.
      */
@@ -70,14 +70,12 @@ public final class SearchScenario
 
     //=========================================================================
 
-    @NotNull
     @Override
     @Contract(pure = true)
-    public String toString()
-    {
+    public String toString() {
         return "SearchScenario{" +
-            "name='" + name + '\'' +
-            ", prefix='" + prefix + '\'' +
-            '}';
+                "name='" + name + '\'' +
+                ", prefix='" + prefix + '\'' +
+                '}';
     }
 }

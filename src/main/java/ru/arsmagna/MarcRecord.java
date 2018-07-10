@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
-import org.jetbrains.annotations.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,8 +10,7 @@ import java.util.Collection;
 /**
  * MARC record.
  */
-public final class MarcRecord
-{
+public final class MarcRecord implements Cloneable {
     /**
      * База данных, в которой хранится запись.
      */
@@ -51,6 +51,7 @@ public final class MarcRecord
     /**
      * Произвольные пользовательские данные.
      */
+    @SuppressFBWarnings("UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD")
     public Object userData;
 
     //=========================================================================
@@ -58,19 +59,44 @@ public final class MarcRecord
     /**
      * Конструктор по умолчанию.
      */
-    public MarcRecord()
-    {
-        fields = new ArrayList<RecordField>();
+    public MarcRecord() {
+        fields = new ArrayList<>();
     }
 
     //=========================================================================
 
     /**
+     * Разбор строк, возвращаемых сервером.
+     *
+     * @param record Запись, в которую помещать результат.
+     * @param text   Строки, содержащие запись.
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    public static void parseSingle (@NotNull MarcRecord record, @NotNull String[] text) throws IOException {
+        if (record == null || text == null) { throw new IllegalArgumentException(); }
+        if (text.length == 0) {  return; }
+
+        String line = text[0];
+        String[] parts = line.split("#");
+        record.mfn = Integer.parseInt(parts[0]);
+        if (parts.length != 1) {
+            record.status = Integer.parseInt(parts[1]);
+        }
+        line = text[1];
+        parts = line.split("#");
+        record.version = Integer.parseInt(parts[1]);
+        for (int i = 2; i < text.length; i++) {
+            RecordField field = RecordField.parse(text[i]);
+            record.fields.add(field);
+        }
+    }
+
+    /**
      * Клонирование записи со всеми полями.
+     *
      * @return Копию записи.
      */
-    public MarcRecord Clone()
-    {
+    public MarcRecord clone() {
         MarcRecord result = new MarcRecord();
         result.database = database;
         result.mfn = mfn;
@@ -78,50 +104,17 @@ public final class MarcRecord
         result.description = description;
         result.sortKey = sortKey;
         result.index = index;
-        for (RecordField field: fields)
-        {
+        for (RecordField field : fields) {
             result.fields.add(field.clone());
         }
 
         return result;
     }
 
-    /**
-     * Разбор строк, возвращаемых сервером.
-     * @param record Запись, в которую помещать результат.
-     * @param text Строки, содержащие запись.
-     * @throws IOException Ошибка ввода-вывода.
-     */
-    public static void ParseSingle
-        (
-            @NotNull MarcRecord record,
-            @NotNull String[] text
-        )
-        throws IOException
-    {
-        String line = text[0];
-        String[] parts = line.split("#");
-        record.mfn = Integer.parseInt(parts[0]);
-        if (parts.length != 1)
-        {
-            record.status = Integer.parseInt(parts[1]);
-        }
-        line = text[1];
-        parts = line.split("#");
-        record.version = Integer.parseInt(parts[1]);
-        for (int i = 2; i < text.length; i++)
-        {
-            RecordField field = RecordField.parse(text[i]);
-            record.fields.add(field);
-        }
-    }
-
     //=========================================================================
 
-    @NotNull
     @Override
-    public String toString()
-    {
-        return ProtocolText.EncodeRecord(this);
+    public String toString() {
+        return ProtocolText.encodeRecord(this);
     }
 }

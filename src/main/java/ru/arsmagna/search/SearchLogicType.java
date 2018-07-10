@@ -2,10 +2,9 @@ package ru.arsmagna.search;
 
 /**
  * Какие логические операторы могут использоваться
- *  для данного вида поиска.
+ * для данного вида поиска.
  */
-public final class SearchLogicType
-{
+public final class SearchLogicType {
     /**
      * только логика ИЛИ
      */

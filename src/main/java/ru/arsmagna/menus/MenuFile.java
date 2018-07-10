@@ -1,9 +1,10 @@
 package ru.arsmagna.menus;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import ru.arsmagna.*;
-import ru.arsmagna.infrastructure.*;
+import ru.arsmagna.infrastructure.ServerResponse;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,11 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
 
+import static ru.arsmagna.Utility.isNullOrEmpty;
+
 /**
  * Файл меню.
  */
-public final class MenuFile
-{
+public final class MenuFile {
+
     /**
      * Признак конца меню.
      */
@@ -44,128 +47,44 @@ public final class MenuFile
     /**
      * Конструктор по умолчанию.
      */
-    public MenuFile()
-    {
-        entries = new ArrayList<MenuEntry>();
+    public MenuFile() {
+        entries = new ArrayList<>();
     }
 
     //=========================================================================
 
     /**
-     * Добавление строчек в меню.
-     * @return Собственно меню.
-     */
-    @NotNull
-    public MenuFile add
-        (
-            @NotNull String code,
-            @Nullable String comment
-        )
-    {
-        MenuEntry entry = new MenuEntry(code, comment);
-        entries.add(entry);
-
-        return this;
-    }
-
-    /**
      * Отрезание лишних символов в коде.
+     *
      * @return Очищенный код
      */
-    public static String trimCode
-        (
-            @NotNull String code
-        )
-    {
+    public static String trimCode (@NotNull String code) {
+        if (code == null) { throw new IllegalArgumentException(); }
+
         code = code.trim();
         String[] parts = code.split(MENU_SEPARATORS);
-        if (parts.length != 0)
-        {
-            code = parts[0];
-        }
+        if (parts.length != 0) { code = parts[0]; }
 
         return code;
     }
 
     /**
-     * Отыскивает запись, соответствующую данному коду.
-     * @return Запись либо null.
-     */
-    @Nullable
-    public MenuEntry getEntry
-        (
-            @NotNull String code
-        )
-    {
-        for (MenuEntry entry: entries)
-        {
-            if (code.equalsIgnoreCase(entry.code))
-            {
-                return entry;
-            }
-        }
-
-        code = code.trim();
-        for (MenuEntry entry: entries)
-        {
-            if (code.equalsIgnoreCase(entry.code))
-            {
-                return entry;
-            }
-        }
-
-        code = trimCode(code);
-        for (MenuEntry entry: entries)
-        {
-            if (code.equalsIgnoreCase(entry.code))
-            {
-                return entry;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Выдает значение, соответствующее коду.
-     * @param code Код.
-     * @param defaultValue Значение по умолчанию.
-     * @return Найденное значение либо null.
-     */
-    @Nullable
-    public String getValue
-        (
-            @NotNull String code,
-            @Nullable String defaultValue
-        )
-    {
-        MenuEntry found = getEntry(code);
-        String result = found == null ? null : found.comment;
-
-        return result;
-    }
-
-    /**
      * Разбор потока.
+     *
      * @param scanner Поток.
      * @return Меню.
      */
     @NotNull
-    public static MenuFile parse
-        (
-            @NotNull Scanner scanner
-        )
-    {
+    public static MenuFile parse (@NotNull Scanner scanner) {
+        if (scanner == null) { throw new IllegalArgumentException(); }
+
         MenuFile result = new MenuFile();
-        while (true)
-        {
+        while (true) {
             String code = scanner.nextLine();
-            if (Utility.isNullOrEmpty(code))
-            {
+            if (isNullOrEmpty(code)) {
                 break;
             }
-            if (code.startsWith(STOP_MARKER))
-            {
+            if (code.startsWith(STOP_MARKER)) {
                 break;
             }
 
@@ -178,20 +97,16 @@ public final class MenuFile
 
     /**
      * Загрузка меню из файла.
+     *
      * @param fileName Имя файла.
      * @return Меню.
      */
     @NotNull
-    public static MenuFile parse
-        (
-            @NotNull String fileName
-        )
-        throws IOException
-    {
-        try(FileInputStream stream = new FileInputStream(fileName))
-        {
-            try (Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name()))
-            {
+    public static MenuFile parse (@NotNull String fileName) throws IOException {
+        if (isNullOrEmpty(fileName)) { throw new IllegalArgumentException(); }
+
+        try (FileInputStream stream = new FileInputStream(fileName)) {
+            try (Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name())) {
                 MenuFile result = parse(scanner);
                 result.fileName = fileName;
 
@@ -202,15 +117,13 @@ public final class MenuFile
 
     /**
      * Парсинг ответа сервера.
+     *
      * @return Меню.
      */
     @NotNull
-    public static MenuFile parse
-        (
-            @NotNull ServerResponse response
-        )
-        throws IOException
-    {
+    public static MenuFile parse (@NotNull ServerResponse response) throws IOException {
+        if (response == null) { throw new IllegalArgumentException(); }
+
         String text = response.readRemainingAnsiText();
         StringReader reader = new StringReader(text);
         Scanner scanner = new Scanner(reader);
@@ -221,26 +134,20 @@ public final class MenuFile
 
     /**
      * Чтение меню с сервера.
-     * @param connection Подключение.
+     *
+     * @param connection    Подключение.
      * @param specification Имя файла.
      * @return Меню.
      */
     @NotNull
-    public static MenuFile read
-        (
-            @NotNull IrbisConnection connection,
-            @NotNull FileSpecification specification
-        )
-        throws IOException
-    {
+    public static MenuFile read (@NotNull IrbisConnection connection, @NotNull FileSpecification specification) throws IOException {
+        if (connection == null) { throw new IllegalArgumentException(); }
+
         MenuFile result;
         String text = connection.readTextFile(specification);
-        if (Utility.isNullOrEmpty(text))
-        {
+        if (isNullOrEmpty(text)) {
             result = new MenuFile();
-        }
-        else
-        {
+        } else {
             StringReader reader = new StringReader(text);
             Scanner scanner = new Scanner(reader);
             result = parse(scanner);
@@ -251,15 +158,72 @@ public final class MenuFile
         return result;
     }
 
+    /**
+     * Добавление строчек в меню.
+     *
+     * @return Собственно меню.
+     */
+    @NotNull
+    public MenuFile add (@NotNull String code, @Nullable String comment) {
+        MenuEntry entry = new MenuEntry(code, comment);
+        entries.add(entry);
+
+        return this;
+    }
+
+    /**
+     * Отыскивает запись, соответствующую данному коду.
+     *
+     * @return Запись либо null.
+     */
+    @Nullable
+    public MenuEntry getEntry (@NotNull String code) {
+        if (code == null) { throw new IllegalArgumentException(); }
+
+        for (MenuEntry entry : entries) {
+            if (code.equalsIgnoreCase(entry.code)) {
+                return entry;
+            }
+        }
+
+        code = code.trim();
+        for (MenuEntry entry : entries) {
+            if (code.equalsIgnoreCase(entry.code)) {
+                return entry;
+            }
+        }
+
+        code = trimCode(code);
+        for (MenuEntry entry : entries) {
+            if (code.equalsIgnoreCase(entry.code)) {
+                return entry;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Выдает значение, соответствующее коду.
+     *
+     * @param code         Код.
+     * @param defaultValue Значение по умолчанию.
+     * @return Найденное значение либо null.
+     */
+    @Nullable
+    public String getValue (@NotNull String code, @Nullable String defaultValue) {
+        MenuEntry found = getEntry(code);
+        String result = found == null ? null : found.comment;
+
+        return result;
+    }
+
     //=========================================================================
 
-    @NotNull
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder result = new StringBuilder();
-        for (MenuEntry entry: entries)
-        {
+        for (MenuEntry entry : entries) {
             result.append(entry.code);
             result.append(IrbisText.MSDOS_DELIMITER);
             result.append(entry.comment);

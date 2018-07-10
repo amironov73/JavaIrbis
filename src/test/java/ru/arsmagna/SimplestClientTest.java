@@ -1,21 +1,20 @@
 package ru.arsmagna;
 
-import org.junit.*;
-
-import ru.arsmagna.menus.*;
-import ru.arsmagna.search.*;
+import org.junit.Ignore;
+import org.junit.Test;
+import ru.arsmagna.menus.MenuFile;
+import ru.arsmagna.search.PostingParameters;
+import ru.arsmagna.search.TermInfo;
+import ru.arsmagna.search.TermParameters;
+import ru.arsmagna.search.TermPosting;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
-
-public class SimplestClientTest
-{
+public class SimplestClientTest {
     @Ignore
     @Test
-    public void testConnection() throws IOException, IrbisException
-    {
+    public void testConnection() throws IOException, IrbisException {
         IrbisConnection connection = new IrbisConnection();
         System.out.printf("Connected=%d", connection.isConnected() ? 1 : 0);
         connection.username = "user";
@@ -76,8 +75,7 @@ public class SimplestClientTest
         parameters.startTerm = "K=";
         parameters.numberOfTerms = 10;
         TermInfo[] terms = connection.readTerms(parameters);
-        for (TermInfo term: terms)
-        {
+        for (TermInfo term : terms) {
             System.out.println(term);
         }
 
@@ -87,8 +85,7 @@ public class SimplestClientTest
         postingParameters.firstPosting = 1;
         postingParameters.numberOfPostings = 100;
         TermPosting[] postings = connection.readPostings(postingParameters);
-        for (TermPosting posting: postings)
-        {
+        for (TermPosting posting : postings) {
             System.out.println(posting);
         }
 
@@ -104,16 +101,14 @@ public class SimplestClientTest
         System.out.println(record);
 
         MarcRecord[] records = new MarcRecord[10];
-        for (int i = 0; i < records.length; i++)
-        {
+        for (int i = 0; i < records.length; i++) {
             records[i] = new MarcRecord();
             records[i].fields.add(new RecordField(300, "Комментарий " + (i + 1)));
         }
         int returnCode = connection.writeRecords(records, false, true, false);
         System.out.printf("Return Code=%d", returnCode);
         System.out.println();
-        for (int i = 0; i < records.length; i++)
-        {
+        for (int i = 0; i < records.length; i++) {
             System.out.println(records[i]);
         }
 
@@ -122,12 +117,11 @@ public class SimplestClientTest
         connection.writeTextFile(specification);
 
         String noSuchBase = "NOSUCH";
-        connection.createDatabase(noSuchBase, "Description", true, null);
+        connection.createDatabase(noSuchBase, "Description", true);
         System.out.println("Database created");
 
         records = new MarcRecord[10];
-        for (int i = 0; i < records.length; i++)
-        {
+        for (int i = 0; i < records.length; i++) {
             records[i] = new MarcRecord();
             records[i].database = noSuchBase;
             records[i].fields.add(new RecordField(300, "Комментарий " + (i + 1)));

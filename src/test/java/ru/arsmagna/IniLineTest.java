@@ -1,14 +1,12 @@
 package ru.arsmagna;
 
-import org.junit.*;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class IniLineTest
-{
+public class IniLineTest {
     @Test
-    public void toString_1()
-    {
+    public void toString_1() {
         IniLine line = new IniLine();
         assertEquals("null=null", line.toString());
 

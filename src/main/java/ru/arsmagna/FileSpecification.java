@@ -1,12 +1,15 @@
 package ru.arsmagna;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * Путь на файл path.database.filename.
  */
-public final class FileSpecification
-{
+public final class FileSpecification {
     /**
      * Признак двоичного файла.
      */
@@ -37,8 +40,7 @@ public final class FileSpecification
     /**
      * Конструктор по умолчанию.
      */
-    public FileSpecification()
-    {
+    public FileSpecification() {
     }
 
     /**
@@ -48,13 +50,7 @@ public final class FileSpecification
      * @param database База данных.
      * @param fileName Имя файла.
      */
-    public FileSpecification
-        (
-            int path,
-            @Nullable String database,
-            @NotNull String fileName
-        )
-    {
+    public FileSpecification (int path, @Nullable String database,@NotNull String fileName) {
         this.path = path;
         this.database = database;
         this.fileName = fileName;
@@ -63,45 +59,42 @@ public final class FileSpecification
     //=========================================================================
 
     @Override
+    public int hashCode() {
+
+        return Objects.hash(path, database, fileName, content);
+    }
+
+    @Override
     @Contract(value = "null -> false", pure = true)
-    public boolean equals(Object obj)
-    {
-        if (obj == null)
-        {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        if (obj == this)
-        {
+        if (obj == this) {
             return true;
         }
-        if (getClass() != obj.getClass())
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
 
         FileSpecification other = (FileSpecification) obj;
 
         return this.path == other.path
-            && this.database.equals(other.database)
-            && this.fileName.equals(other.fileName);
+                && this.database.equals(other.database)
+                && this.fileName.equals(other.fileName);
     }
 
-    @NotNull
     @Override
-    public String toString()
-    {
+    public String toString() {
         String result = fileName;
 
-        if (isBinaryFile)
-        {
+        if (isBinaryFile) {
             result = "@" + fileName;
-        } else if (content != null)
-        {
+        } else if (content != null) {
             result = "&" + fileName;
         }
 
-        switch (path)
-        {
+        switch (path) {
             case 0:
             case 1:
                 result = Integer.toString(path) + ".." + result;
@@ -112,8 +105,7 @@ public final class FileSpecification
                 break;
         }
 
-        if (content != null)
-        {
+        if (content != null) {
             result = result + "&" + content;
         }
 

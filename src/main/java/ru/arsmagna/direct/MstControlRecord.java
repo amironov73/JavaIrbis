@@ -6,8 +6,8 @@ package ru.arsmagna.direct;
  * базы данных или при ее инициализации) и поддерживается
  * автоматически.
  */
-public final class MstControlRecord
-{
+public final class MstControlRecord {
+
     /**
      * Размер управляющей записи.
      */
@@ -15,7 +15,7 @@ public final class MstControlRecord
 
     /**
      * Позиция индикатора блокировки базы данных
-     *  в управляющей записи.
+     * в управляющей записи.
      */
     public static final long LOCK_FLAG_POSITION = 32;
 
@@ -28,7 +28,7 @@ public final class MstControlRecord
 
     /**
      * Номер записи файла документов, назначаемый
-     *  для следующей записи, создаваемой в базе данных.
+     * для следующей записи, создаваемой в базе данных.
      */
     public int nextMfn;
 

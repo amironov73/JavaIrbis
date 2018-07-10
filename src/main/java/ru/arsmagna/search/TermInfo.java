@@ -3,15 +3,17 @@ package ru.arsmagna.search;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import ru.arsmagna.Utility;
-import ru.arsmagna.infrastructure.*;
+import ru.arsmagna.infrastructure.ServerResponse;
 
 import java.util.ArrayList;
+
+import static ru.arsmagna.Utility.isNullOrEmpty;
 
 /**
  * Информация о поисковом терме.
  */
-public final class TermInfo
-{
+public final class TermInfo implements Cloneable {
+
     /**
      * Количество ссылок.
      */
@@ -25,43 +27,25 @@ public final class TermInfo
     //=========================================================================
 
     /**
-     * Клонирование.
-     * @return Копию.
-     */
-    @NotNull
-    public TermInfo clone()
-    {
-        TermInfo result = new TermInfo();
-        result.count = count;
-        result.text = text;
-
-        return result;
-    }
-
-    /**
      * Разбор ответа сервера.
+     *
      * @param response Ответ сервера.
      * @return Прочитанные термы.
      */
     @NotNull
-    public static TermInfo[] parse
-        (
-            @NotNull ServerResponse response
-        )
-    {
+    public static TermInfo[] parse (@NotNull ServerResponse response) {
+        if (response == null) { throw new IllegalArgumentException(); }
+
         ArrayList<TermInfo> result = new ArrayList<>();
-        while (true)
-        {
+        while (true) {
             String line = response.readUtf();
-            if (Utility.isNullOrEmpty(line))
-            {
+            if (isNullOrEmpty(line)) {
                 break;
             }
             String[] parts = line.split("#", 2);
             TermInfo item = new TermInfo();
             item.count = Integer.parseInt(parts[0]);
-            if (parts.length > 1)
-            {
+            if (parts.length > 1) {
                 item.text = parts[1];
             }
             result.add(item);
@@ -70,13 +54,25 @@ public final class TermInfo
         return result.toArray(new TermInfo[0]);
     }
 
+    /**
+     * Клонирование.
+     *
+     * @return Копию.
+     */
+    @NotNull
+    public TermInfo clone() {
+        TermInfo result = new TermInfo();
+        result.count = count;
+        result.text = text;
+
+        return result;
+    }
+
     //=========================================================================
 
-    @NotNull
     @Override
     @Contract(pure = true)
-    public String toString()
-    {
+    public String toString() {
         return count + "#" + text;
     }
 }

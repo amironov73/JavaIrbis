@@ -3,8 +3,8 @@ package ru.arsmagna.worksheet;
 /**
  * Элемент рабочего листа.
  */
-public class WorksheetItem
-{
+public class WorksheetItem {
+
     /**
      * Числовая метка поля/код подполя.
      */

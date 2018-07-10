@@ -2,13 +2,13 @@ package ru.arsmagna;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import ru.arsmagna.infrastructure.*;
+import ru.arsmagna.infrastructure.ServerResponse;
 
 /**
  * Информация о версии ИРБИС-сервера.
  */
-public final class IrbisVersion
-{
+public final class IrbisVersion {
+
     /**
      * На кого приобретен.
      */
@@ -33,25 +33,21 @@ public final class IrbisVersion
 
     /**
      * Разбор ответа сервера.
+     *
      * @param response Ответ сервера.
      * @return Версия сервера.
      */
     @NotNull
-    public static IrbisVersion parse
-        (
-            @NotNull ServerResponse response
-        )
-    {
+    public static IrbisVersion parse (@NotNull ServerResponse response) {
+        if (response == null) { throw new IllegalArgumentException(); }
+
         String[] lines = response.readRemainingAnsiLines();
         IrbisVersion result = new IrbisVersion();
-        if (lines.length == 3)
-        {
+        if (lines.length == 3) {
             result.version = lines[0];
             result.connectedClients = Integer.parseInt(lines[1]);
             result.maxClients = Integer.parseInt(lines[2]);
-        }
-        else
-        {
+        } else {
             result.organization = lines[0];
             result.version = lines[1];
             result.connectedClients = Integer.parseInt(lines[2]);
@@ -63,16 +59,14 @@ public final class IrbisVersion
 
     //=========================================================================
 
-    @NotNull
     @Override
     @Contract(pure = true)
-    public String toString()
-    {
+    public String toString() {
         return "IrbisVersion{" +
-            "organization='" + organization + '\'' +
-            ", version='" + version + '\'' +
-            ", maxClients=" + maxClients +
-            ", connectedClients=" + connectedClients +
-            '}';
+                "organization='" + organization + '\'' +
+                ", version='" + version + '\'' +
+                ", maxClients=" + maxClients +
+                ", connectedClients=" + connectedClients +
+                '}';
     }
 }

@@ -3,35 +3,21 @@ package ru.arsmagna;
 /**
  * Исключение, связанное с ИРБИС.
  */
-public class IrbisException extends Exception
-{
+public class IrbisException extends Exception {
     public int errorCode;
 
-    public IrbisException()
-    {
+    public IrbisException() {
     }
 
-    public IrbisException
-        (
-            int errorCode
-        )
-    {
+    public IrbisException (int errorCode) {
         this.errorCode = errorCode;
     }
 
-    public IrbisException
-        (
-            String message
-        )
-    {
+    public IrbisException (String message) {
         super(message);
     }
 
-    public IrbisException
-        (
-            Throwable cause
-        )
-    {
+    public IrbisException (Throwable cause) {
         super(cause);
     }
 }

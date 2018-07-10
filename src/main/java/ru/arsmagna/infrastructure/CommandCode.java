@@ -3,8 +3,7 @@ package ru.arsmagna.infrastructure;
 /**
  * Коды команд.
  */
-public final class CommandCode
-{
+public final class CommandCode {
     /**
      * Получение признака монопольной блокировки базы данных.
      */
@@ -27,8 +26,8 @@ public final class CommandCode
     public static final String DATABASE_STAT = "2";
 
     /**
-      * IRBIS_FORMAT_ISO_GROUP.
-      */
+     * IRBIS_FORMAT_ISO_GROUP.
+     */
     public static final String FORMAT_ISO_GROUP = "3";
 
     /**

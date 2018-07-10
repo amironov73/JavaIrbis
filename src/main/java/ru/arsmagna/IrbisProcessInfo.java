@@ -1,18 +1,18 @@
 package ru.arsmagna;
 
-import org.jetbrains.annotations.*;
-
-import ru.arsmagna.infrastructure.*;
-
-import static ru.arsmagna.Utility.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import ru.arsmagna.infrastructure.ServerResponse;
 
 import java.util.ArrayList;
+
+import static ru.arsmagna.Utility.emptyToNull;
 
 /**
  * Информация о запущенном на сервере процессе.
  */
-public final class IrbisProcessInfo
-{
+public final class IrbisProcessInfo {
+
     /**
      * Просто порядковый номер в списке.
      */
@@ -77,66 +77,51 @@ public final class IrbisProcessInfo
      * @return Список процессов.
      */
     @NotNull
-    public static IrbisProcessInfo[] parse
-        (
-            @NotNull ServerResponse response
-        )
-    {
+    public static IrbisProcessInfo[] parse (@NotNull ServerResponse response) {
+        if (response == null) { throw new IllegalArgumentException(); }
+
         ArrayList<IrbisProcessInfo> result = new ArrayList<>();
         int processCount = response.readInt32();
         int linesPerProcess = response.readInt32();
-        if (processCount == 0 || linesPerProcess == 0)
-        {
+        if (processCount == 0 || linesPerProcess == 0) {
             return new IrbisProcessInfo[0];
         }
 
-        for (int i = 0; i < processCount; i++)
-        {
+        for (int i = 0; i < processCount; i++) {
             String[] lines = response.readAnsi(linesPerProcess + 1);
-            if (lines == null)
-            {
+            if (lines == null) {
                 break;
             }
 
             IrbisProcessInfo process = new IrbisProcessInfo();
-            if (lines.length != 0)
-            {
+            if (lines.length != 0) {
                 process.number = emptyToNull(lines[0]);
             }
-            if (lines.length > 1)
-            {
+            if (lines.length > 1) {
                 process.ipAddress = emptyToNull(lines[1]);
             }
-            if (lines.length > 2)
-            {
+            if (lines.length > 2) {
                 process.name = emptyToNull(lines[2]);
             }
-            if (lines.length > 3)
-            {
+            if (lines.length > 3) {
                 process.clientId = emptyToNull(lines[3]);
             }
-            if (lines.length > 4)
-            {
+            if (lines.length > 4) {
                 process.workstation = emptyToNull(lines[4]);
             }
-            if (lines.length > 5)
-            {
+            if (lines.length > 5) {
                 process.started = emptyToNull(lines[5]);
             }
-            if (lines.length > 6)
-            {
+            if (lines.length > 6) {
                 process.lastCommand = emptyToNull(lines[6]);
             }
-            if (lines.length > 7)
-            {
+            if (lines.length > 7) {
                 process.commandNumber = emptyToNull(lines[7]);
             }
-            if (lines.length > 8)
-            {
+            if (lines.length > 8) {
                 process.processId = emptyToNull(lines[8]);
             }
-            if (lines.length > 9)
-            {
+            if (lines.length > 9) {
                 process.state = emptyToNull(lines[9]);
             }
             result.add(process);
@@ -147,23 +132,21 @@ public final class IrbisProcessInfo
 
     //=========================================================================
 
-    @NotNull
     @Override
     @Contract(pure = true)
-    public String toString()
-    {
+    public String toString() {
         return "IrbisProcessInfo{" +
-            "number='" + number + '\'' +
-            ", ipAddress='" + ipAddress + '\'' +
-            ", name='" + name + '\'' +
-            ", clientId='" + clientId + '\'' +
-            ", workstation='" + workstation + '\'' +
-            ", started='" + started + '\'' +
-            ", lastCommand='" + lastCommand + '\'' +
-            ", commandNumber='" + commandNumber + '\'' +
-            ", processId='" + processId + '\'' +
-            ", state='" + state + '\'' +
-            ", userData=" + userData +
-            '}';
+                "number='" + number + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", name='" + name + '\'' +
+                ", clientId='" + clientId + '\'' +
+                ", workstation='" + workstation + '\'' +
+                ", started='" + started + '\'' +
+                ", lastCommand='" + lastCommand + '\'' +
+                ", commandNumber='" + commandNumber + '\'' +
+                ", processId='" + processId + '\'' +
+                ", state='" + state + '\'' +
+                ", userData=" + userData +
+                '}';
     }
 }
