@@ -27,12 +27,12 @@ public class SimplestClientTest {
     @Ignore @Test
     public void testConnection() throws IOException, IrbisException {
         IrbisConnection connection = new IrbisConnection();
-        System.out.printf("Connected=%d%n", connection.isConnected() ? 1 : 0);
         connection.username = "user";
         connection.password = "password";
         connection.workstation = 'A';
-        connection.connect();
+        IniFile iniFile = connection.connect();
         System.out.printf("Connected=%d%n", connection.isConnected() ? 1 : 0);
+        System.out.println("USER=" + iniFile.getValue("MAIN", "User"));
 
         IrbisVersion version = connection.getServerVersion();
         System.out.println(version);

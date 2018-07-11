@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,8 +9,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
+import static ru.arsmagna.SubField.compareCodes;
 import static ru.arsmagna.Utility.isNullOrEmpty;
+import static ru.arsmagna.Utility.nullableToString;
 
 /**
  * MARC record field.
@@ -31,7 +35,6 @@ public final class RecordField implements Cloneable {
     /**
      * Повторение поля.
      */
-    @SuppressFBWarnings("UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD")
     public int repeat;
 
     /**
@@ -53,16 +56,16 @@ public final class RecordField implements Cloneable {
     //=========================================================================
 
     /**
-     * Конструктор по умолчанию.
+     * Default constructor.
      */
     public RecordField() {
         subFields = new ArrayList<>();
     }
 
     /**
-     * Конструктор.
+     * Initializing constructor.
      *
-     * @param tag Метка поля.
+     * @param tag The field tag.
      */
     public RecordField (int tag) {
         subFields = new ArrayList<>();
@@ -70,10 +73,10 @@ public final class RecordField implements Cloneable {
     }
 
     /**
-     * Конструктор.
+     * Initializing constructor.
      *
-     * @param tag   Метка поля.
-     * @param value Значение поля.
+     * @param tag   The field tag.
+     * @param value The field value.
      */
     public RecordField (int tag, @Nullable String value) {
         subFields = new ArrayList<>();
@@ -81,7 +84,168 @@ public final class RecordField implements Cloneable {
         this.value = value;
     }
 
+    /**
+     * Initializing constructor.
+     * @param tag The field tag.
+     * @param subFields Sub-fields.
+     */
+    public RecordField (int tag, SubField... subFields) {
+        this.subFields = new ArrayList<>();
+        this.tag = tag;
+        for (SubField subField: subFields) {
+            this.subFields.add(subField);
+        }
+    }
+
     //=========================================================================
+
+    public RecordField add(char code, @Nullable Object value)
+    {
+        String text = nullableToString(value);
+        subFields.add(new SubField(code, text));
+
+        return this;
+    }
+
+    public RecordField add(char code, boolean condition, @Nullable Object value) {
+        if (condition) {
+            String text = nullableToString(value);
+            subFields.add(new SubField(code, text));
+        }
+
+        return this;
+    }
+
+    public RecordField addNonEmpty(char code, @Nullable Object value) {
+        String text = nullableToString(value);
+        if (!isNullOrEmpty(text)) {
+            subFields.add(new SubField(code, text));
+        }
+
+        return this;
+    }
+
+    public RecordField assignFrom(@NotNull RecordField other) {
+        if (other == null) {
+            throw new IllegalArgumentException();
+        }
+
+        clear();
+        value = other.value;
+        for (SubField subField: other.subFields) {
+            subFields.add(subField.clone());
+        }
+
+        return this;
+    }
+
+    public RecordField assignTo(@NotNull RecordField other) {
+        if (other == null) {
+            throw new IllegalArgumentException();
+        }
+
+        other.assignFrom(this);
+
+        return this;
+    }
+
+    public RecordField clear() {
+        value = null;
+        subFields.clear();
+
+        return this;
+    }
+
+    /**
+     * Клонирование поля с подполями.
+     *
+     * @return Копию поля.
+     */
+    public RecordField clone() {
+        RecordField result = new RecordField(tag, value);
+        for (SubField sub : subFields) {
+            result.subFields.add(sub.clone());
+        }
+
+        return result;
+    }
+
+    @Nullable
+    @Contract(pure = true)
+    public SubField getFirstSubField(char code) {
+        for (SubField subField: subFields) {
+            if (compareCodes(code, subField.code) == 0) {
+                return subField;
+            }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    @Contract(pure = true)
+    public String getFirstSubFieldValue(char code) {
+        for (SubField subField: subFields) {
+            if (compareCodes(code, subField.code) == 0) {
+                return subField.value;
+            }
+        }
+
+        return null;
+    }
+
+    public SubField[] getSubField(char code) {
+        LinkedList<SubField> result = new LinkedList<>();
+        for (SubField subField: subFields) {
+            if (compareCodes(code, subField.code) == 0){
+                result.add(subField);
+            }
+        }
+
+        return result.toArray(new SubField[0]);
+    }
+
+    @Nullable
+    @Contract(pure = true)
+    public SubField getSubField(char code, int occurrence) {
+        for (SubField subField: subFields) {
+            if (compareCodes(code, subField.code) == 0) {
+                if (--occurrence < 0) {
+                    return subField;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public String[] getSubFieldValue(char code) {
+        LinkedList<String> result = new LinkedList<>();
+        for (SubField subField: subFields) {
+            if (compareCodes(code, subField.code) == 0) {
+                String text = subField.value;
+                if (!isNullOrEmpty(text)) {
+                    result.add(text);
+                }
+            }
+        }
+
+        return result.toArray(new String[0]);
+    }
+
+    @Nullable
+    @Contract(pure = true)
+    public String getSubFieldValue(char code, int occurrence) {
+        for (SubField subField: subFields) {
+            if (compareCodes(code, subField.code) == 0) {
+                if (--occurrence < 0) {
+                    return subField.value;
+                }
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Разбор строки.
@@ -109,20 +273,6 @@ public final class RecordField implements Cloneable {
             String value = Utility.readTo(reader, '^');
             SubField subField = new SubField(code, value);
             result.subFields.add(subField);
-        }
-
-        return result;
-    }
-
-    /**
-     * Клонирование поля с подполями.
-     *
-     * @return Копию поля.
-     */
-    public final RecordField clone() {
-        RecordField result = new RecordField(tag, value);
-        for (SubField sub : subFields) {
-            result.subFields.add(sub.clone());
         }
 
         return result;

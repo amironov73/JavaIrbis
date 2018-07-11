@@ -4,41 +4,58 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static ru.arsmagna.Utility.nullToEmpty;
+
 /**
- * Строчка в INI-файле.
+ * INI-file line with key and value.
  */
 public final class IniLine {
+
     /**
-     * Ключ.
+     * Key (case insensitive).
      */
     public String key;
 
     /**
-     * Значение.
+     * Value (may be null).
      */
     public String value;
 
     //=========================================================================
 
     /**
-     * Конструктор по умолчанию.
+     * Default constructor.
      */
     public IniLine() {
     }
 
     /**
-     * Конструктор.
+     * Initializing constructor.
      *
-     * @param key   Ключ.
-     * @param value Значение.
+     * @param key   The key (can't be null).
+     * @param value Value (can be null).
      */
-    public IniLine
-    (
-            @NotNull String key,
-            @Nullable String value
-    ) {
+    public IniLine (@NotNull String key, @Nullable String value) {
+        if (key == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.key = key;
         this.value = value;
+    }
+
+    //=========================================================================
+
+    /**
+     * Whether two given keys are the same?
+     * @param first First key.
+     * @param second Second key.
+     * @return true for same keys.
+     */
+    public static boolean sameKey(@NotNull String first, @NotNull String second) {
+        if (first == null || second == null) throw new IllegalArgumentException();
+
+        return first.equalsIgnoreCase(second);
     }
 
     //=========================================================================
@@ -46,6 +63,6 @@ public final class IniLine {
     @Override
     @Contract(pure = true)
     public String toString() {
-        return key + "=" + value;
+        return key + "=" + nullToEmpty(value);
     }
 }

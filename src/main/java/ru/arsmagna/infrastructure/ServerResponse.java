@@ -150,6 +150,7 @@ public final class ServerResponse implements Closeable {
      * @param count
      * @return
      */
+    @Nullable
     public String[] readAnsi(int count) {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -170,6 +171,7 @@ public final class ServerResponse implements Closeable {
         return result;
     }
 
+    @NotNull
     public final String[] readRemainingAnsiLines() {
         ArrayList<String> result = new ArrayList<>();
         while (true) {
@@ -183,6 +185,7 @@ public final class ServerResponse implements Closeable {
         return result.toArray(new String[0]);
     }
 
+    @NotNull
     public final String[] readRemainingUtfLines() {
         ArrayList<String> result = new ArrayList<>();
         while (true) {
@@ -214,7 +217,6 @@ public final class ServerResponse implements Closeable {
         return result;
     }
 
-    @NotNull
     public final String readUtf() {
         byte[] line = getLine();
         String result = new String(line, IrbisEncoding.utf());

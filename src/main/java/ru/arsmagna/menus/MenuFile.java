@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import ru.arsmagna.*;
 import ru.arsmagna.infrastructure.ServerResponse;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.Scanner;
 
 import static ru.arsmagna.Utility.isNullOrEmpty;
+import static ru.arsmagna.Utility.nullToEmpty;
 
 /**
  * Файл меню.
@@ -74,14 +76,13 @@ public final class MenuFile {
      * @param scanner Поток.
      * @return Меню.
      */
-    @NotNull
     public static MenuFile parse (@NotNull Scanner scanner) {
         if (scanner == null) { throw new IllegalArgumentException(); }
 
         MenuFile result = new MenuFile();
-        while (true) {
+        while (scanner.hasNext()) {
             String code = scanner.nextLine();
-            if (isNullOrEmpty(code)) {
+            if (isNullOrEmpty(code) || !scanner.hasNext()) {
                 break;
             }
             if (code.startsWith(STOP_MARKER)) {
@@ -96,19 +97,18 @@ public final class MenuFile {
     }
 
     /**
-     * Загрузка меню из файла.
+     * Load the menu from the file.
      *
-     * @param fileName Имя файла.
-     * @return Меню.
+     * @param file File to read.
+     * @return Loaded menu.
      */
-    @NotNull
-    public static MenuFile parse (@NotNull String fileName) throws IOException {
-        if (isNullOrEmpty(fileName)) { throw new IllegalArgumentException(); }
+    public static MenuFile parse (@NotNull File file) throws IOException {
+        if (file == null) { throw new IllegalArgumentException(); }
 
-        try (FileInputStream stream = new FileInputStream(fileName)) {
+        try (FileInputStream stream = new FileInputStream(file)) {
             try (Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name())) {
                 MenuFile result = parse(scanner);
-                result.fileName = fileName;
+                result.fileName = file.getAbsolutePath();
 
                 return result;
             }
@@ -120,7 +120,6 @@ public final class MenuFile {
      *
      * @return Меню.
      */
-    @NotNull
     public static MenuFile parse (@NotNull ServerResponse response) throws IOException {
         if (response == null) { throw new IllegalArgumentException(); }
 
@@ -203,6 +202,11 @@ public final class MenuFile {
         return null;
     }
 
+    @Nullable
+    public String getValue(@NotNull String code) {
+        return getValue(code, null);
+    }
+
     /**
      * Выдает значение, соответствующее коду.
      *
@@ -212,6 +216,10 @@ public final class MenuFile {
      */
     @Nullable
     public String getValue (@NotNull String code, @Nullable String defaultValue) {
+        if (isNullOrEmpty(code)) {
+            throw new IllegalArgumentException();
+        }
+
         MenuEntry found = getEntry(code);
         String result = found == null ? null : found.comment;
 

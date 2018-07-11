@@ -2,11 +2,13 @@ package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.arsmagna.infrastructure.ClientQuery;
 import ru.arsmagna.infrastructure.ServerResponse;
 import ru.arsmagna.search.*;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -110,10 +112,10 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    @NotNull
-    public final String[] connect() throws IOException, IrbisException {
+    @Nullable
+    public final IniFile connect() throws IOException, IrbisException {
         if (_isConnected) {
-            return new String[0];
+            return null;
         }
 
         queryId = 0;
@@ -124,10 +126,12 @@ public final class IrbisConnection {
         try (ServerResponse response = execute(query)) {
             response.checkReturnCode();
             response.readAnsi();
-            response.readAnsi();
+            //response.readAnsi();
             _isConnected = true;
 
-            return response.readRemainingAnsiLines();
+            IniFile result = IniFile.parse(response);
+
+            return result;
         }
     }
 
@@ -212,12 +216,17 @@ public final class IrbisConnection {
         }
 
         Socket socket = new Socket(host, port);
+        // socket.setSoTimeout(30_000); // milliseconds
         byte[] outputData = query.encode();
-        socket.getOutputStream().write(outputData);
+        OutputStream outputStream = socket.getOutputStream();
+        outputStream.write(outputData);
+        // closing the OutputStream will close the associated socket!
+
         ServerResponse result = new ServerResponse(socket);
         // socket will be closed by ServerResponse.close method
 
         return result;
+
     }
 
     public final void executeAndForget(@NotNull ClientQuery query) throws IOException {
@@ -232,6 +241,10 @@ public final class IrbisConnection {
     }
 
     public final void executeAnsi(@NotNull String... commands) throws IOException {
+        if (commands == null) {
+            throw new IllegalArgumentException();
+        }
+
         ClientQuery query = new ClientQuery(this, commands[0]);
         for (int i = 1; i < commands.length; i++) {
             query.addAnsi(commands[i]);
@@ -248,7 +261,6 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    @NotNull
     public final String formatRecord(@NotNull String format, int mfn) throws IOException, IrbisException {
         if (isNullOrEmpty(format)) {
             throw new IllegalArgumentException();
@@ -277,7 +289,6 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    @NotNull
     public final String formatRecord(@NotNull String format, @NotNull MarcRecord record) throws IOException, IrbisException {
         if (isNullOrEmpty(format)) {
             throw new IllegalArgumentException();
@@ -297,7 +308,6 @@ public final class IrbisConnection {
         }
     }
 
-    @NotNull
     public final ServerStat getServerStat() throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, GET_SERVER_STAT);
 
@@ -309,7 +319,6 @@ public final class IrbisConnection {
         }
     }
 
-    @NotNull
     public final IrbisVersion getServerVersion() throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, SERVER_INFO);
 
@@ -481,12 +490,10 @@ public final class IrbisConnection {
         }
     }
 
-    @NotNull
     public final MarcRecord readRecord(int mfn) throws IOException, IrbisException {
         return readRecord(database, mfn);
     }
 
-    @NotNull
     public final MarcRecord readRecord(@NotNull String databaseName, int mfn) throws IOException, IrbisException {
         if (isNullOrEmpty(databaseName)) {
             throw new IllegalArgumentException();
@@ -506,7 +513,6 @@ public final class IrbisConnection {
         }
     }
 
-    @NotNull
     public MarcRecord readRecord(@NotNull String databaseName, int mfn, int versionNumber) throws IOException, IrbisException {
         if (isNullOrEmpty(databaseName)) {
             throw new IllegalArgumentException();
@@ -524,12 +530,12 @@ public final class IrbisConnection {
             MarcRecord.parseSingle(result, lines);
 
             // TODO unlock the record
+            unlockRecords(databaseName, mfn);
 
             return result;
         }
     }
 
-    @NotNull
     public TermInfo[] readTerms(@NotNull TermParameters parameters) throws IOException, IrbisException {
         if (parameters == null) {
             throw new IllegalArgumentException();
@@ -607,10 +613,6 @@ public final class IrbisConnection {
         }
 
         executeAnsi(RELOAD_DICTIONARY, databaseName);
-
-//        ClientQuery query = new ClientQuery(this, RELOAD_DICTIONARY);
-//        query.addAnsi(databaseName);
-//        execute(query);
     }
 
     public final void reloadMasterFile(@NotNull String databaseName) throws IOException {
@@ -619,38 +621,12 @@ public final class IrbisConnection {
         }
 
         executeAnsi(RELOAD_MASTER_FILE, databaseName);
-
-
-//        ClientQuery query = new ClientQuery(this, RELOAD_MASTER_FILE);
-//        query.addAnsi(databaseName);
-//
-//        ServerResponse response = null;
-//        try {
-//            response = execute(query);
-//        } finally {
-//            if (response != null) {
-//                response.close();
-//            }
-//        }
     }
 
     public final void restartServer() throws IOException {
-
         executeAnsi(RESTART_SERVER);
-
-//        ClientQuery query = new ClientQuery(this, RESTART_SERVER);
-//
-//        ServerResponse response = null;
-//        try {
-//            response = execute(query);
-//        } finally {
-//            if (response != null) {
-//                response.close();
-//            }
-//        }
     }
 
-    @NotNull
     public final int[] search(@NotNull String expression) throws IOException, IrbisException {
         if (isNullOrEmpty(expression)) {
             throw new IllegalArgumentException();
@@ -665,7 +641,6 @@ public final class IrbisConnection {
         return search(parameters);
     }
 
-    @NotNull
     public final int[] search(@NotNull SearchParameters parameters) throws IOException, IrbisException {
         // TODO handle > MAX_PACKET records
 
@@ -735,7 +710,7 @@ public final class IrbisConnection {
 //        executeAndForget(query);
     }
 
-    public final void unlockRecords(@NotNull String databaseName, @NotNull int[] mfnList) throws IOException {
+    public final void unlockRecords(@NotNull String databaseName, @NotNull int... mfnList) throws IOException {
         if (isNullOrEmpty(databaseName)) {
             throw new IllegalArgumentException();
         }

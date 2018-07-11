@@ -80,7 +80,6 @@ public final class TermPosting implements Cloneable {
      *
      * @return Копию.
      */
-    @NotNull
     public TermPosting clone() {
         TermPosting result = new TermPosting();
         result.mfn = mfn;

@@ -37,7 +37,6 @@ public final class IrbisVersion {
      * @param response Ответ сервера.
      * @return Версия сервера.
      */
-    @NotNull
     public static IrbisVersion parse (@NotNull ServerResponse response) {
         if (response == null) { throw new IllegalArgumentException(); }
 

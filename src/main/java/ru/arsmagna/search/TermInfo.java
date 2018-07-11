@@ -59,7 +59,6 @@ public final class TermInfo implements Cloneable {
      *
      * @return Копию.
      */
-    @NotNull
     public TermInfo clone() {
         TermInfo result = new TermInfo();
         result.count = count;

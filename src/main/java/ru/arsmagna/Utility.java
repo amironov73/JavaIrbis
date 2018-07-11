@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -145,6 +146,21 @@ public class Utility {
         }
 
         return result.toString();
+    }
+
+    @NotNull
+    public static String nullToEmpty (@Nullable String value) {
+        return value == null ? "" : value;
+    }
+
+    @Nullable
+    public static String nullableToString (@Nullable Object value) {
+        return value == null ? null : value.toString();
+    }
+
+    @NotNull
+    public static String toVisible (@Nullable Object value) {
+        return value == null ? "(null)" : value.toString();
     }
 
     /**

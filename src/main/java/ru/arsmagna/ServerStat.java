@@ -38,7 +38,6 @@ public final class ServerStat {
      * @param response Ответ сервера.
      * @return Статистика.
      */
-    @NotNull
     public static ServerStat parse (@NotNull ServerResponse response) {
         if (response == null) { throw new IllegalArgumentException(); }
 

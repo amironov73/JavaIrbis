@@ -15,3 +15,5 @@ build_script:
 artifacts:
 - path: target\*.jar
   name: JAR
+
+test: off
