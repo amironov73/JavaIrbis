@@ -45,7 +45,7 @@ public final class RecordField implements Cloneable {
     /**
      * Подполя.
      */
-    public Collection<SubField> subFields;
+    public final Collection<SubField> subFields = new ArrayList<>();
 
     /**
      * Произвольные пользовательские данные.
@@ -59,7 +59,6 @@ public final class RecordField implements Cloneable {
      * Default constructor.
      */
     public RecordField() {
-        subFields = new ArrayList<>();
     }
 
     /**
@@ -68,7 +67,6 @@ public final class RecordField implements Cloneable {
      * @param tag The field tag.
      */
     public RecordField (int tag) {
-        subFields = new ArrayList<>();
         this.tag = tag;
     }
 
@@ -79,7 +77,6 @@ public final class RecordField implements Cloneable {
      * @param value The field value.
      */
     public RecordField (int tag, @Nullable String value) {
-        subFields = new ArrayList<>();
         this.tag = tag;
         this.value = value;
     }
@@ -90,7 +87,6 @@ public final class RecordField implements Cloneable {
      * @param subFields Sub-fields.
      */
     public RecordField (int tag, SubField... subFields) {
-        this.subFields = new ArrayList<>();
         this.tag = tag;
         for (SubField subField: subFields) {
             this.subFields.add(subField);

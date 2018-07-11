@@ -8,7 +8,7 @@ public class IniLineTest {
     @Test
     public void toString_1() {
         IniLine line = new IniLine();
-        assertEquals("null=null", line.toString());
+        assertEquals("(null)=", line.toString());
 
         line = new IniLine("a", "Hello");
         assertEquals("a=Hello", line.toString());

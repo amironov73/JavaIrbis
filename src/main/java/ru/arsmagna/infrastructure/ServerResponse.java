@@ -15,7 +15,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * Ответ сервера.
  */
-public final class ServerResponse implements Closeable {
+public final class ServerResponse implements AutoCloseable {
 
     /**
      * Код команды.

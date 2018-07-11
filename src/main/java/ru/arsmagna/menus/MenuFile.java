@@ -103,7 +103,9 @@ public final class MenuFile {
      * @return Loaded menu.
      */
     public static MenuFile parse (@NotNull File file) throws IOException {
-        if (file == null) { throw new IllegalArgumentException(); }
+        if (file == null) {
+            throw new IllegalArgumentException();
+        }
 
         try (FileInputStream stream = new FileInputStream(file)) {
             try (Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name())) {

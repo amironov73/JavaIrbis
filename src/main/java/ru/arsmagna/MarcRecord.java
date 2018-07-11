@@ -37,7 +37,7 @@ public final class MarcRecord implements Cloneable {
      */
     public int version;
 
-    public Collection<RecordField> fields;
+    public final Collection<RecordField> fields = new ArrayList<>();
 
     /**
      * Библиографическое описание.
@@ -62,12 +62,11 @@ public final class MarcRecord implements Cloneable {
 
     //=========================================================================
 
-    /**
-     * Default constructor.
-     */
-    public MarcRecord() {
-        fields = new ArrayList<>();
-    }
+//    /**
+//     * Default constructor.
+//     */
+//    public MarcRecord() {
+//    }
 
     //=========================================================================
 

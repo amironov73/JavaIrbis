@@ -63,6 +63,6 @@ public final class IniLine {
     @Override
     @Contract(pure = true)
     public String toString() {
-        return key + "=" + nullToEmpty(value);
+        return Utility.toVisible(key) + "=" + nullToEmpty(value);
     }
 }
