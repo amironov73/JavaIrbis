@@ -89,6 +89,9 @@ public final class UserInfo {
 
         for (int i = 0; i < userCount; i++) {
             String[] lines = response.readAnsi(linesPerUser + 1);
+            if (lines == null) {
+                break;
+            }
             if (lines.length == 0) {
                 break;
             }

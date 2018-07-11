@@ -2,15 +2,12 @@ package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import ru.arsmagna.IrbisEncoding;
 import ru.arsmagna.IrbisException;
 import ru.arsmagna.Utility;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import static ru.arsmagna.Utility.isNullOrEmpty;
@@ -18,7 +15,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * Ответ сервера.
  */
-public final class ServerResponse {
+public final class ServerResponse implements Closeable {
 
     /**
      * Код команды.
@@ -42,29 +39,29 @@ public final class ServerResponse {
 
     //=========================================================================
 
-    private ByteArrayInputStream stream;
+    //private ByteArrayInputStream stream;
+    private Socket socket;
+    private InputStream stream;
+
+    private int savedSymbol;
 
     //=========================================================================
 
     /**
      * Конструктор.
      *
-     * @param networkStream Поток с ответом сервера.
+     * @param socket Сокет
      * @throws IOException Ошибка ввода-вывода.
      */
-    public ServerResponse (@NotNull InputStream networkStream) throws IOException {
-        if (networkStream == null) { throw new IllegalArgumentException(); }
-
-        ByteArrayOutputStream memory = new ByteArrayOutputStream();
-        byte[] buffer = new byte[32 * 1024];
-        while (true) {
-            int read = networkStream.read(buffer);
-            if (read <= 0) {
-                break;
-            }
-            memory.write(buffer, 0, read);
+    public ServerResponse(@NotNull Socket socket) throws IOException {
+        if (socket == null) {
+            throw new IllegalArgumentException();
         }
-        stream = new ByteArrayInputStream(memory.toByteArray());
+
+        this.socket = socket;
+        stream = new BufferedInputStream(socket.getInputStream());
+        savedSymbol = -1;
+
         command = readAnsi();
         clientId = readInt32();
         queryId = readInt32();
@@ -75,13 +72,9 @@ public final class ServerResponse {
 
     //=========================================================================
 
-    /**
-     * Достигнут конец?
-     *
-     * @return Флаг конца.
-     */
-    public boolean isEof() {
-        return stream.available() == 0;
+    @Override
+    public void close() throws IOException {
+        socket.close();
     }
 
     /**
@@ -90,7 +83,7 @@ public final class ServerResponse {
      * @param allowed Разрешенные коды.
      * @throws IrbisException
      */
-    public void checkReturnCode (int[] allowed) throws IrbisException {
+    public void checkReturnCode(int[] allowed) throws IrbisException {
         if (getReturnCode() < 0) {
             if (Utility.find(allowed, returnCode) < 0) {
                 throw new IrbisException(returnCode);
@@ -107,21 +100,33 @@ public final class ServerResponse {
     public byte[] getLine() {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
 
-        while (true) {
-            int one = stream.read();
-            if (one < 0) {
-                break;
-            }
-            if (one == 0x0D) {
-                one = stream.read();
-                if (one == 0x0A) {
-                    break;
+        try {
+            while (true) {
+                int one;
+
+                if (savedSymbol >= 0) {
+                    one = savedSymbol;
+                    savedSymbol = -1;
                 } else {
-                    // stream.pushBack();
+                    one = stream.read();
                 }
-            } else {
-                result.write(one);
+
+                if (one < 0) {
+                    break;
+                }
+                if (one == 0x0D) {
+                    one = stream.read();
+                    if (one == 0x0A) {
+                        break;
+                    } else {
+                        savedSymbol = one;
+                    }
+                } else {
+                    result.write(one);
+                }
             }
+        } catch (IOException ex) {
+            return new byte[0];
         }
 
         return result.toByteArray();
@@ -145,7 +150,7 @@ public final class ServerResponse {
      * @param count
      * @return
      */
-    public String[] readAnsi (int count) {
+    public String[] readAnsi(int count) {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             String line = readAnsi();
@@ -167,8 +172,11 @@ public final class ServerResponse {
 
     public final String[] readRemainingAnsiLines() {
         ArrayList<String> result = new ArrayList<>();
-        while (!isEof()) {
+        while (true) {
             String line = readAnsi();
+            if (isNullOrEmpty(line)){
+                break;
+            }
             result.add(line);
         }
 
@@ -177,8 +185,11 @@ public final class ServerResponse {
 
     public final String[] readRemainingUtfLines() {
         ArrayList<String> result = new ArrayList<>();
-        while (!isEof()) {
+        while (true) {
             String line = readUtf();
+            if (isNullOrEmpty(line)){
+                break;
+            }
             result.add(line);
         }
 
@@ -218,7 +229,7 @@ public final class ServerResponse {
      * @return
      */
     @Nullable
-    public final String[] readUtf (int count) {
+    public final String[] readUtf(int count) {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             String line = readUtf();

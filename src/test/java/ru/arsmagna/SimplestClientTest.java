@@ -10,18 +10,29 @@ import ru.arsmagna.search.TermPosting;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class SimplestClientTest {
-    @Ignore
-    @Test
+
+    private void waitForAWhile()
+    {
+        System.out.println("Waiting...");
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Ignore @Test
     public void testConnection() throws IOException, IrbisException {
         IrbisConnection connection = new IrbisConnection();
-        System.out.printf("Connected=%d", connection.isConnected() ? 1 : 0);
+        System.out.printf("Connected=%d%n", connection.isConnected() ? 1 : 0);
         connection.username = "user";
         connection.password = "password";
         connection.workstation = 'A';
         connection.connect();
-        System.out.printf("Connected=%d", connection.isConnected() ? 1 : 0);
+        System.out.printf("Connected=%d%n", connection.isConnected() ? 1 : 0);
 
         IrbisVersion version = connection.getServerVersion();
         System.out.println(version);
@@ -70,6 +81,7 @@ public class SimplestClientTest {
         formatted = connection.formatRecord(format, record);
         System.out.println(formatted);
 
+        System.out.println("BEGIN TERMS");
         TermParameters parameters = new TermParameters();
         parameters.database = "IBIS";
         parameters.startTerm = "K=";
@@ -78,7 +90,9 @@ public class SimplestClientTest {
         for (TermInfo term : terms) {
             System.out.println(term);
         }
+        System.out.println("END TERMS");
 
+        System.out.println("BEGIN POSTINGS");
         PostingParameters postingParameters = new PostingParameters();
         postingParameters.database = "IBIS";
         postingParameters.term = "K=&C";
@@ -88,6 +102,7 @@ public class SimplestClientTest {
         for (TermPosting posting : postings) {
             System.out.println(posting);
         }
+        System.out.println("END POSTINGS");
 
         specification = new FileSpecification(IrbisPath.MASTER_FILE, "IBIS", "NAZN.MNU");
         MenuFile menu = MenuFile.read(connection, specification);
@@ -117,9 +132,11 @@ public class SimplestClientTest {
         connection.writeTextFile(specification);
 
         String noSuchBase = "NOSUCH";
+        waitForAWhile();
         connection.createDatabase(noSuchBase, "Description", true);
         System.out.println("Database created");
 
+        waitForAWhile();
         records = new MarcRecord[10];
         for (int i = 0; i < records.length; i++) {
             records[i] = new MarcRecord();
@@ -129,34 +146,45 @@ public class SimplestClientTest {
         connection.writeRecords(records, false, false, true);
         System.out.println("Records saved");
 
+        waitForAWhile();
         connection.createDictionary(noSuchBase);
         System.out.println("Dictionary created");
 
+        waitForAWhile();
         connection.reloadMasterFile(noSuchBase);
         System.out.println("Master file reloaded");
 
+        waitForAWhile();
         connection.reloadDictionary(noSuchBase);
-        System.out.printf("Dictionary reloaded");
+        System.out.println("Dictionary reloaded");
 
+        waitForAWhile();
         connection.truncateDatabase(noSuchBase);
         System.out.println("Database truncated");
 
+        waitForAWhile();
         connection.unlockDatabase(noSuchBase);
         System.out.println("Database unlocked");
 
+        waitForAWhile();
         connection.deleteDatabase(noSuchBase);
         System.out.println("Database deleted");
 
+        waitForAWhile();
         connection.actualizeRecord("IBIS", 1);
         System.out.println("Record actualized");
 
         int[] mfns = new int[]{1, 2, 3};
+        waitForAWhile();
         connection.unlockRecords("IBIS", mfns);
         System.out.println("Records unlocked");
 
+        waitForAWhile();
         connection.restartServer();
         System.out.println("Server restarted");
 
+        waitForAWhile();
         connection.disconnect();
+        System.out.println("Disconnected");
     }
 }

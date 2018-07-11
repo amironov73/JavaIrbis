@@ -1,66 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AnalysisUIOptions">
-    <option name="ANALYZE_TEST_SOURCES" value="false" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="899efdef-52dd-4e28-b841-176e0ce92e6e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/AMironov.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/FileAvailabilityTest.java" afterDir="false" />
+    <list default="true" id="899efdef-52dd-4e28-b841-176e0ce92e6e" name="Default" comment="Fix some FindBugs issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaIrbis.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/ClientInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/ClientInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/DatabaseInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/DatabaseInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/EmbeddedField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/EmbeddedField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/FileSpecification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/FileSpecification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniSection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniSection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisEncoding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisEncoding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisProcessInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisProcessInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisVersion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/MarcRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/MarcRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/ProtocolText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/ProtocolText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/RecordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/RecordField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/RecordStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/RecordStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/ServerStat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/ServerStat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/SubField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/SubField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/TableDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/TableDefinition.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/Utility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/MstControlRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/MstControlRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeLeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeLeader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ClientQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ClientQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/CommandCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/CommandCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/DictionaryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/DictionaryType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/PostingParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/PostingParameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/SearchLogicType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/SearchLogicType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/SearchParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/SearchParameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/SearchScenario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/SearchScenario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermParameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermPosting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermPosting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/EditMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/EditMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WorksheetItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WorksheetItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WorksheetPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WorksheetPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WsFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WsFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WssFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WssFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/EmbeddedFieldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/EmbeddedFieldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/IniFileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/IniFileTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/IniLineTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/IniLineTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/IniSectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/IniSectionTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/SubFieldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/SubFieldTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -79,97 +26,52 @@
     </option>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TermInfo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermInfo.java">
+    <leaf>
+      <file leaf-file-name="IrbisConnection.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisConnection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-408">
-              <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+            <state relative-caret-position="193">
+              <caret line="538" column="49" selection-start-line="538" selection-start-column="49" selection-end-line="538" selection-end-column="49" />
               <folding>
-                <element signature="e#1748#1749#0" expanded="true" />
-                <element signature="e#1789#1790#0" expanded="true" />
+                <element signature="e#10325#10326#0" expanded="true" />
+                <element signature="e#10360#10361#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorksheetItem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WorksheetItem.java">
+      <file leaf-file-name="SimplestClientTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-932">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="313">
+              <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorksheetPage.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WorksheetPage.java">
+      <file leaf-file-name="UserInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-140">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="217">
+              <caret line="92" column="22" selection-start-line="92" selection-start-column="22" selection-end-line="92" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WsFile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WsFile.java">
+      <file leaf-file-name="ServerResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NodeRecord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeRecord.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-356">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NodeLeader.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeLeader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-236">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NodeItem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeItem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-188">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MstControlRecord.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/MstControlRecord.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TermPosting.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermPosting.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="71" selection-start-line="71" selection-end-line="71" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TermParameters.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermParameters.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-716">
-              <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+            <state relative-caret-position="259">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -202,8 +104,6 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermParameters.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WssFile.java" />
-        <option value="$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisConnection.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisVersion.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/ClientInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/DatabaseInfo.java" />
@@ -212,7 +112,6 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniSection.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisProcessInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisText.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/MarcRecord.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/ProtocolText.java" />
@@ -221,9 +120,7 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/ServerStat.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/SubField.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/TableDefinition.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ClientQuery.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuEntry.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/search/SearchScenario.java" />
@@ -235,6 +132,11 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeRecord.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/NodeItem.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/MstControlRecord.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisProcessInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisConnection.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java" />
       </list>
     </option>
   </component>
@@ -282,8 +184,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -324,43 +224,7 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="arsmagna" type="462c0819:PsiDirectoryNode" />
-              <item name="direct" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JavaIrbis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JavaIrbis" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="arsmagna" type="462c0819:PsiDirectoryNode" />
               <item name="infrastructure" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JavaIrbis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JavaIrbis" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="arsmagna" type="462c0819:PsiDirectoryNode" />
-              <item name="menus" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JavaIrbis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JavaIrbis" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="arsmagna" type="462c0819:PsiDirectoryNode" />
-              <item name="search" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JavaIrbis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JavaIrbis" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="arsmagna" type="462c0819:PsiDirectoryNode" />
-              <item name="worksheet" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="JavaIrbis" type="b2602c69:ProjectViewProjectNode" />
@@ -388,9 +252,12 @@
         </subPane>
       </pane>
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="IrbisPro&#9;FILE&#9;file://D:/Projects/JavaIrbis/src/main/java/ru/arsmagna/IrbisProcessInfo.java" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -415,7 +282,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.FileAvailabilityTest.PrintCurrentDirectory">
+  <component name="RunManager" selected="JUnit.SimplestClientTest.testConnection">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
@@ -512,8 +379,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FileAvailabilityTest.PrintCurrentDirectory" />
         <item itemvalue="JUnit.SimplestClientTest.testConnection" />
+        <item itemvalue="JUnit.FileAvailabilityTest.PrintCurrentDirectory" />
       </list>
     </recent_temporary>
   </component>
@@ -525,14 +392,46 @@
       <option name="presentableId" value="Default" />
       <updated>1531019026992</updated>
     </task>
+    <task id="LOCAL-00001" summary="Fix some FindBugs issues">
+      <created>1531194544565</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1531194544565</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SimplestClientTest_testConnection - 2018.07.08 at 11h 42m 20s.xml">
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 34m 53s.xml">
       <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="FileAvailabilityTest_PrintCurrentDirectory - 2018.07.09 at 08h 29m 10s.xml">
-      <configuration name="FileAvailabilityTest.PrintCurrentDirectory" configurationId="JUnit" />
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 35m 03s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 36m 03s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 36m 52s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 37m 57s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 42m 51s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 43m 46s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 46m 36s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 49m 37s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SimplestClientTest_testConnection - 2018.07.11 at 09h 52m 00s.xml">
+      <configuration name="SimplestClientTest.testConnection" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -550,7 +449,7 @@
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32943678" />
-      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" visible="true" weight="0.32943678" />
+      <window_info active="true" anchor="bottom" id="FindBugs-IDEA" order="7" visible="true" weight="0.32943678" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.32943678" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
@@ -563,7 +462,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32943678" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26150393" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2671156" />
       <window_info anchor="bottom" id="Statistic" order="7" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32943678" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -571,7 +470,7 @@
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3995749" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -583,9 +482,15 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Fix some FindBugs issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix some FindBugs issues" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="6" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -600,9 +505,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="16" column="45" lean-forward="true" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -610,9 +512,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="5" selection-start-line="2" selection-end-line="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -648,9 +547,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="5" selection-start-line="2" selection-end-line="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -658,10 +554,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="292">
           <caret line="45" selection-start-line="45" selection-end-line="45" />
-          <folding>
-            <element signature="e#907#908#0" expanded="true" />
-            <element signature="e#947#948#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -669,9 +561,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -686,27 +575,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="384">
           <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="119" column="65" selection-start-line="119" selection-start-column="65" selection-end-line="119" selection-end-column="65" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="689" selection-start-line="689" selection-end-line="689" />
-          <folding>
-            <element signature="e#9160#9161#0" expanded="true" />
-            <element signature="e#9195#9196#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -766,21 +634,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-          <folding>
-            <element signature="e#218#219#0" expanded="true" />
-            <element signature="e#260#261#0" expanded="true" />
-            <element signature="e#305#306#0" expanded="true" />
-            <element signature="e#335#336#0" expanded="true" />
-            <element signature="e#382#383#0" expanded="true" />
-            <element signature="e#410#411#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisProcessInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2136">
-          <caret line="134" column="4" selection-start-line="134" selection-start-column="4" selection-end-line="134" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -820,9 +673,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-380">
           <caret line="38" selection-start-line="38" selection-end-line="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -854,13 +704,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1776">
           <caret line="76" selection-start-line="76" selection-end-line="76" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2408#2409#0" expanded="true" />
-            <element signature="e#2458#2459#0" expanded="true" />
-            <element signature="e#2819#2820#0" expanded="true" />
-            <element signature="e#2860#2861#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -878,33 +721,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="131" selection-start-line="131" selection-end-line="131" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ClientQuery.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="18" selection-start-line="18" selection-end-line="18" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding>
-            <element signature="e#1979#1980#0" expanded="true" />
-            <element signature="e#2025#2026#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -956,7 +778,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/search/TermParameters.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-716">
+        <state relative-caret-position="-406">
           <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
         </state>
       </provider>
@@ -1016,8 +838,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/MstControlRecord.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+        <state relative-caret-position="-574">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="92" column="22" selection-start-line="92" selection-start-column="22" selection-end-line="92" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisProcessInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="538" column="49" selection-start-line="538" selection-start-column="49" selection-end-line="538" selection-end-column="49" />
+          <folding>
+            <element signature="e#10325#10326#0" expanded="true" />
+            <element signature="e#10360#10361#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -146,7 +146,6 @@ public final class IrbisProcessInfo {
                 ", commandNumber='" + commandNumber + '\'' +
                 ", processId='" + processId + '\'' +
                 ", state='" + state + '\'' +
-                ", userData=" + userData +
                 '}';
     }
 }
