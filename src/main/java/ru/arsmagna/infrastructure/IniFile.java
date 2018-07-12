@@ -15,6 +15,7 @@ import static ru.arsmagna.infrastructure.IniLine.sameKey;
 /**
  * INI-файл.
  */
+@SuppressWarnings({"UnnecessaryLocalVariable", "unused", "WeakerAccess"})
 public final class IniFile {
 
     /**
@@ -80,10 +81,6 @@ public final class IniFile {
     }
 
     public static IniFile parse(@NotNull Scanner scanner) {
-        if (scanner == null) {
-            throw new IllegalArgumentException();
-        }
-
         IniFile result = new IniFile();
         IniSection section = null;
         while (scanner.hasNext()) {
@@ -110,8 +107,6 @@ public final class IniFile {
     }
 
     public static IniFile parse(@NotNull File file) throws IOException {
-        if (file == null) { throw new IllegalArgumentException(); }
-
         try (FileInputStream stream = new FileInputStream(file)) {
             try (Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name())) {
                 IniFile result = parse(scanner);
@@ -124,8 +119,6 @@ public final class IniFile {
     }
 
     public static IniFile parse (@NotNull ServerResponse response) throws IOException {
-        if (response == null) { throw new IllegalArgumentException(); }
-
         String text = response.readRemainingAnsiText();
         StringReader reader = new StringReader(text);
         Scanner scanner = new Scanner(reader);
@@ -134,7 +127,8 @@ public final class IniFile {
         return result;
     }
 
-    public IniFile setValue(@Nullable String sectionName, @NotNull String key, @Nullable String value) {
+    public IniFile setValue(@Nullable String sectionName, @NotNull String key,
+                            @Nullable String value) {
         IniSection section = getOrCreateSection(sectionName);
         section.setValue(key, value);
 

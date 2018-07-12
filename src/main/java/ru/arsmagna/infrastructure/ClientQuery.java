@@ -15,6 +15,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * Клиентский запрос.
  */
+@SuppressWarnings({"WeakerAccess", "UnnecessaryLocalVariable"})
 public final class ClientQuery {
 
     private ByteArrayOutputStream stream;
@@ -27,9 +28,8 @@ public final class ClientQuery {
      * @param connection  Подключение.
      * @param commandCode Код команды.
      */
-    public ClientQuery (@NotNull IrbisConnection connection, @NotNull String commandCode) throws IOException {
-        if (connection == null || isNullOrEmpty(commandCode)) { throw new IllegalArgumentException(); }
-
+    public ClientQuery (@NotNull IrbisConnection connection, @NotNull String commandCode)
+            throws IOException {
         stream = new ByteArrayOutputStream();
         addAnsi(commandCode);
         addAnsi(Character.valueOf(connection.workstation).toString());
@@ -81,12 +81,10 @@ public final class ClientQuery {
     }
 
     @NotNull
-    public final byte[] encode() {
+    public final byte[][] encode() {
         byte[] buffer = stream.toByteArray();
         byte[] prefix = IrbisEncoding.ansi().encode(buffer.length + "\n").array();
-        byte[] result = new byte[prefix.length + buffer.length];
-        System.arraycopy(prefix, 0, result, 0, prefix.length);
-        System.arraycopy(buffer, 0, result, prefix.length, buffer.length);
+        byte[][] result = { prefix, buffer };
 
         return result;
     }

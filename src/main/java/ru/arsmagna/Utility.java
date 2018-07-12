@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -149,6 +150,7 @@ public class Utility {
     }
 
     @NotNull
+    @Contract(pure = true)
     public static String nullToEmpty (@Nullable String value) {
         return value == null ? "" : value;
     }

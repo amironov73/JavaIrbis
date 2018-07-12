@@ -2,6 +2,7 @@ package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import ru.arsmagna.IrbisEncoding;
 import ru.arsmagna.IrbisException;
 import ru.arsmagna.Utility;
@@ -15,6 +16,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * Ответ сервера.
  */
+@SuppressWarnings({"WeakerAccess", "unused", "UnnecessaryLocalVariable"})
 public final class ServerResponse implements AutoCloseable {
 
     /**
@@ -54,10 +56,6 @@ public final class ServerResponse implements AutoCloseable {
      * @throws IOException Ошибка ввода-вывода.
      */
     public ServerResponse(@NotNull Socket socket) throws IOException {
-        if (socket == null) {
-            throw new IllegalArgumentException();
-        }
-
         this.socket = socket;
         stream = new BufferedInputStream(socket.getInputStream());
         savedSymbol = -1;
@@ -81,7 +79,7 @@ public final class ServerResponse implements AutoCloseable {
      * Проверка кода возврата.
      *
      * @param allowed Разрешенные коды.
-     * @throws IrbisException
+     * @throws IrbisException Bad return code.
      */
     public void checkReturnCode(int[] allowed) throws IrbisException {
         if (getReturnCode() < 0) {
@@ -138,6 +136,9 @@ public final class ServerResponse implements AutoCloseable {
         return returnCode;
     }
 
+    public void nop() {
+    }
+
     public String readAnsi() {
         byte[] line = getLine();
 
@@ -147,8 +148,8 @@ public final class ServerResponse implements AutoCloseable {
     /**
      * Считывание не менее указанного количества строк.
      *
-     * @param count
-     * @return
+     * @param count How many strings to read.
+     * @return Read string or null.
      */
     @Nullable
     public String[] readAnsi(int count) {
@@ -227,8 +228,8 @@ public final class ServerResponse implements AutoCloseable {
     /**
      * Считывание не менее указанного количества строк.
      *
-     * @param count
-     * @return
+     * @param count How many lines to read.
+     * @return Read lines or null.
      */
     @Nullable
     public final String[] readUtf(int count) {
