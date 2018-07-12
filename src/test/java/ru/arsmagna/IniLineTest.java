@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
 import org.junit.Test;
+import ru.arsmagna.infrastructure.IniLine;
 
 import static org.junit.Assert.assertEquals;
 

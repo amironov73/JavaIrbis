@@ -2,6 +2,7 @@ package ru.arsmagna;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.arsmagna.infrastructure.IniFile;
 import ru.arsmagna.menus.MenuFile;
 import ru.arsmagna.search.PostingParameters;
 import ru.arsmagna.search.TermInfo;

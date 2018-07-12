@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Scanner;
 
 import static ru.arsmagna.Utility.isNullOrEmpty;
-import static ru.arsmagna.Utility.nullToEmpty;
 
 /**
  * Файл меню.
@@ -42,7 +41,7 @@ public final class MenuFile {
     /**
      * Строки меню.
      */
-    public Collection<MenuEntry> entries;
+    public final Collection<MenuEntry> entries;
 
     //=========================================================================
 
@@ -165,6 +164,7 @@ public final class MenuFile {
      * @return Собственно меню.
      */
     @NotNull
+    @SuppressWarnings("UnusedReturnValue")
     public MenuFile add (@NotNull String code, @Nullable String comment) {
         MenuEntry entry = new MenuEntry(code, comment);
         entries.add(entry);

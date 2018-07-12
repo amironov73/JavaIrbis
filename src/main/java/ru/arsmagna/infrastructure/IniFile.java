@@ -1,16 +1,16 @@
-package ru.arsmagna;
+package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import ru.arsmagna.infrastructure.ServerResponse;
+import ru.arsmagna.IrbisEncoding;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
 
-import static ru.arsmagna.IniLine.sameKey;
+import static ru.arsmagna.infrastructure.IniLine.sameKey;
 
 /**
  * INI-файл.
@@ -25,7 +25,7 @@ public final class IniFile {
     /**
      * Секции.
      */
-    public Collection<IniSection> sections;
+    public final Collection<IniSection> sections;
 
     //=========================================================================
 

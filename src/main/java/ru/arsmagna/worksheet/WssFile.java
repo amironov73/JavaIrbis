@@ -17,7 +17,7 @@ public class WssFile {
     /**
      * Элементы рабочего листа.
      */
-    public Collection<WorksheetItem> items;
+    public final Collection<WorksheetItem> items;
 
     /**
      * Произвольные пользовательские данные.

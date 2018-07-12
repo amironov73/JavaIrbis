@@ -1,10 +1,24 @@
 package ru.arsmagna;
 
 import org.junit.Test;
+import ru.arsmagna.infrastructure.IniFile;
 
-public class IniFileTest {
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.Assert.*;
+
+public class IniFileTest extends TestBase {
+
     @Test
-    public void construction_1() {
+    public void parse_1() throws IOException {
+        File file = getFile("IniFile1.ini");
+        IniFile iniFile = IniFile.parse(file);
+        String actual = iniFile.getValue("Main", "FirstParameter");
+        String expected = "1";
+        assertEquals(expected, actual);
 
+        actual = iniFile.getValue("Main", "ThirdParameter");
+        assertNull(actual);
     }
 }

@@ -2,7 +2,7 @@ package ru.arsmagna.search;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import ru.arsmagna.Utility;
+
 import ru.arsmagna.infrastructure.ServerResponse;
 
 import java.util.ArrayList;

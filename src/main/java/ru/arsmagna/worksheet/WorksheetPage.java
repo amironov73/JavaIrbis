@@ -18,7 +18,7 @@ public class WorksheetPage {
     /**
      * Элементы страницы.
      */
-    public Collection<WorksheetItem> items;
+    public final Collection<WorksheetItem> items;
 
     /**
      * Произвольные пользовательские данные.

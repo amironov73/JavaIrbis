@@ -1,7 +1,6 @@
 package ru.arsmagna.search;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Сценарий поиска.

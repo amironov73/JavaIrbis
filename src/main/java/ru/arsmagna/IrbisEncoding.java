@@ -15,6 +15,7 @@ public final class IrbisEncoding {
      * @return UTF-8 encoding.
      */
     @NotNull
+    @SuppressWarnings("SameReturnValue")
     public static Charset utf() {
         return StandardCharsets.UTF_8;
     }
@@ -25,7 +26,15 @@ public final class IrbisEncoding {
      * @return CP1251 encoding.
      */
     @NotNull
-    public static Charset ansi() {
-        return Charset.forName("windows-1251");
+    public static synchronized Charset ansi() {
+        if (_windows1251 == null) {
+            _windows1251 = Charset.forName("windows-1251");
+        }
+
+        return _windows1251;
     }
+
+    //=========================================================================
+
+    private static Charset _windows1251;
 }

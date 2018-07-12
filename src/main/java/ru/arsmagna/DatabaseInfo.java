@@ -1,7 +1,6 @@
 package ru.arsmagna;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Информация о базе данных ИРБИС.

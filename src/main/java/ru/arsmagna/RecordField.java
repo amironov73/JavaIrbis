@@ -121,6 +121,7 @@ public final class RecordField implements Cloneable {
         return this;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public RecordField assignFrom(@NotNull RecordField other) {
         if (other == null) {
             throw new IllegalArgumentException();
@@ -145,6 +146,7 @@ public final class RecordField implements Cloneable {
         return this;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public RecordField clear() {
         value = null;
         subFields.clear();

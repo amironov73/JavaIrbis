@@ -1,4 +1,4 @@
-package ru.arsmagna;
+package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static ru.arsmagna.IniLine.sameKey;
+import static ru.arsmagna.infrastructure.IniLine.sameKey;
 import static ru.arsmagna.Utility.isNullOrEmpty;
 
 /**
@@ -22,7 +22,7 @@ public final class IniSection {
     /**
      * Lines collection.
      */
-    public Collection<IniLine> lines;
+    public final Collection<IniLine> lines;
 
     //=========================================================================
 
@@ -114,6 +114,7 @@ public final class IniSection {
      * @param key   Key to search for.
      * @param value Value to set (can be null).
      */
+    @SuppressWarnings("UnusedReturnValue")
     public IniSection setValue(@NotNull String key, @Nullable String value) {
         if (isNullOrEmpty(key)) {
             throw new IllegalArgumentException();

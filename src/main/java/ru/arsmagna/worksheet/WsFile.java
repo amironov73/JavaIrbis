@@ -18,7 +18,7 @@ public class WsFile {
     /**
      * Страницы рабочего листа.
      */
-    public Collection<WorksheetPage> pages;
+    public final Collection<WorksheetPage> pages;
 
     /**
      * Произвольные пользовательские данные.
