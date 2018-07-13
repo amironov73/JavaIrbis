@@ -7,6 +7,8 @@ build_script:
 - cmd: >-
     cd c:\projects\javairbis
 
+    utils\PomPatcher pom.xml %APPVEYOR_BUILD_VERSION%
+
     mvn --version
 
     mvn package
