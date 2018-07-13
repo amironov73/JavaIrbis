@@ -3,6 +3,7 @@ package ru.arsmagna;
 /**
  * Данные для команды TableCommand.
  */
+@SuppressWarnings("WeakerAccess")
 public final class TableDefinition {
 
     /**

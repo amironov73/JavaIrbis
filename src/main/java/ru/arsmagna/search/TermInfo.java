@@ -12,6 +12,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * Информация о поисковом терме.
  */
+@SuppressWarnings("WeakerAccess")
 public final class TermInfo implements Cloneable {
 
     /**

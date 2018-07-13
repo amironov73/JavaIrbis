@@ -16,7 +16,7 @@ import static ru.arsmagna.Utility.nullToEmpty;
  * PAR-file.
  */
 @SuppressWarnings({"UnnecessaryLocalVariable", "WeakerAccess", "unused"})
-public class ParFile {
+public final class ParFile {
 
     /**
      * Extension.

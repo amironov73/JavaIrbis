@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  * Постинг терма.
  */
+@SuppressWarnings("WeakerAccess")
 public final class TermPosting implements Cloneable {
 
     /**

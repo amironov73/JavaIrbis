@@ -1,5 +1,6 @@
 package ru.arsmagna.infrastructure;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +16,10 @@ import java.util.Scanner;
 
 import static ru.arsmagna.Utility.isNullOrEmpty;
 
+/**
+ * OPT file.
+ */
+@SuppressWarnings({"unused", "WeakerAccess", "UnnecessaryLocalVariable"})
 public final class OptFile {
 
     public static final char WILDCARD = '+';
@@ -30,19 +35,12 @@ public final class OptFile {
     //=========================================================================
 
     @Nullable
+    @Contract(pure = true)
     public String getWorksheet(@NotNull MarcRecord record) {
-        if (record == null) {
-            throw new IllegalArgumentException();
-        }
-
         return record.fm(worksheetTag);
     }
 
     public static OptFile parse(@NotNull File file) throws IOException {
-        if (file == null) {
-            throw new IllegalArgumentException();
-        }
-
         try (FileInputStream stream = new FileInputStream(file)) {
             try (Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name())) {
                 OptFile result = parse(scanner);
@@ -53,15 +51,18 @@ public final class OptFile {
     }
 
     public static OptFile parse(@NotNull Scanner scanner) {
-        if (scanner == null) {
-            throw new IllegalArgumentException();
-        }
-
         OptFile result = new OptFile();
         result.worksheetTag = scanner.nextInt();
         result.worksheetLength = scanner.nextInt();
         while (scanner.hasNext()) {
             String text = scanner.nextLine();
+            if (isNullOrEmpty(text)) {
+                continue;
+            }
+            text = text.trim();
+            if (isNullOrEmpty(text)) {
+                continue;
+            }
             if (text.startsWith("*")) {
                 break;
             }
@@ -73,11 +74,8 @@ public final class OptFile {
         return result;
     }
 
-    public static OptFile parse (@NotNull ServerResponse response) throws IOException {
-        if (response == null) {
-            throw new IllegalArgumentException();
-        }
-
+    public static OptFile parse (@NotNull ServerResponse response)
+            throws IOException {
         String text = response.readRemainingAnsiText();
         StringReader reader = new StringReader(text);
         Scanner scanner = new Scanner(reader);
@@ -86,11 +84,9 @@ public final class OptFile {
         return result;
     }
 
-    public static OptFile read (@NotNull IrbisConnection connection, @NotNull FileSpecification specification) throws IOException {
-        if (connection == null) {
-            throw new IllegalArgumentException();
-        }
-
+    public static OptFile read (@NotNull IrbisConnection connection,
+                                @NotNull FileSpecification specification)
+            throws IOException {
         OptFile result;
         String text = connection.readTextFile(specification);
         if (isNullOrEmpty(text)) {
@@ -113,10 +109,6 @@ public final class OptFile {
     }
 
     public static boolean sameText(@NotNull String pattern, @NotNull String testable) {
-        if (pattern == null || testable == null) {
-            throw new IllegalArgumentException();
-        }
-
         if (pattern.length() == 0) {
             return false;
         }
@@ -162,8 +154,7 @@ public final class OptFile {
 
     public String resolveWorksheet(@NotNull String tag) throws IrbisException {
         for (OptLine line: lines) {
-            if (sameText(line.pattern, tag))
-            {
+            if (sameText(line.pattern, tag)) {
                 return line.worksheet;
             }
         }

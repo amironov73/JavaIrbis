@@ -3,6 +3,7 @@ package ru.arsmagna.search;
 /**
  * Тип словаря для соответствующего поиска.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class DictionaryType {
     /**
      * Стандартный словарь, содержащий алфавитный

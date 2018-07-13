@@ -6,6 +6,7 @@ package ru.arsmagna.direct;
  * базы данных или при ее инициализации) и поддерживается
  * автоматически.
  */
+@SuppressWarnings("WeakerAccess")
 public final class MstControlRecord {
 
     /**

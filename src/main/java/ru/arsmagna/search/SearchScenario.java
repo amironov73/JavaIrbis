@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Contract;
 /**
  * Сценарий поиска.
  */
+@SuppressWarnings("WeakerAccess")
 public final class SearchScenario {
     /**
      * Название поиска.

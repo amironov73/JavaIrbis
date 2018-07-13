@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Параметры для команды SearchCommand.
  */
+@SuppressWarnings("WeakerAccess")
 public final class SearchParameters implements Cloneable {
     /**
      * Имя базы данных.

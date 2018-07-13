@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * Текстовое представление записи, используемое
  * в протоколе ИРБИС64-сервер.
  */
+@SuppressWarnings("WeakerAccess")
 public final class ProtocolText {
     /**
      * Разделитель текста, используемый ИРБИС64.
@@ -18,8 +19,8 @@ public final class ProtocolText {
     /**
      * Encode the subfield.
      *
-     * @param builder
-     * @param subField
+     * @param builder StringBuilder to fill.
+     * @param subField Subfield.
      */
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     public static void encodeSubField (@NotNull StringBuilder builder, @NotNull SubField subField) {
@@ -31,8 +32,8 @@ public final class ProtocolText {
     /**
      * Encode the field.
      *
-     * @param builder
-     * @param field
+     * @param builder StringBuilder to fill.
+     * @param field Field.
      */
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     public static void encodeField (@NotNull StringBuilder builder, @NotNull RecordField field) {
@@ -47,7 +48,7 @@ public final class ProtocolText {
     /**
      * Кодирование записи в коиентское представление.
      *
-     * @param record
+     * @param record The record.
      * @return Закодированная запись.
      */
     @NotNull

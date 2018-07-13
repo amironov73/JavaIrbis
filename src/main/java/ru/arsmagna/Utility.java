@@ -13,6 +13,7 @@ import java.io.StringReader;
 /**
  * Вспомогательные методы, не вошедшие в прочие классы.
  */
+@SuppressWarnings("WeakerAccess")
 public class Utility {
     /**
      * Максимальное количество записей в пакете.

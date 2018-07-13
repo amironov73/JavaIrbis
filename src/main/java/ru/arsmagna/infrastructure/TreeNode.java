@@ -8,6 +8,7 @@ import java.util.LinkedList;
 /**
  * TRE-file line.
  */
+@SuppressWarnings("WeakerAccess")
 public final class TreeNode {
 
     /**

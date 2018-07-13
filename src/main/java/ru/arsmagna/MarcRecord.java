@@ -16,6 +16,7 @@ import static ru.arsmagna.Utility.nullableToString;
 /**
  * MARC record.
  */
+@SuppressWarnings("WeakerAccess")
 public final class MarcRecord implements Cloneable {
     /**
      * Database that contains the record.

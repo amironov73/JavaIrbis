@@ -11,6 +11,7 @@ import static ru.arsmagna.Utility.emptyToNull;
 /**
  * Информация о запущенном на сервере процессе.
  */
+@SuppressWarnings("WeakerAccess")
 public final class IrbisProcessInfo {
 
     /**

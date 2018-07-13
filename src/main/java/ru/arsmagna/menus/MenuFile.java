@@ -19,6 +19,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * Файл меню.
  */
+@SuppressWarnings("WeakerAccess")
 public final class MenuFile {
 
     /**

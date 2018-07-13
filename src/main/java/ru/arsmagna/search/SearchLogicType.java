@@ -4,6 +4,7 @@ package ru.arsmagna.search;
  * Какие логические операторы могут использоваться
  * для данного вида поиска.
  */
+@SuppressWarnings("WeakerAccess")
 public final class SearchLogicType {
     /**
      * только логика ИЛИ

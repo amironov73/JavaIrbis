@@ -3,6 +3,7 @@ package ru.arsmagna.worksheet;
 /**
  * Элемент рабочего листа.
  */
+@SuppressWarnings("WeakerAccess")
 public class WorksheetItem {
 
     /**

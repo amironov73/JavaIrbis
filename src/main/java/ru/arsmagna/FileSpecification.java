@@ -9,6 +9,7 @@ import java.util.Objects;
 /**
  * Путь на файл path.database.filename.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class FileSpecification {
     /**
      * Признак двоичного файла.

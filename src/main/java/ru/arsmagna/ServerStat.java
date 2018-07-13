@@ -13,6 +13,7 @@ import static ru.arsmagna.Utility.emptyToNull;
 /**
  * Статистика работы ИРБИС-сервера.
  */
+@SuppressWarnings("WeakerAccess")
 public final class ServerStat {
     /**
      * Подключенные клиенты.

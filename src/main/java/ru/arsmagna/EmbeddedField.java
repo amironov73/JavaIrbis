@@ -7,6 +7,7 @@ import java.util.ArrayList;
 /**
  * Работа со встроенными полями.
  */
+@SuppressWarnings("WeakerAccess")
 public final class EmbeddedField {
     /**
      * Код по умолчанию, используемый для встраивания полей.

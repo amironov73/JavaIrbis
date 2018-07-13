@@ -41,7 +41,6 @@ public final class ServerResponse implements AutoCloseable {
 
     //=========================================================================
 
-    //private ByteArrayInputStream stream;
     private Socket socket;
     private InputStream stream;
 

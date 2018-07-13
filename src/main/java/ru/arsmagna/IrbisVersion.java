@@ -7,6 +7,7 @@ import ru.arsmagna.infrastructure.ServerResponse;
 /**
  * Информация о версии ИРБИС-сервера.
  */
+@SuppressWarnings("WeakerAccess")
 public final class IrbisVersion {
 
     /**

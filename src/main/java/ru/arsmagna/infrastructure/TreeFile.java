@@ -12,6 +12,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * TRE-file.
  */
+@SuppressWarnings("WeakerAccess")
 public final class TreeFile {
 
     /**

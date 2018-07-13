@@ -18,6 +18,7 @@ import static ru.arsmagna.Utility.nullableToString;
 /**
  * MARC record field.
  */
+@SuppressWarnings("WeakerAccess")
 public final class RecordField implements Cloneable {
 
     /**
@@ -248,9 +249,9 @@ public final class RecordField implements Cloneable {
     /**
      * Разбор строки.
      *
-     * @param line
-     * @return
-     * @throws IOException
+     * @param line Text to parse.
+     * @return Parsed field.
+     * @throws IOException Error during input-output.
      */
     @NotNull
     public static RecordField parse (@NotNull String line) throws IOException {

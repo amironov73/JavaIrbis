@@ -9,6 +9,7 @@ import java.util.Collection;
  * Записи состоят из трех частей: лидера, справочника
  * и ключей переменной длины.
  */
+@SuppressWarnings("WeakerAccess")
 public class NodeRecord {
 
     /**

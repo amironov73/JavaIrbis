@@ -8,6 +8,7 @@ import java.util.Collection;
 /**
  * Вложенный рабочий лист (для редактирования поля).
  */
+@SuppressWarnings("WeakerAccess")
 public class WssFile {
     /**
      * Имя рабочего листа.

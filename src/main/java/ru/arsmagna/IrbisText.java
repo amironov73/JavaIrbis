@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Манипуляции с текстом, свойственные ИРБИС.
  */
+@SuppressWarnings("WeakerAccess")
 public final class IrbisText {
 
     /**

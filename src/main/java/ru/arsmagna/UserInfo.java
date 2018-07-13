@@ -14,6 +14,7 @@ import static ru.arsmagna.Utility.emptyToNull;
  * Информация о зарегистрированном пользователе системы
  * (по данным client_m.mnu).
  */
+@SuppressWarnings("WeakerAccess")
 public final class UserInfo {
 
     /**

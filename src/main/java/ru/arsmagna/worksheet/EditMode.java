@@ -3,6 +3,7 @@ package ru.arsmagna.worksheet;
 /**
  * Режим редактирования поля/подполя.
  */
+@SuppressWarnings("WeakerAccess")
 public class EditMode {
     /**
      * Ввод без дополнительной обработки.

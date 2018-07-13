@@ -8,6 +8,7 @@ import java.util.Collection;
 /**
  * Рабочий лист.
  */
+@SuppressWarnings("WeakerAccess")
 public class WsFile {
 
     /**

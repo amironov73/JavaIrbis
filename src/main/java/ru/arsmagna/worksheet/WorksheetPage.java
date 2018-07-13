@@ -8,6 +8,7 @@ import java.util.Collection;
 /**
  * Страница (вкладка) в рабочем листе.
  */
+@SuppressWarnings("WeakerAccess")
 public class WorksheetPage {
 
     /**

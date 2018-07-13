@@ -6,8 +6,10 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@SuppressWarnings("WeakerAccess")
 public class TestBase {
 
+    @SuppressWarnings("SameReturnValue")
     public String testResources() {
         return "./src/test/resources";
     }

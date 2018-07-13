@@ -18,7 +18,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 @SuppressWarnings({"WeakerAccess", "UnnecessaryLocalVariable"})
 public final class ClientQuery {
 
-    private ByteArrayOutputStream stream;
+    private final ByteArrayOutputStream stream;
 
     //=========================================================================
 

@@ -13,6 +13,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * INI-file section with name and lines.
  */
+@SuppressWarnings("WeakerAccess")
 public final class IniSection {
     /**
      * The section name. Can be null.
@@ -95,13 +96,9 @@ public final class IniSection {
 
     /**
      * Remove the line with the specified key.
-     * @param key
+     * @param key Key to remove.
      */
     public void remove(@NotNull String key) {
-        if (isNullOrEmpty(key)) {
-            throw new IllegalArgumentException();
-        }
-
         IniLine found = find(key);
         if (found != null) {
             lines.remove(found);

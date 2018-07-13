@@ -3,6 +3,7 @@ package ru.arsmagna;
 /**
  * Исключение, связанное с ИРБИС.
  */
+@SuppressWarnings("WeakerAccess")
 public class IrbisException extends Exception {
     public int errorCode;
 
