@@ -1,4 +1,4 @@
-package ru.arsmagna.menus;
+package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

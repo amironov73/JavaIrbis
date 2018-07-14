@@ -1,10 +1,9 @@
-package ru.arsmagna.menus;
+package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import ru.arsmagna.*;
-import ru.arsmagna.infrastructure.ServerResponse;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,8 +1,9 @@
-package ru.arsmagna.menus;
+package ru.arsmagna.infrastructure;
 
 import org.junit.Test;
 
 import ru.arsmagna.TestBase;
+import ru.arsmagna.infrastructure.MenuFile;
 
 import java.io.File;
 import java.io.IOException;
