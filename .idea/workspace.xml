@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="899efdef-52dd-4e28-b841-176e0ce92e6e" name="Default" comment="Add PomPatcher utility">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/amiro.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisFormat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/RawRecord.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/IrbisFormatTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/MenuEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/menus/MenuFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/MenuFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/SimplestClientTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/arsmagna/menus/MenuFileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/arsmagna/infrastructure/MenuFileTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisFormat.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -24,37 +18,41 @@
   <component name="CheckStyle-IDEA-workspace">
     <option name="configuration">
       <map>
-        <entry key="last-active-plugin-version" value="5.20.0" />
+        <entry key="last-active-plugin-version" value="5.21.0" />
       </map>
     </option>
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/JavaIrbis$IrbisFormatTest.ic" NAME="IrbisFormatTest Coverage Results" MODIFIED="1531900856368" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>ru.arsmagna.*</FILTER>
+    </SUITE>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="JavaIrbis" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RawRecord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/RawRecord.java">
+      <file leaf-file-name="IrbisFormat.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisFormat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            <state relative-caret-position="312">
+              <caret line="25" column="42" lean-forward="true" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#235#280#0" expanded="true" />
-                <element signature="e#741#742#0" expanded="true" />
-                <element signature="e#764#765#0" expanded="true" />
-                <element signature="e#2151#2152#0" expanded="true" />
-                <element signature="e#2186#2187#0" expanded="true" />
+                <element signature="e#155#200#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IrbisFormat.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisFormat.java">
+      <file leaf-file-name="IrbisFormatTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ru/arsmagna/IrbisFormatTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="682">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="1680">
+              <caret line="70" column="33" selection-start-line="70" selection-start-column="33" selection-end-line="70" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -64,8 +62,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit4 Test Class" />
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
@@ -75,7 +73,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/direct/MstControlRecord.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/UserInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisProcessInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IniSection.java" />
@@ -125,6 +122,7 @@
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ClientQuery.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/ServerResponse.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/RawRecord.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ru/arsmagna/IrbisFormatTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisFormat.java" />
       </list>
     </option>
@@ -173,9 +171,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -243,6 +240,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -259,6 +257,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="ru.arsmagna" />
       <recent name="ru.arsmagna.infrastructure" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -281,27 +280,73 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Java Scratch.Scratch">
+  <component name="RunManager" selected="JUnit.IrbisFormatTest">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
-    <configuration name="AlphabetTableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IrbisFormatTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaIrbis" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ru.arsmagna.infrastructure.*" />
+          <option name="PATTERN" value="ru.arsmagna.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="ru.arsmagna.infrastructure" />
-      <option name="MAIN_CLASS_NAME" value="ru.arsmagna.infrastructure.AlphabetTableTest" />
+      <option name="PACKAGE_NAME" value="ru.arsmagna" />
+      <option name="MAIN_CLASS_NAME" value="ru.arsmagna.IrbisFormatTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="IrbisFormatTest.prepareFormat_1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaIrbis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.arsmagna.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="ru.arsmagna" />
+      <option name="MAIN_CLASS_NAME" value="ru.arsmagna.IrbisFormatTest" />
+      <option name="METHOD_NAME" value="prepareFormat_1" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="IrbisFormatTest.removeComments_1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaIrbis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.arsmagna.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="ru.arsmagna" />
+      <option name="MAIN_CLASS_NAME" value="ru.arsmagna.IrbisFormatTest" />
+      <option name="METHOD_NAME" value="removeComments_1" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -323,52 +368,6 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="ru.arsmagna.infrastructure" />
       <option name="MAIN_CLASS_NAME" value="ru.arsmagna.infrastructure.OptFileTest" />
-      <option name="METHOD_NAME" value="parse_1" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="UpperCaseTableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaIrbis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.arsmagna.infrastructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="ru.arsmagna.infrastructure" />
-      <option name="MAIN_CLASS_NAME" value="ru.arsmagna.infrastructure.UpperCaseTableTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="UpperCaseTableTest.parse_1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaIrbis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.arsmagna.infrastructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="ru.arsmagna.infrastructure" />
-      <option name="MAIN_CLASS_NAME" value="ru.arsmagna.infrastructure.UpperCaseTableTest" />
       <option name="METHOD_NAME" value="parse_1" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -423,19 +422,19 @@
       <listeners />
     </configuration>
     <list>
-      <item itemvalue="JUnit.UpperCaseTableTest.parse_1" />
-      <item itemvalue="JUnit.AlphabetTableTest" />
-      <item itemvalue="JUnit.UpperCaseTableTest" />
       <item itemvalue="JUnit.OptFileTest.parse_1" />
       <item itemvalue="Java Scratch.Scratch" />
+      <item itemvalue="JUnit.IrbisFormatTest.removeComments_1" />
+      <item itemvalue="JUnit.IrbisFormatTest.prepareFormat_1" />
+      <item itemvalue="JUnit.IrbisFormatTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IrbisFormatTest" />
+        <item itemvalue="JUnit.IrbisFormatTest.prepareFormat_1" />
+        <item itemvalue="JUnit.IrbisFormatTest.removeComments_1" />
         <item itemvalue="Java Scratch.Scratch" />
         <item itemvalue="JUnit.OptFileTest.parse_1" />
-        <item itemvalue="JUnit.UpperCaseTableTest" />
-        <item itemvalue="JUnit.UpperCaseTableTest.parse_1" />
-        <item itemvalue="JUnit.AlphabetTableTest" />
       </list>
     </recent_temporary>
   </component>
@@ -500,35 +499,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="UpperCaseTableTest_parse_1 - 2018.07.13 at 17h 22m 30s.xml">
-      <configuration name="UpperCaseTableTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_removeComments_1 - 2018.07.18 at 15h 55m 08s.xml">
+      <configuration name="IrbisFormatTest.removeComments_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="AlphabetTableTest - 2018.07.13 at 17h 23m 37s.xml">
-      <configuration name="AlphabetTableTest" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_removeComments_1 - 2018.07.18 at 15h 55m 45s.xml">
+      <configuration name="IrbisFormatTest.removeComments_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UpperCaseTableTest_parse_1 - 2018.07.13 at 17h 23m 46s.xml">
-      <configuration name="UpperCaseTableTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_removeComments_1 - 2018.07.18 at 15h 56m 21s.xml">
+      <configuration name="IrbisFormatTest.removeComments_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UpperCaseTableTest - 2018.07.13 at 17h 23m 52s.xml">
-      <configuration name="UpperCaseTableTest" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_removeComments_1 - 2018.07.18 at 15h 56m 50s.xml">
+      <configuration name="IrbisFormatTest.removeComments_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="OptFileTest_parse_1 - 2018.07.13 at 17h 29m 06s.xml">
-      <configuration name="OptFileTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_prepareFormat_1 - 2018.07.18 at 15h 58m 27s.xml">
+      <configuration name="IrbisFormatTest.prepareFormat_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="OptFileTest_parse_1 - 2018.07.13 at 17h 30m 14s.xml">
-      <configuration name="OptFileTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_prepareFormat_1 - 2018.07.18 at 15h 58m 48s.xml">
+      <configuration name="IrbisFormatTest.prepareFormat_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="OptFileTest_parse_1 - 2018.07.13 at 17h 31m 55s.xml">
-      <configuration name="OptFileTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_prepareFormat_1 - 2018.07.18 at 15h 59m 06s.xml">
+      <configuration name="IrbisFormatTest.prepareFormat_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="OptFileTest_parse_1 - 2018.07.13 at 17h 31m 56s.xml">
-      <configuration name="OptFileTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest_prepareFormat_1 - 2018.07.18 at 15h 59m 56s.xml">
+      <configuration name="IrbisFormatTest.prepareFormat_1" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="OptFileTest_parse_1 - 2018.07.13 at 17h 36m 13s.xml">
-      <configuration name="OptFileTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest - 2018.07.18 at 16h 00m 50s.xml">
+      <configuration name="IrbisFormatTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="OptFileTest_parse_1 - 2018.07.13 at 17h 39m 11s.xml">
-      <configuration name="OptFileTest.parse_1" configurationId="JUnit" />
+    <history-entry file="IrbisFormatTest - 2018.07.18 at 16h 00m 57s.xml">
+      <configuration name="IrbisFormatTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -541,11 +540,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1848" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1842" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32943678" />
+      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" weight="0.32943678" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.32943678" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
@@ -553,20 +553,20 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.32941833" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32943678" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32943678" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32943678" />
+      <window_info anchor="right" id="Coverage" side_tool="true" weight="0.32996634" />
       <window_info anchor="bottom" id="CheckStyle" order="7" weight="0.32943678" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32943678" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49309245" visible="true" weight="0.2824385" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4896989" visible="true" weight="0.28900114" />
       <window_info anchor="bottom" id="Statistic" order="7" weight="0.32943678" />
-      <window_info id="Structure" order="1" sideWeight="0.5069075" side_tool="true" visible="true" weight="0.2824385" />
+      <window_info id="Structure" order="1" sideWeight="0.5103011" side_tool="true" visible="true" weight="0.28900114" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" sideWeight="0.5007924" side_tool="true" weight="0.2671156" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3995749" />
-      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" weight="0.32943678" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32943678" />
@@ -597,13 +597,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/MarcRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="69" lean-forward="true" selection-start-line="64" selection-end-line="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/SubField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
@@ -641,13 +634,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/MenuFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/MenuFile.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/worksheet/WorksheetPage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
@@ -738,10 +725,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
           <caret line="700" column="11" selection-start-line="700" selection-start-column="11" selection-end-line="700" selection-end-column="11" />
-          <folding>
-            <element signature="e#26907#26908#0" expanded="true" />
-            <element signature="e#26973#26974#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -749,9 +732,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-288">
           <caret lean-forward="true" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -837,28 +817,32 @@
     <entry file="file://$PROJECT_DIR$/.idea/dictionaries/AMironov.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/dictionaries/amiro.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/dictionaries/amiro.xml" />
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/infrastructure/RawRecord.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
+        <state relative-caret-position="192">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ru/arsmagna/IrbisFormatTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1680">
+          <caret line="70" column="33" selection-start-line="70" selection-start-column="33" selection-end-line="70" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#235#280#0" expanded="true" />
-            <element signature="e#741#742#0" expanded="true" />
-            <element signature="e#764#765#0" expanded="true" />
-            <element signature="e#2151#2152#0" expanded="true" />
-            <element signature="e#2186#2187#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/arsmagna/IrbisFormat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="312">
+          <caret line="25" column="42" lean-forward="true" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#155#200#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
