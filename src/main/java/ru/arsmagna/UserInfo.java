@@ -77,6 +77,7 @@ public final class UserInfo {
      * @return Перечень пользователей.
      */
     @NotNull
+    @SuppressWarnings("ConstantConditions")
     public static UserInfo[] parse (@NotNull ServerResponse response) {
         if (response == null) { throw new IllegalArgumentException(); }
 

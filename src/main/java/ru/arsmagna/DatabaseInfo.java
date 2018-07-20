@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Contract;
 /**
  * Информация о базе данных ИРБИС.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class DatabaseInfo {
 
     /**

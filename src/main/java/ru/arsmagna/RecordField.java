@@ -124,10 +124,6 @@ public final class RecordField implements Cloneable {
 
     @SuppressWarnings("UnusedReturnValue")
     public RecordField assignFrom(@NotNull RecordField other) {
-        if (other == null) {
-            throw new IllegalArgumentException();
-        }
-
         clear();
         value = other.value;
         for (SubField subField: other.subFields) {
@@ -138,10 +134,6 @@ public final class RecordField implements Cloneable {
     }
 
     public RecordField assignTo(@NotNull RecordField other) {
-        if (other == null) {
-            throw new IllegalArgumentException();
-        }
-
         other.assignFrom(this);
 
         return this;
@@ -255,8 +247,6 @@ public final class RecordField implements Cloneable {
      */
     @NotNull
     public static RecordField parse (@NotNull String line) throws IOException {
-        if (isNullOrEmpty(line)) { throw new IllegalArgumentException(); }
-
         StringReader reader = new StringReader(line);
         String tagText = Utility.readTo(reader, '#');
         int tag = Integer.parseInt(tagText);

@@ -78,6 +78,7 @@ public final class IrbisProcessInfo {
      * @return Список процессов.
      */
     @NotNull
+    @SuppressWarnings("ConstantConditions")
     public static IrbisProcessInfo[] parse (@NotNull ServerResponse response) {
         if (response == null) { throw new IllegalArgumentException(); }
 

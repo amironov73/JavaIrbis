@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * MARC record subfield.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class SubField implements Cloneable {
 
     /**
@@ -73,8 +74,6 @@ public final class SubField implements Cloneable {
      */
     @Contract(pure = true)
     public static int compare (@NotNull SubField subField1, @NotNull SubField subField2) {
-        if (subField1 == null || subField2 == null) { throw new IllegalArgumentException(); }
-
         int result = compareCodes(subField1.code, subField2.code);
         if (result != 0) {
             return result;
@@ -114,6 +113,7 @@ public final class SubField implements Cloneable {
      * @return Копию подполя.
      */
     @NotNull
+    @SuppressWarnings({"MethodDoesntCallSuperMethod", "UnnecessaryLocalVariable"})
     public final SubField clone() {
         SubField result = new SubField(code, value);
 

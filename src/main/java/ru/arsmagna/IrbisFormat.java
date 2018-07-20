@@ -58,21 +58,9 @@ public class IrbisFormat {
 
             switch (state) {
                 case '\'':
-                    if (c == '\'') {
-                        state = 0;
-                    }
-                    result.append(c);
-                    break;
-
                 case '"':
-                    if (c == '"') {
-                        state = 0;
-                    }
-                    result.append(c);
-                    break;
-
                 case '|':
-                    if (c == '|') {
+                    if (c == state) {
                         state = 0;
                     }
                     result.append(c);

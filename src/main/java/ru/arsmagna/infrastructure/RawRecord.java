@@ -1,11 +1,11 @@
 package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
+
 import ru.arsmagna.IrbisText;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Scanner;
 
 /**
  * Raw record (from the server).
@@ -68,33 +68,30 @@ public final class RawRecord {
 
     /**
      * Parse the text.
-     * @param scanner Scanner to use.
-     * @return Parsed record.
+     * @param text Text to scan
      */
-    public static RawRecord parse (@NotNull Scanner scanner) {
-        RawRecord result = new RawRecord();
+    public void parseSingle (@NotNull String[] text) {
+        if (text.length == 0) {
+            return;
+        }
 
-        String line = scanner.nextLine();
-        String[] parts = line.split("#", 2);
-        result.mfn = parts[0];
-        result.status = "0";
+        String[] parts = text[0].split("#", 2);
+        mfn = parts[0];
+        status = "0";
         if (parts.length == 2) {
-            result.status = parts[1];
+            status = parts[1];
         }
 
-        line = scanner.nextLine();
-        parts = line.split("#", 2);
-        result.version = "0";
+        parts = text[1].split("#", 2);
+        version = "0";
         if (parts.length == 2) {
-            result.version = parts[1];
+            version = parts[1];
         }
 
-        while (scanner.hasNext()) {
-            line = scanner.nextLine();
-            result.fields.add(line);
+        fields.clear();
+        for (int i = 2; i < text.length; i++) {
+            fields.add(text[i]);
         }
-
-        return result;
     }
 
     //=========================================================================

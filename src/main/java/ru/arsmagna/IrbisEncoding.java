@@ -1,5 +1,6 @@
 package ru.arsmagna;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.Charset;
@@ -15,6 +16,7 @@ public final class IrbisEncoding {
      * @return UTF-8 encoding.
      */
     @NotNull
+    @Contract(pure = true)
     @SuppressWarnings("SameReturnValue")
     public static Charset utf() {
         return StandardCharsets.UTF_8;

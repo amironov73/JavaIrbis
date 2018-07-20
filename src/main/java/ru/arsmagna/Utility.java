@@ -34,6 +34,10 @@ public class Utility {
      * Список баз данных для читателя.
      */
     public static final String READER_DATABASE_LIST = "dbnam3.mnu";
+
+    /**
+     * Carriage return and line feed symbols.
+     */
     public static final byte[] CRLF = {0x0D, 0x0A};
 
     /**

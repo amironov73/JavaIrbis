@@ -51,7 +51,8 @@ public final class FileSpecification {
      * @param database База данных.
      * @param fileName Имя файла.
      */
-    public FileSpecification (int path, @Nullable String database,@NotNull String fileName) {
+    public FileSpecification(int path, @Nullable String database,
+                             @NotNull String fileName) {
         this.path = path;
         this.database = database;
         this.fileName = fileName;
@@ -61,7 +62,6 @@ public final class FileSpecification {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(path, database, fileName, content);
     }
 

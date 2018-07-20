@@ -23,7 +23,8 @@ public final class ProtocolText {
      * @param subField Subfield.
      */
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
-    public static void encodeSubField (@NotNull StringBuilder builder, @NotNull SubField subField) {
+    public static void encodeSubField (@NotNull StringBuilder builder,
+                                       @NotNull SubField subField) {
         builder.append(SubField.DELIMITER);
         builder.append(subField.code);
         builder.append(subField.value);
@@ -36,7 +37,8 @@ public final class ProtocolText {
      * @param field Field.
      */
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
-    public static void encodeField (@NotNull StringBuilder builder, @NotNull RecordField field) {
+    public static void encodeField (@NotNull StringBuilder builder,
+                                    @NotNull RecordField field) {
         builder.append(field.tag);
         builder.append('#');
         builder.append(field.value);
@@ -66,6 +68,7 @@ public final class ProtocolText {
                 .append(DELIMITER);
         for (RecordField field : record.fields) {
             encodeField(result, field);
+            result.append(DELIMITER);
         }
 
         return result.toString();

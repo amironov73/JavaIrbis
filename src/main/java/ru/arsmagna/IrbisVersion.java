@@ -2,6 +2,7 @@ package ru.arsmagna;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
 import ru.arsmagna.infrastructure.ServerResponse;
 
 /**

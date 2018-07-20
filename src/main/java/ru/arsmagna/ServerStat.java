@@ -39,9 +39,8 @@ public final class ServerStat {
      * @param response Ответ сервера.
      * @return Статистика.
      */
+    @SuppressWarnings("ConstantConditions")
     public static ServerStat parse (@NotNull ServerResponse response) {
-        if (response == null) { throw new IllegalArgumentException(); }
-
         ServerStat result = new ServerStat();
         result.totalCommandCount = response.readInt32();
         result.clientCount = response.readInt32();

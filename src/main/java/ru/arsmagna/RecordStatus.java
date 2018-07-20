@@ -3,7 +3,7 @@ package ru.arsmagna;
 /**
  * Статус записи.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public final class RecordStatus {
     /**
      * Запись логически удалена.

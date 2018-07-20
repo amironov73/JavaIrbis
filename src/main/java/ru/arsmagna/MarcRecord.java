@@ -89,7 +89,7 @@ public final class MarcRecord implements Cloneable {
 
     public MarcRecord addField(int tag, SubField... subFields) {
         RecordField field = new RecordField(tag);
-        for (SubField subField: subFields) {
+        for (SubField subField : subFields) {
             field.subFields.add(subField);
         }
 
@@ -145,7 +145,7 @@ public final class MarcRecord implements Cloneable {
 
     @Nullable
     public String fm(int tag) {
-        for (RecordField field: fields) {
+        for (RecordField field : fields) {
             if (field.tag == tag) {
                 return field.value;
             }
@@ -157,7 +157,7 @@ public final class MarcRecord implements Cloneable {
     @Nullable
     @Contract(pure = true)
     public String fm(int tag, char code) {
-        for (RecordField field: fields) {
+        for (RecordField field : fields) {
             if (field.tag == tag) {
                 return field.getFirstSubFieldValue(code);
             }
@@ -169,7 +169,7 @@ public final class MarcRecord implements Cloneable {
     @NotNull
     public String[] fma(int tag) {
         LinkedList<String> result = new LinkedList<>();
-        for (RecordField field: fields) {
+        for (RecordField field : fields) {
             if (field.tag == tag) {
                 if (!isNullOrEmpty(field.value)) {
                     result.add(field.value);
@@ -183,7 +183,7 @@ public final class MarcRecord implements Cloneable {
     @NotNull
     public String[] fma(int tag, char code) {
         LinkedList<String> result = new LinkedList<>();
-        for (RecordField field: fields) {
+        for (RecordField field : fields) {
             if (field.tag == tag) {
                 String text = field.getFirstSubFieldValue(code);
                 if (!isNullOrEmpty(text)) {
@@ -198,7 +198,7 @@ public final class MarcRecord implements Cloneable {
     @NotNull
     public RecordField[] getField(int tag) {
         LinkedList<RecordField> result = new LinkedList<>();
-        for (RecordField field: fields) {
+        for (RecordField field : fields) {
             if (field.tag == tag) {
                 result.add(field);
             }
@@ -210,7 +210,7 @@ public final class MarcRecord implements Cloneable {
     @Nullable
     @Contract(pure = true)
     public RecordField getField(int tag, int occurrence) {
-        for (RecordField field: fields) {
+        for (RecordField field : fields) {
             if (field.tag == tag && --occurrence < 0) {
                 return field;
             }
@@ -222,7 +222,7 @@ public final class MarcRecord implements Cloneable {
     @Nullable
     @Contract(pure = true)
     public RecordField getFirstField(int tag) {
-        for (RecordField field: fields) {
+        for (RecordField field : fields) {
             if (field.tag == tag) {
                 return field;
             }
@@ -234,30 +234,27 @@ public final class MarcRecord implements Cloneable {
     /**
      * Разбор строк, возвращаемых сервером.
      *
-     * @param record Запись, в которую помещать результат.
-     * @param text   Строки, содержащие запись.
+     * @param text Строки, содержащие запись.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public static void parseSingle (@NotNull MarcRecord record, @NotNull String[] text) throws IOException {
-        if (record == null || text == null) {
-            throw new IllegalArgumentException();
-        }
+    public void parseSingle(@NotNull String[] text) throws IOException {
         if (text.length == 0) {
             return;
         }
 
         String line = text[0];
         String[] parts = line.split("#");
-        record.mfn = Integer.parseInt(parts[0]);
+        mfn = Integer.parseInt(parts[0]);
         if (parts.length != 1) {
-            record.status = Integer.parseInt(parts[1]);
+            status = Integer.parseInt(parts[1]);
         }
         line = text[1];
         parts = line.split("#");
-        record.version = Integer.parseInt(parts[1]);
+        version = Integer.parseInt(parts[1]);
+        fields.clear();
         for (int i = 2; i < text.length; i++) {
             RecordField field = RecordField.parse(text[i]);
-            record.fields.add(field);
+            fields.add(field);
         }
     }
 
