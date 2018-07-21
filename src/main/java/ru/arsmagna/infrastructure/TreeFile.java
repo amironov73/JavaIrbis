@@ -2,6 +2,7 @@ package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import ru.arsmagna.*;
 
 import java.io.*;
@@ -12,7 +13,7 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
 /**
  * TRE-file.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public final class TreeFile {
 
     /**
@@ -32,6 +33,7 @@ public final class TreeFile {
 
     //=========================================================================
 
+    @SuppressWarnings("UnnecessaryLocalVariable")
     private static void arrangeLevel(@NotNull List<TreeNode> list, int level) {
         int count = list.size();
         int index = 0;
@@ -42,7 +44,8 @@ public final class TreeFile {
         }
     }
 
-    private static int arrangeLevel(@NotNull List<TreeNode> list, int level, int index, int count) {
+    private static int arrangeLevel(@NotNull List<TreeNode> list, int level,
+                                    int index, int count) {
         int next = index + 1;
         int level2 = level + 1;
 
@@ -63,13 +66,12 @@ public final class TreeFile {
         return next;
     }
 
-    private static int countIndent (@NotNull String text) {
+    private static int countIndent(@NotNull String text) {
         int result = 0;
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == INDENT) {
-                result ++;
-            }
-            else {
+                result++;
+            } else {
                 break;
             }
         }
@@ -79,6 +81,12 @@ public final class TreeFile {
 
     //=========================================================================
 
+    /**
+     * Добавление элемента нулевого уровня.
+     *
+     * @param value Текст элемента.
+     * @return Созданный и добавленный в дерево элемент.
+     */
     public TreeNode addRoot(@NotNull String value) {
         TreeNode result = new TreeNode(value);
         roots.add(result);
@@ -86,6 +94,7 @@ public final class TreeFile {
         return result;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static TreeFile parse(@NotNull Scanner scanner) throws IrbisException {
         TreeFile result = new TreeFile();
         if (!scanner.hasNext()) {
@@ -113,7 +122,7 @@ public final class TreeFile {
         }
 
         int maxLevel = 0;
-        for (TreeNode node: list) {
+        for (TreeNode node : list) {
             if (node.level > maxLevel) {
                 maxLevel = node.level;
             }
@@ -122,7 +131,7 @@ public final class TreeFile {
             arrangeLevel(list, level);
         }
 
-        for (TreeNode node: list) {
+        for (TreeNode node : list) {
             if (node.level == 0) {
                 result.roots.add(node);
             }
@@ -132,8 +141,8 @@ public final class TreeFile {
     }
 
     public static TreeFile parse(@NotNull File file) throws IOException, IrbisException {
-        try(InputStream stream = new FileInputStream(file)) {
-            try(Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name())) {
+        try (InputStream stream = new FileInputStream(file)) {
+            try (Scanner scanner = new Scanner(stream, IrbisEncoding.ansi().name())) {
                 TreeFile result = parse(scanner);
                 result.fileName = file.getAbsolutePath();
 
@@ -142,7 +151,9 @@ public final class TreeFile {
         }
     }
 
-    public static TreeFile parse(@NotNull ServerResponse response) throws IOException, IrbisException {
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    public static TreeFile parse(@NotNull ServerResponse response)
+            throws IOException, IrbisException {
         String text = response.readRemainingAnsiText();
         StringReader reader = new StringReader(text);
         Scanner scanner = new Scanner(reader);
@@ -152,18 +163,52 @@ public final class TreeFile {
     }
 
     public static TreeFile parse(@NotNull IrbisConnection connection,
-                                 @NotNull FileSpecification specification) throws IOException, IrbisException {
+                                 @NotNull FileSpecification specification)
+            throws IOException, IrbisException {
         TreeFile result;
         String text = connection.readTextFile(specification);
         if (isNullOrEmpty(text)) {
             result = new TreeFile();
-        }
-        else {
+        } else {
             StringReader reader = new StringReader(text);
             Scanner scanner = new Scanner(reader);
             result = parse(scanner);
         }
 
         return result;
+    }
+
+    public String toText() {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        write(printWriter);
+        printWriter.flush();
+        stringWriter.flush();
+        String result = stringWriter.toString();
+
+        return result;
+    }
+
+    /**
+     * Вывод дерева в текстовый поток.
+     *
+     * @param writer Текстовый поток.
+     */
+    public void write(@NotNull PrintWriter writer) {
+        for (TreeNode root : roots) {
+            root.write(writer, 0);
+        }
+    }
+
+    /**
+     * Запись дерева в файл.
+     *
+     * @param file Файл, в который предполагается записать дерево.
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    public void write(@NotNull File file) throws IOException {
+        try (PrintWriter writer = new PrintWriter(file, IrbisEncoding.ansi().name())) {
+            write(writer);
+        }
     }
 }

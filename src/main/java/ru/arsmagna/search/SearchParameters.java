@@ -57,6 +57,11 @@ public final class SearchParameters implements Cloneable {
      */
     public boolean uftFormat;
 
+    /**
+     * Признак вложенного вызова.
+     */
+    public boolean nestedCall;
+
     //=========================================================================
 
     /**
@@ -74,6 +79,7 @@ public final class SearchParameters implements Cloneable {
      * @return Копию.
      */
     @NotNull
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public SearchParameters clone() {
         SearchParameters result = new SearchParameters();
         result.database = database;

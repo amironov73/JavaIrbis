@@ -108,11 +108,21 @@ public class Utility {
         return third;
     }
 
-    public static boolean isNullOrEmpty
-            (
-                    String text
-            ) {
+    public static boolean isNullOrEmpty (@Nullable String text) {
         return text == null || text.length() == 0;
+    }
+
+    @Contract(pure = true)
+    public static boolean sameString (@Nullable String s1, @Nullable String s2) {
+        if (s1 == s2) {
+            return true;
+        }
+
+        if (s1 == null || s2 == null) {
+            return false;
+        }
+
+        return s1.compareToIgnoreCase(s2) == 0;
     }
 
     public static void copyTo

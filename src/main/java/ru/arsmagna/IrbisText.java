@@ -3,6 +3,8 @@ package ru.arsmagna;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static ru.arsmagna.Utility.isNullOrEmpty;
+
 /**
  * Манипуляции с текстом, свойственные ИРБИС.
  */
@@ -24,6 +26,11 @@ public final class IrbisText {
      */
     public static final String MSDOS_DELIMITER = "\r\n";
 
+    /**
+     * Разделитель строк в UNIX.
+     */
+    public static final String UNIX_DELIMITER = "\n";
+
     public static final char[] SEARCH_DELIMITERS = {'#'};
 
     /**
@@ -34,7 +41,7 @@ public final class IrbisText {
      */
     @Nullable
     public static String fromIrbisToDos (@Nullable String text) {
-        if (!Utility.isNullOrEmpty(text)) {
+        if (!isNullOrEmpty(text)) {
             text = text.replaceAll(IRBIS_DELIMITER, MSDOS_DELIMITER);
         }
 
@@ -44,13 +51,28 @@ public final class IrbisText {
     /**
      * Замена разделителей текста с MS-DOS на ИРБИС.
      *
-     * @param text Текст с разделителями MS-DOS
+     * @param text Текст с разделителями MS-DOS.
      * @return Преобразованный текст.
      */
     @Nullable
     public static String fromDosToIrbis (@Nullable String text) {
-        if (!Utility.isNullOrEmpty(text)) {
+        if (!isNullOrEmpty(text)) {
             text = text.replaceAll(MSDOS_DELIMITER, IRBIS_DELIMITER);
+        }
+
+        return text;
+    }
+
+    /**
+     * Замена разделителей текста с MS-DOS на UNIX.
+     *
+     * @param text Текст с разделителями MS-DOS.
+     * @return Преобразованный текст.
+     */
+    @Nullable
+    public static String fromDosToUnix(@Nullable String text) {
+        if (!isNullOrEmpty(text)) {
+            text = text.replaceAll(MSDOS_DELIMITER, UNIX_DELIMITER);
         }
 
         return text;
@@ -64,7 +86,7 @@ public final class IrbisText {
      */
     @NotNull
     public static String[] fromFullDelimiter (@Nullable String text) {
-        if (!Utility.isNullOrEmpty(text)) {
+        if (!isNullOrEmpty(text)) {
             return text.split(IRBIS_DELIMITER);
         }
 
@@ -79,7 +101,7 @@ public final class IrbisText {
      */
     @NotNull
     public static String[] fromShortDelimiter(@Nullable String text) {
-        if (!Utility.isNullOrEmpty(text)) {
+        if (!isNullOrEmpty(text)) {
             return text.split(SHORT_DELIMITER);
         }
 

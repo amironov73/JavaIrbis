@@ -2,6 +2,9 @@ package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -49,4 +52,21 @@ public final class TreeNode {
     int level;
 
     //=========================================================================
+
+    public TreeNode add(@NotNull String name) {
+        TreeNode result = new TreeNode(name);
+        children.add(result);
+
+        return result;
+    }
+
+    public void write(@NotNull PrintWriter writer, int level) {
+        for (int i = 0; i < level; i++) {
+            writer.print(TreeFile.INDENT);
+        }
+        writer.println(value);
+        for (TreeNode child: children) {
+            child.write(writer, level+1);
+        }
+    }
 }

@@ -1,14 +1,17 @@
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import ru.arsmagna.infrastructure.ServerResponse;
 
 import java.util.ArrayList;
 
 import static ru.arsmagna.Utility.emptyToNull;
+import static ru.arsmagna.Utility.sameString;
 
 /**
  * Информация о зарегистрированном пользователе системы
@@ -69,6 +72,34 @@ public final class UserInfo {
     public Object userData;
 
     //=========================================================================
+
+    private static String formatPair(@NotNull String prefix,
+                                     @Nullable String value,
+                                     @NotNull String defaultValue) {
+        if (sameString(value, defaultValue)) {
+            return "";
+        }
+
+        return prefix + "=" + value;
+    }
+
+    //=========================================================================
+
+    /**
+     * Encode the reader.
+     *
+     * @return Encoded text.
+     */
+    public String encode() {
+        return name + "\r\n"
+                + password + "\r\n"
+                + formatPair("C", cataloger, "irbisc.ini")
+                + formatPair("R", cataloger, "irbisr.ini")
+                + formatPair("B", cataloger, "irbisb.ini")
+                + formatPair("M", cataloger, "irbism.ini")
+                + formatPair("K", cataloger, "irbisk.ini")
+                + formatPair("A", cataloger, "irbisa.ini");
+    }
 
     /**
      * Разбор ответа сервера.
