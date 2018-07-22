@@ -125,6 +125,15 @@ public class Utility {
         return s1.compareToIgnoreCase(s2) == 0;
     }
 
+    @Contract(pure = true)
+    public static int itemAt(@Nullable int[] array, int index) {
+        if (array == null || index < 0 || index >= array.length) {
+            return 0;
+        }
+
+        return array[index];
+    }
+
     public static void copyTo
             (
                     InputStream source,

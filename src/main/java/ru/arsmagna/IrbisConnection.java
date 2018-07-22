@@ -104,7 +104,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final void actualizeRecord(@NotNull String database, int mfn)
+    public void actualizeRecord(@NotNull String database, int mfn)
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, ACTUALIZE_RECORD);
         query.addAnsi(database);
@@ -123,7 +123,7 @@ public final class IrbisConnection {
      * @throws IrbisException Ошибка протокола.
      */
     @Nullable
-    public final IniFile connect() throws IOException, IrbisException {
+    public IniFile connect() throws IOException, IrbisException {
         if (_isConnected) {
             return null;
         }
@@ -154,7 +154,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final void createDatabase(@NotNull String databaseName,
+    public void createDatabase(@NotNull String databaseName,
                                      @NotNull String description,
                                      boolean readerAccess)
             throws IOException, IrbisException {
@@ -175,7 +175,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final void createDictionary(@NotNull String databaseName)
+    public void createDictionary(@NotNull String databaseName)
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, CREATE_DICTIONARY);
         query.addAnsi(databaseName);
@@ -192,7 +192,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final void deleteDatabase(@NotNull String databaseName)
+    public void deleteDatabase(@NotNull String databaseName)
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, DELETE_DATABASE);
         query.addAnsi(databaseName);
@@ -203,11 +203,26 @@ public final class IrbisConnection {
     }
 
     /**
+     * Удаление записи по её MFN.
+     *
+     * @param mfn MFN удаляемой записи.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
+    public void deleteRecord(int mfn) throws IOException, IrbisException {
+        MarcRecord record = readRecord(mfn);
+        if (!record.isDeleted()) {
+            record.status |= RecordStatus.LOGICALLY_DELETED;
+            writeRecord(record, false, true, true);
+        }
+    }
+
+    /**
      * Отключение от сервера.
      *
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void disconnect() throws IOException {
+    public void disconnect() throws IOException {
         if (!_isConnected) {
             return;
         }
@@ -224,7 +239,7 @@ public final class IrbisConnection {
      * @return Ответ сервера.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final ServerResponse execute(@NotNull ClientQuery query)
+    public ServerResponse execute(@NotNull ClientQuery query)
             throws IOException {
         Socket socket = new Socket(host, port);
         // socket.setSoTimeout(30_000); // milliseconds
@@ -242,14 +257,14 @@ public final class IrbisConnection {
 
     }
 
-    public final void executeAndForget(@NotNull ClientQuery query)
+    public void executeAndForget(@NotNull ClientQuery query)
             throws IOException {
         try (ServerResponse response = execute(query)) {
             response.nop();
         }
     }
 
-    public final void executeAnsi(@NotNull String... commands) throws IOException {
+    public void executeAnsi(@NotNull String... commands) throws IOException {
         ClientQuery query = new ClientQuery(this, commands[0]);
         for (int i = 1; i < commands.length; i++) {
             query.addAnsi(commands[i]);
@@ -266,12 +281,8 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final String formatRecord(@NotNull String format, int mfn)
+    public String formatRecord(@NotNull String format, int mfn)
             throws IOException, IrbisException {
-        if (isNullOrEmpty(format)) {
-            throw new IllegalArgumentException();
-        }
-
         ClientQuery query = new ClientQuery(this, FORMAT_RECORD);
         query.addAnsi(database);
         query.addAnsi(format);
@@ -295,13 +306,9 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final String formatRecord(@NotNull String format,
+    public String formatRecord(@NotNull String format,
                                      @NotNull MarcRecord record)
             throws IOException, IrbisException {
-        if (isNullOrEmpty(format)) {
-            throw new IllegalArgumentException();
-        }
-
         ClientQuery query = new ClientQuery(this, FORMAT_RECORD);
         query.addAnsi(database);
         query.addAnsi(format);
@@ -317,13 +324,52 @@ public final class IrbisConnection {
     }
 
     /**
+     * Получение информации о базе данных.
+     *
+     * @param databaseName Имя базы данных.
+     * @return Информация о базе.
+     */
+    public DatabaseInfo getDatabaseInfo(@NotNull String databaseName)
+            throws IOException, IrbisException {
+        ClientQuery query = new ClientQuery(this, RECORD_LIST);
+        query.addAnsi(databaseName);
+
+        try(ServerResponse response = execute(query)) {
+            response.checkReturnCode();
+            DatabaseInfo result = DatabaseInfo.parse(response);
+
+            return result;
+        }
+    }
+
+    /**
+     * Получение максимального MFN для указанной базы данных.
+     *
+     * @param databaseName База данных.
+     * @return MFN, который будет присвоен следующей записи.
+     * @throws IOException    Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
+    public int getMaxMfn(@NotNull String databaseName)
+            throws IOException, IrbisException {
+        ClientQuery query = new ClientQuery(this, GET_MAX_MFN);
+        query.addAnsiNoLF(databaseName);
+
+        try (ServerResponse response = execute(query)) {
+            response.checkReturnCode();
+
+            return response.returnCode;
+        }
+    }
+
+    /**
      * Получение статистики с сервера.
      *
      * @return Полученная статистика.
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final ServerStat getServerStat()
+    public ServerStat getServerStat()
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, GET_SERVER_STAT);
 
@@ -342,7 +388,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вываода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final IrbisVersion getServerVersion()
+    public IrbisVersion getServerVersion()
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, SERVER_INFO);
 
@@ -355,37 +401,13 @@ public final class IrbisConnection {
     }
 
     /**
-     * Получение максимального MFN для указанной базы данных.
-     *
-     * @param databaseName База данных.
-     * @return MFN, который будет присвоен следующей записи.
-     * @throws IOException    Ошибка ввода-вывода.
-     * @throws IrbisException Ошибка протокола.
-     */
-    public final int getMaxMfn(@NotNull String databaseName)
-            throws IOException, IrbisException {
-        if (isNullOrEmpty(databaseName)) {
-            throw new IllegalArgumentException();
-        }
-
-        ClientQuery query = new ClientQuery(this, GET_MAX_MFN);
-        query.addAnsiNoLF(databaseName);
-
-        try (ServerResponse response = execute(query)) {
-            response.checkReturnCode();
-
-            return response.returnCode;
-        }
-    }
-
-    /**
      * Получкение списка пользователей с сервера.
      *
      * @return Массив пользователей.
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final UserInfo[] getUserList() throws IOException, IrbisException {
+    public UserInfo[] getUserList() throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, GET_USER_LIST);
 
         try (ServerResponse response = execute(query)) {
@@ -402,7 +424,7 @@ public final class IrbisConnection {
      * @return true, если подключен.
      */
     @Contract(pure = true)
-    public final boolean isConnected() {
+    public boolean isConnected() {
         return _isConnected;
     }
 
@@ -413,7 +435,7 @@ public final class IrbisConnection {
      * @return Перечень файлов.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final String[] listFiles(@NotNull FileSpecification specification)
+    public String[] listFiles(@NotNull FileSpecification specification)
             throws IOException {
         ClientQuery query = new ClientQuery(this, LIST_FILES);
         query.addAnsi(specification.toString());
@@ -437,7 +459,7 @@ public final class IrbisConnection {
      * @return Перечень файлов.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final String[] listFiles(@NotNull FileSpecification[] specifications)
+    public String[] listFiles(@NotNull FileSpecification[] specifications)
             throws IOException {
         if (specifications.length == 0) {
             return new String[0];
@@ -605,7 +627,7 @@ public final class IrbisConnection {
         return result;
     }
 
-    public final InputStream readBinaryFile(@NotNull FileSpecification specification) {
+    public InputStream readBinaryFile(@NotNull FileSpecification specification) {
         throw new UnsupportedOperationException();
     }
 
@@ -617,7 +639,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final TermPosting[] readPostings(@NotNull PostingParameters parameters)
+    public TermPosting[] readPostings(@NotNull PostingParameters parameters)
             throws IOException, IrbisException {
         String databaseName = iif(parameters.database, database);
         ClientQuery query = new ClientQuery(this, READ_POSTINGS);
@@ -641,7 +663,7 @@ public final class IrbisConnection {
         }
     }
 
-    public final RawRecord readRawRecord(@NotNull String databaseName, int mfn)
+    public RawRecord readRawRecord(@NotNull String databaseName, int mfn)
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, READ_RECORD);
         query.addAnsi(databaseName);
@@ -666,7 +688,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final MarcRecord readRecord(int mfn) throws IOException, IrbisException {
+    public MarcRecord readRecord(int mfn) throws IOException, IrbisException {
         return readRecord(database, mfn);
     }
 
@@ -679,7 +701,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final MarcRecord readRecord(@NotNull String databaseName, int mfn)
+    public MarcRecord readRecord(@NotNull String databaseName, int mfn)
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, READ_RECORD);
         query.addAnsi(databaseName);
@@ -759,7 +781,7 @@ public final class IrbisConnection {
      * @return Текст файла (пустая строка, если файл не найден).
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final String readTextFile(@NotNull FileSpecification specification)
+    public String readTextFile(@NotNull FileSpecification specification)
             throws IOException {
         ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
         query.addAnsi(specification.toString());
@@ -779,7 +801,7 @@ public final class IrbisConnection {
      * @return Тексты файлов.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final String[] readTextFiles(@NotNull FileSpecification[] specifications)
+    public String[] readTextFiles(@NotNull FileSpecification[] specifications)
             throws IOException {
         ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
         for (FileSpecification specification : specifications) {
@@ -810,12 +832,12 @@ public final class IrbisConnection {
      * @param databaseName База данных.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void reloadDictionary(@NotNull String databaseName)
+    public void reloadDictionary(@NotNull String databaseName)
             throws IOException {
         executeAnsi(RELOAD_DICTIONARY, databaseName);
     }
 
-    public final void reloadMasterFile(@NotNull String databaseName)
+    public void reloadMasterFile(@NotNull String databaseName)
             throws IOException {
         executeAnsi(RELOAD_MASTER_FILE, databaseName);
     }
@@ -825,7 +847,7 @@ public final class IrbisConnection {
      *
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void restartServer() throws IOException {
+    public void restartServer() throws IOException {
         executeAnsi(RESTART_SERVER);
     }
 
@@ -837,7 +859,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final int[] search(@NotNull String expression)
+    public int[] search(@NotNull String expression)
             throws IOException, IrbisException {
         SearchParameters parameters = new SearchParameters();
         parameters.database = database;
@@ -857,7 +879,7 @@ public final class IrbisConnection {
      * @throws IrbisException Ошибка протокола.
      */
     @SuppressWarnings({"SingleStatementInBlock", "ForLoopReplaceableByForEach"})
-    public final int[] search(@NotNull SearchParameters parameters)
+    public int[] search(@NotNull SearchParameters parameters)
             throws IOException, IrbisException {
 
         String databaseName = iif(parameters.database, database);
@@ -916,12 +938,29 @@ public final class IrbisConnection {
     }
 
     /**
+     * Выдача строки подключения для текущего соединения.
+     *
+     * @return Строка подключения.
+     */
+    @NotNull
+    @Contract(pure = true)
+    public String toConnectionString() {
+        return "host=" + host
+                + ";port=" + port
+                + ";username=" + username
+                + ";password=" + password
+                + ";database" + database
+                + ";arm=" + workstation
+                + ";";
+    }
+
+    /**
      * Опустошение базы данных.
      *
      * @param databaseName База данных.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void truncateDatabase(@NotNull String databaseName)
+    public void truncateDatabase(@NotNull String databaseName)
             throws IOException {
         executeAnsi(EMPTY_DATABASE, databaseName);
     }
@@ -932,7 +971,7 @@ public final class IrbisConnection {
      * @param databaseName База данных.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void unlockDatabase(@NotNull String databaseName)
+    public void unlockDatabase(@NotNull String databaseName)
             throws IOException {
         executeAnsi(UNLOCK_DATABASE, databaseName);
     }
@@ -944,7 +983,7 @@ public final class IrbisConnection {
      * @param mfnList      Список MFN.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void unlockRecords(@NotNull String databaseName,
+    public void unlockRecords(@NotNull String databaseName,
                                     @NotNull int... mfnList)
             throws IOException {
         if (mfnList.length == 0) {
@@ -966,7 +1005,7 @@ public final class IrbisConnection {
      * @param lines Измененные строки.
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void updateIniFile(@NotNull String[] lines) throws IOException {
+    public void updateIniFile(@NotNull String[] lines) throws IOException {
         if (lines.length == 0) {
             return;
         }

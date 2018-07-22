@@ -16,7 +16,7 @@ import static ru.arsmagna.Utility.nullableToString;
 /**
  * MARC record.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "UnusedReturnValue", "unused"})
 public final class MarcRecord implements Cloneable {
     /**
      * Database that contains the record.
@@ -117,6 +117,11 @@ public final class MarcRecord implements Cloneable {
         return this;
     }
 
+    /**
+     * Очистка записи (удаление всех полей).
+     *
+     * @return Ту же запись.
+     */
     public MarcRecord clear() {
         fields.clear();
 
@@ -144,6 +149,7 @@ public final class MarcRecord implements Cloneable {
     }
 
     @Nullable
+    @Contract(pure = true)
     public String fm(int tag) {
         for (RecordField field : fields) {
             if (field.tag == tag) {
@@ -229,6 +235,16 @@ public final class MarcRecord implements Cloneable {
         }
 
         return null;
+    }
+
+    /**
+     * Удалена ли запись?
+     *
+     * @return true, если запись удалена.
+     */
+    @Contract(pure = true)
+    public boolean isDeleted() {
+        return (status & (RecordStatus.LOGICALLY_DELETED | RecordStatus.PHYSICALLY_DELETED)) != 0;
     }
 
     /**
