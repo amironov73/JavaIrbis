@@ -2,6 +2,7 @@ package ru.arsmagna.search;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import ru.arsmagna.FastNumber;
 import ru.arsmagna.Utility;
 import ru.arsmagna.infrastructure.ServerResponse;
 
@@ -63,10 +64,10 @@ public final class TermPosting implements Cloneable {
             }
 
             TermPosting item = new TermPosting();
-            item.mfn = Integer.parseInt(parts[0]);
-            item.tag = Integer.parseInt(parts[1]);
-            item.occurrence = Integer.parseInt(parts[2]);
-            item.count = Integer.parseInt(parts[3]);
+            item.mfn = FastNumber.parseInt32(parts[0]);
+            item.tag = FastNumber.parseInt32(parts[1]);
+            item.occurrence = FastNumber.parseInt32(parts[2]);
+            item.count = FastNumber.parseInt32(parts[3]);
             if (parts.length > 4) {
                 item.text = parts[4];
             }

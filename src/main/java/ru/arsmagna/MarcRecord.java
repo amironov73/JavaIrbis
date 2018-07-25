@@ -260,13 +260,13 @@ public final class MarcRecord implements Cloneable {
 
         String line = text[0];
         String[] parts = line.split("#");
-        mfn = Integer.parseInt(parts[0]);
+        mfn = FastNumber.parseInt32(parts[0]);
         if (parts.length != 1) {
-            status = Integer.parseInt(parts[1]);
+            status = FastNumber.parseInt32(parts[1]);
         }
         line = text[1];
         parts = line.split("#");
-        version = Integer.parseInt(parts[1]);
+        version = FastNumber.parseInt32(parts[1]);
         fields.clear();
         for (int i = 2; i < text.length; i++) {
             RecordField field = RecordField.parse(text[i]);

@@ -249,7 +249,7 @@ public final class RecordField implements Cloneable {
     public static RecordField parse (@NotNull String line) throws IOException {
         StringReader reader = new StringReader(line);
         String tagText = Utility.readTo(reader, '#');
-        int tag = Integer.parseInt(tagText);
+        int tag = FastNumber.parseInt32(tagText);
         RecordField result = new RecordField(tag);
         result.value = Utility.readTo(reader, '^');
         while (true) {

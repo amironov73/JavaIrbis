@@ -903,7 +903,7 @@ public final class IrbisConnection {
             for (int i = 0; i < batchSize; i++) {
                 String line = response.readAnsi();
                 String[] parts = line.split("#", 2);
-                int mfn = Integer.parseInt(parts[0]);
+                int mfn = FastNumber.parseInt32(parts[0]);
                 result[i] = mfn;
             }
         }

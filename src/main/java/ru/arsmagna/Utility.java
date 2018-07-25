@@ -173,6 +173,19 @@ public class Utility {
         return result.toString();
     }
 
+    public static int safeCompare(@Nullable String left, @Nullable String right) {
+        if (left == null) {
+            if (right == null) {
+                return 0;
+            }
+            return -1;
+        }
+        if (right == null) {
+            return 1;
+        }
+        return left.compareTo(right);
+    }
+
     @NotNull
     @Contract(pure = true)
     public static String nullToEmpty (@Nullable String value) {

@@ -76,7 +76,7 @@ public final class DatabaseInfo {
         String[] items = line.split(IrbisText.SHORT_DELIMITER);
         int[] result = new int[items.length];
         for (int i = 0; i < items.length; i++) {
-            result[i] = Integer.parseInt(items[i]);
+            result[i] = FastNumber.parseInt32(items[i]);
         }
 
         return result;
