@@ -257,6 +257,13 @@ public final class IrbisConnection {
 
     }
 
+    /**
+     * Выполнение запроса, когда нам не важен результат
+     * (мы не собираемся его парсить).
+     *
+     * @param query Клиентский запрос.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public void executeAndForget(@NotNull ClientQuery query)
             throws IOException {
         try (ServerResponse response = execute(query)) {
@@ -264,6 +271,12 @@ public final class IrbisConnection {
         }
     }
 
+    /**
+     * Простой вызов сервера, когда все строки запроса ANSI.
+     *
+     * @param commands Команды и параметры.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public void executeAnsi(@NotNull String... commands) throws IOException {
         ClientQuery query = new ClientQuery(this, commands[0]);
         for (int i = 1; i < commands.length; i++) {
@@ -489,7 +502,7 @@ public final class IrbisConnection {
      * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
-    public final IrbisProcessInfo[] listProcesses()
+    public IrbisProcessInfo[] listProcesses()
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, GET_PROCESS_LIST);
 
@@ -506,7 +519,7 @@ public final class IrbisConnection {
      *
      * @throws IOException Ошибка ввода-вывода.
      */
-    public final void noOp() throws IOException {
+    public void noOp() throws IOException {
         executeAnsi(NOP);
     }
 
@@ -516,7 +529,7 @@ public final class IrbisConnection {
      * @param connectionString Строка подключения.
      * @throws IrbisException Ошибка при разборе строки.
      */
-    public final void parseConnectionString(@NotNull String connectionString)
+    public void parseConnectionString(@NotNull String connectionString)
             throws IrbisException {
         String[] items = connectionString.split(";");
         for (String item : items) {
@@ -627,8 +640,48 @@ public final class IrbisConnection {
         return result;
     }
 
-    public InputStream readBinaryFile(@NotNull FileSpecification specification) {
-        throw new UnsupportedOperationException();
+    /**
+     * Чтение двоичного файла с сервера.
+     *
+     * @param specification Спецификация файла.
+     * @return Содержимое файла или null.
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    @Nullable
+    public byte[] readBinaryContent(@NotNull FileSpecification specification)
+            throws IOException {
+        InputStream stream = null;
+        byte[] result = null;
+        try {
+            stream = readBinaryFile(specification);
+            if (stream == null) {
+                return null;
+            }
+            result = Utility.readToEnd(stream);
+        }
+        finally {
+            if (stream != null) {
+                stream.close();
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Чтение двоичного файла с сервера.
+     *
+     * @param specification Спецификация файла.
+     * @return Поток или null, если файл не найден.
+     */
+    public InputStream readBinaryFile(@NotNull FileSpecification specification)
+            throws IOException {
+        specification.isBinaryFile = true;
+        ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
+        query.addAnsi(specification.toString());
+        ServerResponse response = execute(query);
+
+        return response.getBinaryFile();
     }
 
     /**
@@ -781,7 +834,7 @@ public final class IrbisConnection {
      * @return Текст файла (пустая строка, если файл не найден).
      * @throws IOException Ошибка ввода-вывода.
      */
-    public String readTextFile(@NotNull FileSpecification specification)
+    public String readTextContent(@NotNull FileSpecification specification)
             throws IOException {
         ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
         query.addAnsi(specification.toString());
@@ -792,6 +845,29 @@ public final class IrbisConnection {
 
             return result;
         }
+    }
+
+    /**
+     * Получение текстового файла с сервера в виде потока.
+     * Закрыть поток должен будет вызывающий код.
+     * Сервер выдаёт текстовые файлы с заменой
+     * стандартного перевода строки на свой собственный.
+     * Преобразовывать переводы строки должен будет
+     * вызывающий код.
+     *
+     * @param specification Спецификация файла.
+     * @return Текст файла (пустая строка, если файл не найден).
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    @NotNull
+    public InputStream readTextFile(@NotNull FileSpecification specification)
+            throws IOException {
+        ClientQuery query = new ClientQuery(this, READ_DOCUMENT);
+        query.addAnsi(specification.toString());
+
+        ServerResponse response = execute(query);
+
+        return response.getStream();
     }
 
     /**

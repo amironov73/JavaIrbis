@@ -5,10 +5,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
+import java.io.*;
 
 /**
  * Вспомогательные методы, не вошедшие в прочие классы.
@@ -86,18 +83,15 @@ public class Utility {
     }
 
     @Nullable
+    @Contract(value = "!null, _ -> !null", pure = true)
     public static String iif  (String first, String second) {
         if (first != null) { return first; }
 
         return second;
     }
 
-    public static String iif
-            (
-                    String first,
-                    String second,
-                    String third
-            ) {
+    @Contract(value = "!null, _, _ -> !null; null, !null, _ -> !null", pure = true)
+    public static String iif (String first, String second, String third) {
         if (first != null) {
             return first;
         }
@@ -108,6 +102,7 @@ public class Utility {
         return third;
     }
 
+    @Contract(value = "null -> true", pure = true)
     public static boolean isNullOrEmpty (@Nullable String text) {
         return text == null || text.length() == 0;
     }
@@ -134,19 +129,29 @@ public class Utility {
         return array[index];
     }
 
-    public static void copyTo
-            (
-                    InputStream source,
-                    OutputStream destination
-            )
+    public static byte[] readToEnd(@NotNull InputStream stream) throws IOException {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        while (true) {
+            int read = stream.read(buffer);
+            if (read <= 0) {
+                break;
+            }
+            result.write(buffer, 0, read);
+        }
+
+        return result.toByteArray();
+    }
+
+    public static void copyTo (@NotNull InputStream source, @NotNull OutputStream destination)
             throws IOException {
         byte[] buffer = new byte[1024];
         while (true) {
-            int readed = source.read(buffer, 0, buffer.length);
-            if (readed <= 0) {
+            int read = source.read(buffer);
+            if (read <= 0) {
                 break;
             }
-            destination.write(buffer, 0, readed);
+            destination.write(buffer, 0, read);
         }
     }
 

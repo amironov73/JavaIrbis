@@ -10,6 +10,7 @@ import ru.arsmagna.Utility;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static ru.arsmagna.Utility.isNullOrEmpty;
 
@@ -18,6 +19,16 @@ import static ru.arsmagna.Utility.isNullOrEmpty;
  */
 @SuppressWarnings({"WeakerAccess", "unused", "UnnecessaryLocalVariable"})
 public final class ServerResponse implements AutoCloseable {
+
+    /**
+     * Преамбула двоичного файла.
+     */
+    public static byte[] preamble = {
+            0x49, 0x52, 0x42, 0x49, 0x53, 0x5F, 0x42, 0x49, 0x4E, 0x41, 0x52,
+            0x59, 0x5F, 0x44, 0x41, 0x54, 0x41
+    };
+
+    //=========================================================================
 
     /**
      * Код команды.
@@ -92,6 +103,44 @@ public final class ServerResponse implements AutoCloseable {
         if (getReturnCode() < 0) {
             throw new IrbisException(returnCode);
         }
+    }
+
+    /**
+     * Поиск преамбулы в потоке.
+     *
+     * @return Поток (сразу за преамбулой) либо null.
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    @Nullable
+    public InputStream getBinaryFile() throws IOException {
+        int length = preamble.length, length1 = length-1;
+        byte[] buffer = new byte[length];
+        if (stream.read(buffer) != length) {
+            return null;
+        }
+
+        while (true) {
+            if (Arrays.equals(buffer, preamble)) {
+                return stream;
+            }
+            System.arraycopy(buffer, 1, buffer, 0, length1);
+            int one = stream.read();
+            if (one < 0) {
+                return null;
+            }
+            buffer[length1] = (byte)one;
+        }
+    }
+
+    /**
+     * Отдача входного потока "на растерзание".
+     * Закрыть поток должен будет вызывающий код.
+     *
+     * @return Входной поток ответа сервера.
+     */
+    @NotNull
+    public InputStream getStream() {
+        return stream;
     }
 
     public byte[] getLine() {

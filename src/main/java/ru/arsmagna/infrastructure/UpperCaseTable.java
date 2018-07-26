@@ -367,7 +367,7 @@ public final class UpperCaseTable {
      */
     public static UpperCaseTable read(@NotNull IrbisConnection connection) throws IOException {
         FileSpecification specification = new FileSpecification(IrbisPath.SYSTEM, null, FILE_NAME);
-        String text = connection.readTextFile(specification);
+        String text = connection.readTextContent(specification);
         UpperCaseTable result;
         if (isNullOrEmpty(text)) {
             result = getDefault();

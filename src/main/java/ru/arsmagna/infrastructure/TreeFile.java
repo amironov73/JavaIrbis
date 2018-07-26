@@ -166,7 +166,7 @@ public final class TreeFile {
                                  @NotNull FileSpecification specification)
             throws IOException, IrbisException {
         TreeFile result;
-        String text = connection.readTextFile(specification);
+        String text = connection.readTextContent(specification);
         if (isNullOrEmpty(text)) {
             result = new TreeFile();
         } else {

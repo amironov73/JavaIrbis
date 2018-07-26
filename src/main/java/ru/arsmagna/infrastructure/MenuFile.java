@@ -187,7 +187,7 @@ public final class MenuFile {
                                 @NotNull FileSpecification specification)
             throws IOException {
         MenuFile result;
-        String text = connection.readTextFile(specification);
+        String text = connection.readTextContent(specification);
         if (isNullOrEmpty(text)) {
             result = new MenuFile();
         } else {

@@ -148,7 +148,7 @@ public final class AlphabetTable {
      */
     public static AlphabetTable read(@NotNull IrbisConnection connection) throws IOException {
         FileSpecification specification = new FileSpecification(IrbisPath.SYSTEM, null, FILE_NAME);
-        String text = connection.readTextFile(specification);
+        String text = connection.readTextContent(specification);
         AlphabetTable result;
         if (isNullOrEmpty(text)) {
             result = getDefault();

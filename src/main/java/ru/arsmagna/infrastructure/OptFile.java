@@ -88,7 +88,7 @@ public final class OptFile {
                                 @NotNull FileSpecification specification)
             throws IOException {
         OptFile result;
-        String text = connection.readTextFile(specification);
+        String text = connection.readTextContent(specification);
         if (isNullOrEmpty(text)) {
             result = new OptFile();
         } else {

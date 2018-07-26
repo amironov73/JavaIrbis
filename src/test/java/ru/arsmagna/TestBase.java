@@ -14,6 +14,12 @@ public class TestBase {
         return "./src/test/resources";
     }
 
+    public Path getPath(@NotNull String fileName) {
+        Path result = Paths.get(testResources(), fileName);
+
+        return result;
+    }
+
     public File getFile(@NotNull String fileName) {
         Path path = Paths.get(testResources(), fileName);
 

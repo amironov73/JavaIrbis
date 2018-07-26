@@ -2,6 +2,7 @@ package ru.arsmagna;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
 import ru.arsmagna.infrastructure.IniFile;
 import ru.arsmagna.infrastructure.MenuFile;
 import ru.arsmagna.search.PostingParameters;
@@ -62,7 +63,7 @@ public class SimplestClientTest {
         System.out.println();
 
         FileSpecification specification = new FileSpecification(3, "IBIS", "NASPI.txt");
-        String text = connection.readTextFile(specification);
+        String text = connection.readTextContent(specification);
         System.out.println(text);
 
         MarcRecord record = connection.readRecord(connection.database, 1);
