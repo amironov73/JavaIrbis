@@ -40,7 +40,7 @@ public class ProtocolTextTest {
         record.fields.add(field);
         record.addField(300, "Field 300");
         String expected = "123#0\u001F\u001E0#0\u001F\u001E"
-            + "100#Field 100\u001F\u001E200#null^aSubfield A"
+            + "100#Field 100\u001F\u001E200#^aSubfield A"
             + "^bSubfield B\u001F\u001E300#Field 300\u001F\u001E";
         String actual = ProtocolText.encodeRecord(record);
         assertEquals(expected, actual);

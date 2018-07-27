@@ -41,7 +41,9 @@ public final class ProtocolText {
                                     @NotNull RecordField field) {
         builder.append(field.tag);
         builder.append('#');
-        builder.append(field.value);
+        if (field.value != null) {
+            builder.append(field.value);
+        }
         for (SubField subField : field.subFields) {
             encodeSubField(builder, subField);
         }
