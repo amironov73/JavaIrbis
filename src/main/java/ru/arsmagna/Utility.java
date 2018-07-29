@@ -1,6 +1,7 @@
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,7 +11,7 @@ import java.io.*;
 /**
  * Вспомогательные методы, не вошедшие в прочие классы.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Utility {
     /**
      * Максимальное количество записей в пакете.
@@ -53,6 +54,52 @@ public class Utility {
      */
     final static int[] READ_TERMS_CODES = {-202, -203, -204};
 
+    //=========================================================================
+
+    // ОТДЕЛЬНЫЕ СИМВОЛЫ
+
+    /**
+     * Is digit from 0 to 9?
+     */
+    @Contract(pure = true)
+    public static boolean IsArabicDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
+
+    /**
+     * Is letter from A to Z or a to z?
+     */
+    @Contract(pure = true)
+    public static boolean IsLatinLetter(char c) {
+        return c >= 'A' && c <= 'Z'
+                || c >= 'a' && c <= 'z';
+    }
+
+    /**
+     * Is digit from 0 to 9
+     * or letter from A to Z or a to z?
+     */
+    @Contract(pure = true)
+    public static boolean IsLatinLetterOrArabicDigit(char c)
+    {
+        return c >= '0' && c <= '9'
+                || c >= 'A' && c <= 'Z'
+                || c >= 'a' && c <= 'z';
+    }
+
+    /**
+     * Is letter from А to Я or а to я?
+     */
+    @Contract(pure = true)
+    public static boolean IsRussianLetter(char c) {
+        return c >= 'А' && c <= 'я'
+                || c == 'Ё' || c == 'ё';
+    }
+
+    //=========================================================================
+
+    // СТРОКИ
+
     /**
      * Превращаем пустую строку в null.
      *
@@ -60,7 +107,8 @@ public class Utility {
      * @return Тот же текст либо null.
      */
     @Nullable
-    public static String emptyToNull (@Nullable String text) {
+    @Contract(value = "null -> null", pure = true)
+    public static String emptyToNull(@Nullable String text) {
         if (text == null || text.equals("")) {
             return null;
         }
@@ -68,30 +116,33 @@ public class Utility {
         return text;
     }
 
-    public static int find
-            (
-                    int[] array,
-                    int item
-            ) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == item) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
+    /**
+     * Выбираем строку, не равную null (если такая вообще есть).
+     *
+     * @param first Первая строка.
+     * @param second Вторая строка.
+     * @return Та, которая не равна null.
+     */
     @Nullable
     @Contract(value = "!null, _ -> !null", pure = true)
-    public static String iif  (String first, String second) {
-        if (first != null) { return first; }
+    public static String iif(String first, String second) {
+        if (first != null) {
+            return first;
+        }
 
         return second;
     }
 
+    /**
+     * Выбираем строку, не равную null (если такая вообще есть).
+     *
+     * @param first Первая строка.
+     * @param second Вторая строка.
+     * @param third Третья строка.
+     * @return Та, которая не равна null.
+     */
     @Contract(value = "!null, _, _ -> !null; null, !null, _ -> !null", pure = true)
-    public static String iif (String first, String second, String third) {
+    public static String iif(String first, String second, String third) {
         if (first != null) {
             return first;
         }
@@ -102,13 +153,19 @@ public class Utility {
         return third;
     }
 
+    /**
+     * Строка пустая или равна null?
+     *
+     * @param text Проверяемая строка.
+     * @return true, если пустая или равна null.
+     */
     @Contract(value = "null -> true", pure = true)
-    public static boolean isNullOrEmpty (@Nullable String text) {
+    public static boolean isNullOrEmpty(@Nullable String text) {
         return text == null || text.length() == 0;
     }
 
     @Contract(pure = true)
-    public static boolean sameString (@Nullable String s1, @Nullable String s2) {
+    public static boolean sameString(@Nullable String s1, @Nullable String s2) {
         if (s1 == s2) {
             return true;
         }
@@ -120,6 +177,60 @@ public class Utility {
         return s1.compareToIgnoreCase(s2) == 0;
     }
 
+    /**
+     * Безопасное сравнение строк (любая из них может быть равна null).
+     *
+     * @param left Первая строка.
+     * @param right Вторая строка.
+     * @return Результат сравнения.
+     */
+    @Contract(pure = true)
+    public static int safeCompare(@Nullable String left, @Nullable String right) {
+        if (left == null) {
+            if (right == null) {
+                return 0;
+            }
+            return -1;
+        }
+
+        if (right == null) {
+            return 1;
+        }
+
+        return left.compareTo(right);
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    public static String nullToEmpty(@Nullable String value) {
+        return value == null ? "" : value;
+    }
+
+    @Nullable
+    public static String nullableToString(@Nullable Object value) {
+        return value == null ? null : value.toString();
+    }
+
+    @NotNull
+    public static String toVisible(@Nullable Object value) {
+        return value == null ? "(null)" : value.toString();
+    }
+
+    //=========================================================================
+
+    // МАССИВЫ
+
+    @Contract(pure = true)
+    public static int find(@NotNull int[] array, int item) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == item) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     @Contract(pure = true)
     public static int itemAt(@Nullable int[] array, int index) {
         if (array == null || index < 0 || index >= array.length) {
@@ -128,6 +239,10 @@ public class Utility {
 
         return array[index];
     }
+
+    //=========================================================================
+
+    // ПОТОКИ
 
     public static byte[] readToEnd(@NotNull InputStream stream) throws IOException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -143,7 +258,7 @@ public class Utility {
         return result.toByteArray();
     }
 
-    public static void copyTo (@NotNull InputStream source, @NotNull OutputStream destination)
+    public static void copyTo(@NotNull InputStream source, @NotNull OutputStream destination)
             throws IOException {
         byte[] buffer = new byte[1024];
         while (true) {
@@ -155,11 +270,7 @@ public class Utility {
         }
     }
 
-    public static String readTo
-            (
-                    StringReader reader,
-                    char delimiter
-            )
+    public static String readTo(StringReader reader, char delimiter)
             throws IOException {
         StringBuilder result = new StringBuilder();
 
@@ -176,35 +287,6 @@ public class Utility {
         }
 
         return result.toString();
-    }
-
-    public static int safeCompare(@Nullable String left, @Nullable String right) {
-        if (left == null) {
-            if (right == null) {
-                return 0;
-            }
-            return -1;
-        }
-        if (right == null) {
-            return 1;
-        }
-        return left.compareTo(right);
-    }
-
-    @NotNull
-    @Contract(pure = true)
-    public static String nullToEmpty (@Nullable String value) {
-        return value == null ? "" : value;
-    }
-
-    @Nullable
-    public static String nullableToString (@Nullable Object value) {
-        return value == null ? null : value.toString();
-    }
-
-    @NotNull
-    public static String toVisible (@Nullable Object value) {
-        return value == null ? "(null)" : value.toString();
     }
 
     /**
@@ -355,7 +437,7 @@ public class Utility {
     /**
      * Read integer in host byte order.
      */
-    public static int readInt32Host (InputStream stream) throws IOException {
+    public static int readInt32Host(InputStream stream) throws IOException {
         byte[] buffer = readExact(stream, 4);
         int result = toInt32(buffer, 0);
 
@@ -365,7 +447,7 @@ public class Utility {
     /**
      * Read integer in network byte order.
      */
-    public static long readInt64Network (InputStream stream) throws IOException {
+    public static long readInt64Network(InputStream stream) throws IOException {
         byte[] buffer = readExact(stream, 8);
         networkToHost64(buffer, 0);
         long result = toInt64(buffer, 0);
@@ -376,7 +458,7 @@ public class Utility {
     /**
      * Read integer in host byte order.
      */
-    public static long readInt64Host (InputStream stream) throws IOException {
+    public static long readInt64Host(InputStream stream) throws IOException {
         byte[] buffer = readExact(stream, 8);
         long result = toInt64(buffer, 0);
 
