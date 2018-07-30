@@ -232,6 +232,59 @@ public class TextNavigator implements Cloneable {
     }
 
     /**
+     * Считывание вплоть до указанного символа (включая его).
+     *
+     * @param stopChar Стоп-символ.
+     * @return Считанная строка или null.
+     */
+    @Nullable
+    public String readTo(char stopChar) {
+        if (eot()) {
+            return null;
+        }
+
+        int savePosition = _position;
+        while (true) {
+            char c = readChar();
+            if (c == EOT || c == stopChar) {
+                break;
+            }
+        }
+
+        String result = _text.substring(savePosition, _position);
+
+        return result;
+    }
+
+    /**
+     * Считывание вплоть до указанного символа
+     * (сам символ остается несчитанным).
+     *
+     * @param stopChar Стоп-символ.
+     * @return Считанная строка или null.
+     */
+    @Nullable
+    public String readUntil(char stopChar) {
+        if (eot()) {
+            return null;
+        }
+
+        int savePosition = _position;
+        while (true) {
+            char c = peekChar();
+            if (c == EOT || c == stopChar) {
+                break;
+            }
+
+            readChar();
+        }
+
+        String result = _text.substring(savePosition, _position);
+
+        return result;
+    }
+
+    /**
      * Отдать остаток текста.
      *
      * @return Остаток текста или null.

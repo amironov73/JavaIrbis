@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Вспомогательные методы, не вошедшие в прочие классы.
@@ -53,6 +55,20 @@ public class Utility {
      * Return codes that are valid for the ReadTerms command.
      */
     final static int[] READ_TERMS_CODES = {-202, -203, -204};
+
+    //=========================================================================
+
+    // ЛОГИРОВАНИЕ
+
+    private static final Logger _logger = Logger.getLogger(Utility.class.getName());
+
+    public static void logInfo(@NotNull String message) {
+        _logger.log(Level.INFO, message);
+    }
+
+    public static void logError(@NotNull String message) {
+        _logger.log(Level.SEVERE, message);
+    }
 
     //=========================================================================
 

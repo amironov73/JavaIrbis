@@ -20,6 +20,7 @@ import java.util.*;
 
 import static ru.arsmagna.Utility.iif;
 import static ru.arsmagna.Utility.isNullOrEmpty;
+import static ru.arsmagna.Utility.logInfo;
 import static ru.arsmagna.infrastructure.CommandCode.*;
 
 /**
@@ -128,6 +129,8 @@ public final class IrbisConnection {
             return null;
         }
 
+        logInfo("Connecting to " + host + ":" + port);
+
         queryId = 0;
         clientId = 100000 + new Random().nextInt(800000);
         ClientQuery query = new ClientQuery(this, REGISTER_CLIENT);
@@ -226,6 +229,8 @@ public final class IrbisConnection {
         if (!_isConnected) {
             return;
         }
+
+        logInfo("Disconnecting from " + host + ":" + port);
 
         ClientQuery query = new ClientQuery(this, UNREGISTER_CLIENT);
         query.addAnsiNoLF(username);
@@ -651,7 +656,7 @@ public final class IrbisConnection {
     public byte[] readBinaryContent(@NotNull FileSpecification specification)
             throws IOException {
         InputStream stream = null;
-        byte[] result = null;
+        byte[] result;
         try {
             stream = readBinaryFile(specification);
             if (stream == null) {
