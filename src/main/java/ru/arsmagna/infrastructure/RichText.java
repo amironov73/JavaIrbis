@@ -1,6 +1,7 @@
 package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.Nullable;
+
 import ru.arsmagna.TextNavigator;
 import ru.arsmagna.UnicodeRange;
 import ru.arsmagna.Utility;
