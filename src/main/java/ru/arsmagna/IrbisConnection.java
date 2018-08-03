@@ -238,10 +238,10 @@ public final class IrbisConnection {
     }
 
     /**
-     * Выполнение произвольного запроса.
+     * Выполнение произвольного запроса к серверу.
      *
      * @param query Запрос.
-     * @return Ответ сервера.
+     * @return Ответ сервера (не забыть закрыть!).
      * @throws IOException Ошибка ввода-вывода.
      */
     public ServerResponse execute(@NotNull ClientQuery query)
@@ -277,9 +277,9 @@ public final class IrbisConnection {
     }
 
     /**
-     * Простой вызов сервера, когда все строки запроса ANSI.
+     * Простой вызов сервера, когда все строки запроса в кодировке ANSI.
      *
-     * @param commands Команды и параметры.
+     * @param commands Команда и параметры запроса (не забыть закрыть!).
      * @throws IOException Ошибка ввода-вывода.
      */
     public void executeAnsi(@NotNull String... commands) throws IOException {
@@ -419,7 +419,7 @@ public final class IrbisConnection {
     }
 
     /**
-     * Получкение списка пользователей с сервера.
+     * Получение списка пользователей с сервера.
      *
      * @return Массив пользователей.
      * @throws IOException    Ошибка ввода-вывода.
@@ -520,7 +520,7 @@ public final class IrbisConnection {
     }
 
     /**
-     * Пустая операция (используется для подтверждения подключения клиента).
+     * Пустая операция (используется для периодического подтверждения подключения клиента).
      *
      * @throws IOException Ошибка ввода-вывода.
      */
@@ -596,7 +596,7 @@ public final class IrbisConnection {
     }
 
     /**
-     * Восстанавливае подключение к прошлой базе данных,
+     * Восстановление подключения к прошлой базе данных,
      * запомненной с помощью pushDatabase.
      *
      * @return Прошлая база данных.
@@ -632,8 +632,8 @@ public final class IrbisConnection {
     }
 
     /**
-     * Устанавливает подключение к новой базе данных, запоминая
-     * предыдущую базу.
+     * Установка подключения к новой базе данных с запоминанием
+     * предыдущуей базы.
      *
      * @param newDatabase Новая база данных.
      * @return Предыдущая база данных.
@@ -807,7 +807,7 @@ public final class IrbisConnection {
     }
 
     /**
-     * Получение термов словаря.
+     * Получение термов поискового словаря.
      *
      * @param parameters Параметры термов.
      * @return Массив термов.
@@ -918,6 +918,12 @@ public final class IrbisConnection {
         executeAnsi(RELOAD_DICTIONARY, databaseName);
     }
 
+    /**
+     * Пересоздание мастер-файла.
+     *
+     * @param databaseName База данных.
+     * @throws IOException Ошибка ввода-вывода.
+     */
     public void reloadMasterFile(@NotNull String databaseName)
             throws IOException {
         executeAnsi(RELOAD_MASTER_FILE, databaseName);

@@ -33,11 +33,7 @@ public final class MenuEntry {
      * @param code    Код.
      * @param comment Комментарий.
      */
-    public MenuEntry
-    (
-            @NotNull String code,
-            @Nullable String comment
-    ) {
+    public MenuEntry(@NotNull String code, @Nullable String comment) {
         this.code = code;
         this.comment = comment;
     }
