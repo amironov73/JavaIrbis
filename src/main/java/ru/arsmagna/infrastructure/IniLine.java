@@ -3,6 +3,7 @@ package ru.arsmagna.infrastructure;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import ru.arsmagna.Utility;
 
 import static ru.arsmagna.Utility.nullToEmpty;

@@ -136,7 +136,6 @@ public final class AlphabetTable {
 
                 return result;
             }
-
         }
     }
 

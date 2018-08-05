@@ -97,8 +97,12 @@ public final class IniFile {
             else if (section != null) {
                 String[] parts = line.split("=", 2);
                 String key = parts[0];
-                String value = parts.length == 2 ? parts[1] : "";
+                String value = parts.length == 2 ? parts[1] : "";               
                 IniLine item = new IniLine(key, value);
+                if (section == null) {
+                   section = new IniSection(null);
+                   result.sections.add(section);
+                }
                 section.lines.add(item);
             }
         }
