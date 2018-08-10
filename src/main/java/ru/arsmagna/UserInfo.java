@@ -80,7 +80,7 @@ public final class UserInfo {
             return "";
         }
 
-        return prefix + "=" + value;
+        return prefix + "=" + value + ";";
     }
 
     //=========================================================================
@@ -93,12 +93,12 @@ public final class UserInfo {
     public String encode() {
         return name + "\r\n"
                 + password + "\r\n"
-                + formatPair("C", cataloger, "irbisc.ini")
-                + formatPair("R", cataloger, "irbisr.ini")
-                + formatPair("B", cataloger, "irbisb.ini")
-                + formatPair("M", cataloger, "irbism.ini")
-                + formatPair("K", cataloger, "irbisk.ini")
-                + formatPair("A", cataloger, "irbisa.ini");
+                + formatPair("C", cataloger,     "irbisc.ini")
+                + formatPair("R", reader,        "irbisr.ini")
+                + formatPair("B", circulation,   "irbisb.ini")
+                + formatPair("M", acquisitions,  "irbism.ini")
+                + formatPair("K", provision,     "irbisk.ini")
+                + formatPair("A", administrator, "irbisa.ini");
     }
 
     /**
