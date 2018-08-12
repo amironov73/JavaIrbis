@@ -78,7 +78,7 @@ public class Utility {
      * Is digit from 0 to 9?
      */
     @Contract(pure = true)
-    public static boolean IsArabicDigit(char c) {
+    public static boolean isArabicDigit(char c) {
         return c >= '0' && c <= '9';
     }
 
@@ -86,7 +86,7 @@ public class Utility {
      * Is letter from A to Z or a to z?
      */
     @Contract(pure = true)
-    public static boolean IsLatinLetter(char c) {
+    public static boolean isLatinLetter(char c) {
         return c >= 'A' && c <= 'Z'
                 || c >= 'a' && c <= 'z';
     }
@@ -96,7 +96,7 @@ public class Utility {
      * or letter from A to Z or a to z?
      */
     @Contract(pure = true)
-    public static boolean IsLatinLetterOrArabicDigit(char c)
+    public static boolean isLatinLetterOrArabicDigit(char c)
     {
         return c >= '0' && c <= '9'
                 || c >= 'A' && c <= 'Z'
@@ -107,7 +107,7 @@ public class Utility {
      * Is letter from А to Я or а to я?
      */
     @Contract(pure = true)
-    public static boolean IsRussianLetter(char c) {
+    public static boolean isRussianLetter(char c) {
         return c >= 'А' && c <= 'я'
                 || c == 'Ё' || c == 'ё';
     }

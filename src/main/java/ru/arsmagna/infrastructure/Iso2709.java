@@ -4,16 +4,12 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import ru.arsmagna.FastNumber;
-import ru.arsmagna.MarcRecord;
-import ru.arsmagna.RecordField;
-import ru.arsmagna.SubField;
+import ru.arsmagna.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -147,20 +143,21 @@ public class Iso2709 {
         return result;
     }
 
-    private static void _Encode(char[] chars, int pos, int len, int val) {
+    private static void _Encode(byte[] bytes, int pos, int len, int val) {
             len--;
             for (pos += len; len >= 0; len--) {
-                chars[pos] = (char)(val % 10 + (byte)'0');
+                bytes[pos] = (byte)(val % 10 + (byte)'0');
                 val /= 10;
                 pos--;
             }
     }
 
-    @Contract("_, _, null -> param2")
-    private static int _Encode(char[] chars, int pos, String str) {
+    @Contract("_, _, null, _ -> param2")
+    private static int _Encode(byte[] bytes, int pos, String str, Charset encoding) {
         if (str != null) {
-            for (int i = 0; i < str.length(); pos++, i++) {
-                chars[pos] = str.charAt(i);
+            byte[] encoded = str.getBytes(encoding);
+            for (int i = 0; i < encoded.length; pos++, i++) {
+                bytes[pos] = encoded[i];
             }
         }
 
@@ -192,13 +189,11 @@ public class Iso2709 {
             int fldlen = 0;
             if (field.tag < 10) {
                 // В фиксированном поле не бывает подполей и индикаторов
-                fldlen += field.value.length();
+                fldlen += IrbisEncoding.getByteCount(field.value, encoding);
             }
             else {
                 fldlen += 2; // Индикаторы
-                if (field.value != null) {
-                    fldlen += field.value.length();
-                }
+                fldlen += IrbisEncoding.getByteCount(field.value, encoding);
                 Iterator<SubField> subfields = field.subFields.iterator();
                 for (int j = 0; j < field.subFields.size(); j++) {
                     SubField subfield = subfields.next();
@@ -217,71 +212,69 @@ public class Iso2709 {
         int dictionaryPosition = MARKER_LENGTH;
         int baseAddress = MARKER_LENGTH + dictionaryLength;
         int currentAddress = baseAddress;
-        char[] chars = new char[recordLength]; // Закодированная запись
+        byte[] bytes = new byte[recordLength]; // Закодированная запись
 
         // Маркер записи
-        Arrays.fill(chars, ' ');
-        _Encode(chars, 0, 5, recordLength);
-        _Encode(chars, 12, 5, baseAddress);
-        chars[5] = 'n';  // Record status
-        chars[6] = 'a';  // Record type
-        chars[7] = 'm';  // Bibligraphical index
-        chars[10] = '2';
-        chars[11] = '2';
-        chars[17] = ' '; // Bibliographical level
-        chars[18] = ' '; // Cataloging rules
-        chars[19] = ' '; // Related record
-        chars[20] = '4'; // Field length
-        chars[21] = '5'; // Field offset
-        chars[22] = '0';
-        chars[23] = '0';
+        Arrays.fill(bytes, (byte)' ');
+        _Encode(bytes, 0, 5, recordLength);
+        _Encode(bytes, 12, 5, baseAddress);
+        bytes[5] = 'n';  // Record status
+        bytes[6] = 'a';  // Record type
+        bytes[7] = 'm';  // Bibligraphical index
+        bytes[10] = '2';
+        bytes[11] = '2';
+        bytes[17] = ' '; // Bibliographical level
+        bytes[18] = ' '; // Cataloging rules
+        bytes[19] = ' '; // Related record
+        bytes[20] = '4'; // Field length
+        bytes[21] = '5'; // Field offset
+        bytes[22] = '0';
+        bytes[23] = '0';
 
         // Конец справочника
-        chars[baseAddress] = FIELD_DELIMITER;
+        bytes[baseAddress-1] = FIELD_DELIMITER;
         // Проходим по полям
         fields = record.fields.iterator();
         for (int i = 0; i < record.fields.size(); i++) {
             RecordField field = fields.next();
 
             // Справочник
-            _Encode(chars, dictionaryPosition, 3, field.tag);
-            _Encode(chars, dictionaryPosition + 3, 4, fieldLength[i]);
-            _Encode(chars, dictionaryPosition + 7, 5, currentAddress - baseAddress);
+            _Encode(bytes, dictionaryPosition, 3, field.tag);
+            _Encode(bytes, dictionaryPosition + 3, 4, fieldLength[i]);
+            _Encode(bytes, dictionaryPosition + 7, 5, currentAddress - baseAddress);
             dictionaryPosition += 12;
 
             // Собственно поле
             if (field.tag < 10) {
                 // В фиксированных полях не бывает подполей и индикаторов
-                currentAddress = _Encode(chars, currentAddress, field.value);
+                currentAddress = _Encode(bytes, currentAddress, field.value, encoding);
             }
             else {
                 // Индискаторы
-                chars[currentAddress++] = ' ';
-                chars[currentAddress++] = ' ';
+                bytes[currentAddress++] = ' ';
+                bytes[currentAddress++] = ' ';
 
                 // Значение поля
-                currentAddress = _Encode(chars, currentAddress, field.value);
+                currentAddress = _Encode(bytes, currentAddress, field.value, encoding);
 
                 // Подполя
                 Iterator<SubField> subfields = field.subFields.iterator();
                 for (int j = 0; j < field.subFields.size(); j++) {
                     SubField subfield = subfields.next();
-                    chars[currentAddress++] = SUBFIELD_DELIMITER;
-                    chars[currentAddress++] = subfield.code;
-                    currentAddress = _Encode(chars, currentAddress, subfield.value);
+                    bytes[currentAddress++] = SUBFIELD_DELIMITER;
+                    bytes[currentAddress++] = (byte)subfield.code;
+                    currentAddress = _Encode(bytes, currentAddress, subfield.value, encoding);
                 }
 
                 // Ограничитель поля
-                chars[currentAddress++] = FIELD_DELIMITER;
+                bytes[currentAddress++] = FIELD_DELIMITER;
             }
         }
 
         // Конец записи
-        chars[recordLength - 1] = RECORD_DELIMITER;
+        bytes[recordLength - 1] = RECORD_DELIMITER;
 
         // Собственно запись в поток
-        CharBuffer buffer = CharBuffer.wrap(chars);
-        ByteBuffer bytes = encoding.encode(buffer);
-        stream.write(bytes.array());
+        stream.write(bytes);
     }
 }

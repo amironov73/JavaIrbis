@@ -2,6 +2,7 @@ package ru.arsmagna;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -10,6 +11,22 @@ import java.nio.charset.StandardCharsets;
  * Кодировки.
  */
 public final class IrbisEncoding {
+
+    /**
+     * Get byte-length of the text.
+     *
+     * @param text Text to measure
+     * @param encoding Encoding
+     * @return Length
+     */
+    @Contract(pure = true)
+    public static int getByteCount(@Nullable String text, @NotNull Charset encoding) {
+        if (text == null) {
+            return 0;
+        }
+        return text.getBytes(encoding).length;
+    }
+
     /**
      * UTF-8.
      *
