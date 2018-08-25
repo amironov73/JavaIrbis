@@ -117,7 +117,7 @@ public class StreamerTest {
     public void toArray_1() throws IOException {
         ByteArrayInputStream memory = getStream();
         Streamer streamer = new Streamer(memory, 4);
-        byte[] expected = new byte[] { 72, 101, 108, 108, 111, 44, 13, 10, 87, 111, 114, 108, 100, 33};
+        byte[] expected = new byte[]{72, 101, 108, 108, 111, 44, 13, 10, 87, 111, 114, 108, 100, 33};
         byte[] actual = streamer.toArray();
         assertArrayEquals(expected, actual);
     }

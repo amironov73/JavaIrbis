@@ -1,11 +1,9 @@
 package ru.arsmagna.infrastructure;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
-import ru.arsmagna.IrbisEncoding;
-import ru.arsmagna.MarcRecord;
-import ru.arsmagna.RecordField;
-import ru.arsmagna.TestBase;
+import ru.arsmagna.*;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -73,12 +71,87 @@ public class Iso2709Test extends TestBase {
     }
 
     @Test
-    public void writeRecord_1() throws IOException {
+    public void writeRecord_1() throws IOException, IrbisException {
         Charset ansi = IrbisEncoding.ansi();
         File file = File.createTempFile("record", ".iso");
         try(OutputStream stream = new FileOutputStream(file)) {
             MarcRecord record = getRecord();
             Iso2709.writeRecord(stream, record, ansi);
         }
+    }
+
+    @Test
+    public void writeRecord_2() throws IOException, IrbisException {
+        Charset utf = IrbisEncoding.utf();
+        File file = File.createTempFile("record", ".iso");
+        try(OutputStream stream = new FileOutputStream(file)) {
+            MarcRecord record = getRecord();
+            Iso2709.writeRecord(stream, record, utf);
+        }
+    }
+
+    private void copyRecords(@NotNull File inputFile,
+                             @NotNull File outputFile,
+                             @NotNull Charset encoding)
+        throws IOException, IrbisException {
+        try(InputStream inputStream = new FileInputStream(inputFile)) {
+            try(OutputStream outputStream = new FileOutputStream(outputFile)) {
+                MarcRecord record;
+                while ((record = Iso2709.readRecord(inputStream, encoding)) != null) {
+                    Iso2709.writeRecord(outputStream, record, encoding);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void roundTrip_1() throws IOException, IrbisException {
+        Charset ansi = IrbisEncoding.ansi();
+        File originalFile = getFile("test1.iso");
+        File firstFile = File.createTempFile("first", ".iso");
+        File secondFile = File.createTempFile("second", ".iso");
+        copyRecords(originalFile, firstFile, ansi);
+        copyRecords(firstFile, secondFile, ansi);
+
+        assertEquals(originalFile.length(), firstFile.length());
+        assertEquals(firstFile.length(), secondFile.length());
+
+        byte[] expected = Utility.readAllBytes(firstFile);
+        byte[] actual = Utility.readAllBytes(secondFile);
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void roundTrip_2() throws IOException, IrbisException {
+        Charset ansi = IrbisEncoding.ansi();
+        File firstFile = File.createTempFile("first", ".iso");
+        File secondFile = File.createTempFile("second", ".iso");
+        try(OutputStream stream = new FileOutputStream(firstFile)) {
+            MarcRecord record = getRecord();
+            Iso2709.writeRecord(stream, record, ansi);
+        }
+
+        copyRecords(firstFile, secondFile, ansi);
+
+        byte[] expected = Utility.readAllBytes(firstFile);
+        byte[] actual = Utility.readAllBytes(secondFile);
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void roundTrip_3() throws IOException, IrbisException {
+        Charset utf = IrbisEncoding.utf();
+        File firstFile = File.createTempFile("first", ".iso");
+        File secondFile = File.createTempFile("second", ".iso");
+        try(OutputStream stream = new FileOutputStream(firstFile)) {
+            MarcRecord record = getRecord();
+            Iso2709.writeRecord(stream, record, utf);
+        }
+
+        copyRecords(firstFile, secondFile, utf);
+
+        byte[] expected = Utility.readAllBytes(firstFile);
+        byte[] actual = Utility.readAllBytes(secondFile);
+        assertArrayEquals(expected, actual);
     }
 }

@@ -45,7 +45,7 @@ public class Iso2709 {
     /**
      * Parse the stream for the record.
      *
-     * @param stream Stream to parse.
+     * @param stream  Stream to parse.
      * @param charset Charset to use.
      * @return Parsed record or null if end-of-stream detected.
      */
@@ -71,12 +71,10 @@ public class Iso2709 {
 
         // Простая проверка, что мы имеем дело
         // с нормальной ISO-записью
-        if (record[recordLength-1] != RECORD_DELIMITER) {
+        if (record[recordLength - 1] != RECORD_DELIMITER) {
             return null;
         }
 
-        // Превращаем запись в Unicode
-        char[] chars = charset.decode(ByteBuffer.wrap(record)).array();
         int indicatorLength = FastNumber.parseInt32(record, 10, 1);
         int baseAddress = FastNumber.parseInt32(record, 12, 5);
 
@@ -89,17 +87,16 @@ public class Iso2709 {
             }
 
             int tag = FastNumber.parseInt32(record, directory, 3);
-            int fieldLength = FastNumber.parseInt32(record, directory+3, 4);
+            int fieldLength = FastNumber.parseInt32(record, directory + 3, 4);
             int fieldOffset = baseAddress
-                    + FastNumber.parseInt32(record, directory+7, 5);
+                    + FastNumber.parseInt32(record, directory + 7, 5);
             RecordField field = new RecordField(tag);
             result.fields.add(field);
             if (tag < 10) {
                 // Фиксированное поле
                 // не может содержать подполей и индикаторов
-                field.value = new String(chars, fieldOffset, fieldLength-1);
-            }
-            else {
+                field.value = charset.decode(ByteBuffer.wrap(record, fieldOffset, fieldLength - 1)).toString();
+            } else {
                 // Поле переменной длины
                 // Содержит два однобайтных индикатора
                 // может содерджать подполя
@@ -119,7 +116,7 @@ public class Iso2709 {
 
                 // Если есть текст до первого разделителя, запоминаем его
                 if (position != start) {
-                    field.value = new String(chars, start, position - start);
+                    field.value = charset.decode(ByteBuffer.wrap(record, start, position - start)).toString();
                 }
 
                 // Просматриваем подполя
@@ -132,8 +129,8 @@ public class Iso2709 {
                         }
                         position++;
                     }
-                    SubField subField = new SubField(chars[start+1],
-                            new String(chars, start + 2, position - start - 2));
+                    SubField subField = new SubField((char) record[start + 1],
+                            charset.decode(ByteBuffer.wrap(record, start + 2, position - start - 2)).toString());
                     field.subFields.add(subField);
                     start = position;
                 }
@@ -144,12 +141,12 @@ public class Iso2709 {
     }
 
     private static void _Encode(byte[] bytes, int pos, int len, int val) {
-            len--;
-            for (pos += len; len >= 0; len--) {
-                bytes[pos] = (byte)(val % 10 + (byte)'0');
-                val /= 10;
-                pos--;
-            }
+        len--;
+        for (pos += len; len >= 0; len--) {
+            bytes[pos] = (byte) (val % 10 + (byte) '0');
+            val /= 10;
+            pos--;
+        }
     }
 
     @Contract("_, _, null, _ -> param2")
@@ -167,16 +164,15 @@ public class Iso2709 {
     /**
      * Write the record to the stream.
      *
-     * @param stream Stream to use
-     * @param record Record to write
+     * @param stream   Stream to use
+     * @param record   Record to write
      * @param encoding Encoding
      * @throws IOException Output error
      */
     public static void writeRecord(@NotNull OutputStream stream,
                                    @NotNull MarcRecord record,
                                    @NotNull Charset encoding)
-            throws IOException
-    {
+            throws IOException, IrbisException {
         int recordLength = MARKER_LENGTH;
         int dictionaryLength = 1; // С учетом ограничителя справочника
         int[] fieldLength = new int[record.fields.size()]; // Длины полей
@@ -186,27 +182,46 @@ public class Iso2709 {
         for (int i = 0; i < record.fields.size(); i++) {
             dictionaryLength += 12; // Одна статья справочника
             RecordField field = fields.next();
+
+            if (field.tag <= 0 || field.tag >= 1000) {
+                throw new IrbisException("wrong field: " + field.tag);
+            }
+
             int fldlen = 0;
             if (field.tag < 10) {
                 // В фиксированном поле не бывает подполей и индикаторов
                 fldlen += IrbisEncoding.getByteCount(field.value, encoding);
-            }
-            else {
+            } else {
                 fldlen += 2; // Индикаторы
-                fldlen += IrbisEncoding.getByteCount(field.value, encoding);
+                if (field.value != null) {
+                    fldlen += IrbisEncoding.getByteCount(field.value, encoding);
+                }
                 Iterator<SubField> subfields = field.subFields.iterator();
                 for (int j = 0; j < field.subFields.size(); j++) {
                     SubField subfield = subfields.next();
                     fldlen += 2; // Признак подполя и его код
-                    fldlen += subfield.value.length();
+                    if (subfield.value != null) {
+                        fldlen += IrbisEncoding.getByteCount(subfield.value, encoding);
+                    }
                 }
-                fldlen += 1; // Разделитель полей
             }
+
+            fldlen++; // Разделитель полей
+
+            if (fldlen >= 10_000) {
+                throw new IrbisException("field too long");
+            }
+
             fieldLength[i] = fldlen;
             recordLength += fldlen;
         }
+
         recordLength += dictionaryLength; // Справочник
         recordLength++; // Разделитель записей
+
+        if (recordLength >= 100_000) {
+            throw new IrbisException("record too long");
+        }
 
         // Приступаем к кодированию
         int dictionaryPosition = MARKER_LENGTH;
@@ -215,24 +230,25 @@ public class Iso2709 {
         byte[] bytes = new byte[recordLength]; // Закодированная запись
 
         // Маркер записи
-        Arrays.fill(bytes, (byte)' ');
+        Arrays.fill(bytes, (byte) ' ');
         _Encode(bytes, 0, 5, recordLength);
         _Encode(bytes, 12, 5, baseAddress);
         bytes[5] = 'n';  // Record status
         bytes[6] = 'a';  // Record type
         bytes[7] = 'm';  // Bibligraphical index
+        bytes[8] = '2';
         bytes[10] = '2';
         bytes[11] = '2';
         bytes[17] = ' '; // Bibliographical level
-        bytes[18] = ' '; // Cataloging rules
+        bytes[18] = 'i'; // Cataloging rules
         bytes[19] = ' '; // Related record
         bytes[20] = '4'; // Field length
         bytes[21] = '5'; // Field offset
         bytes[22] = '0';
-        bytes[23] = '0';
 
         // Конец справочника
-        bytes[baseAddress-1] = FIELD_DELIMITER;
+        bytes[baseAddress - 1] = FIELD_DELIMITER;
+
         // Проходим по полям
         fields = record.fields.iterator();
         for (int i = 0; i < record.fields.size(); i++) {
@@ -248,8 +264,7 @@ public class Iso2709 {
             if (field.tag < 10) {
                 // В фиксированных полях не бывает подполей и индикаторов
                 currentAddress = _Encode(bytes, currentAddress, field.value, encoding);
-            }
-            else {
+            } else {
                 // Индискаторы
                 bytes[currentAddress++] = ' ';
                 bytes[currentAddress++] = ' ';
@@ -262,14 +277,16 @@ public class Iso2709 {
                 for (int j = 0; j < field.subFields.size(); j++) {
                     SubField subfield = subfields.next();
                     bytes[currentAddress++] = SUBFIELD_DELIMITER;
-                    bytes[currentAddress++] = (byte)subfield.code;
+                    bytes[currentAddress++] = (byte) subfield.code;
                     currentAddress = _Encode(bytes, currentAddress, subfield.value, encoding);
                 }
-
-                // Ограничитель поля
-                bytes[currentAddress++] = FIELD_DELIMITER;
             }
+
+            // Ограничитель поля
+            bytes[currentAddress++] = FIELD_DELIMITER;
         }
+
+        assert currentAddress == recordLength - 1;
 
         // Конец записи
         bytes[recordLength - 1] = RECORD_DELIMITER;

@@ -274,6 +274,14 @@ public class Utility {
         return result.toByteArray();
     }
 
+    public static byte[] readAllBytes(@NotNull File file)
+            throws IOException {
+        try(InputStream stream = new FileInputStream(file)) {
+            byte[] result = readToEnd(stream);
+            return result;
+        }
+    }
+
     public static void copyTo(@NotNull InputStream source, @NotNull OutputStream destination)
             throws IOException {
         byte[] buffer = new byte[1024];
