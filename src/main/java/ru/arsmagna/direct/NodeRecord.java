@@ -9,7 +9,7 @@ import java.util.Collection;
  * Записи состоят из трех частей: лидера, справочника
  * и ключей переменной длины.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class NodeRecord {
 
     /**
@@ -42,5 +42,19 @@ public class NodeRecord {
     public NodeRecord() {
         leader = new NodeLeader();
         items = new ArrayList<NodeItem>();
+    }
+
+    //=========================================================================
+
+    @Override
+    public String toString() {
+        StringBuilder items = new StringBuilder();
+        for (NodeItem item: this.items) {
+            items.append(item.toString());
+            items.append('\n');
+        }
+
+        return String.format("%s%n%s", leader.toString(),
+                items.toString());
     }
 }

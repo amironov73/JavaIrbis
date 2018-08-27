@@ -489,6 +489,30 @@ public class Utility {
         return result;
     }
 
+    public static void writeInt16Host(@NotNull OutputStream stream, short value)
+            throws IOException {
+    }
+
+    public static void writeInt16Network(@NotNull OutputStream stream, short value)
+        throws IOException {
+    }
+
+    public static void writeInt32Host(@NotNull OutputStream stream, int value)
+            throws IOException {
+    }
+
+    public static void writeInt32Network(@NotNull OutputStream stream, int value)
+        throws IOException {
+    }
+
+    public static void writeInt64Host(@NotNull OutputStream stream, long value)
+            throws IOException {
+    }
+
+    public static void writeInt64Network(@NotNull OutputStream stream, long value)
+        throws IOException {
+    }
+
     /**
      * Преобразование в 16-битное целое.
      *

@@ -6,7 +6,7 @@ package ru.arsmagna.direct;
  * есть в записи, представлен в справочнике одним входом,
  * формат которого описывает следующая структура
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class NodeItem {
 
     /**
@@ -33,4 +33,31 @@ public class NodeItem {
      * Текстовое значение ключа.
      */
     public String text;
+
+    /**
+     * Полное смещение.
+     *
+     * @return Полное смещение.
+     */
+    public long fullOffset() {
+        return (((long)highOffset) << 32) + lowOffset;
+    }
+
+    /**
+     * Ссылается на лист?
+     * @return true or false
+     */
+    public boolean refersToLeaf() {
+        return lowOffset < 0;
+    }
+
+    //=========================================================================
+
+    @Override
+    public String toString() {
+        return String.format("Length: %d, KeyOffset: %d, "
+            + "LowOffset: %d, HighOffset: %d, FullOffset:%d, "
+            + "Text: %s", length, keyOffset, lowOffset,
+                highOffset, fullOffset(), text);
+    }
 }

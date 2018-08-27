@@ -199,6 +199,11 @@ public class Iso2709 {
                 Iterator<SubField> subfields = field.subFields.iterator();
                 for (int j = 0; j < field.subFields.size(); j++) {
                     SubField subfield = subfields.next();
+
+                    if (subfield.code <= ' ' || subfield.code >= 127) {
+                        throw new IrbisException("wrong code: " + subfield.code);
+                    }
+
                     fldlen += 2; // Признак подполя и его код
                     if (subfield.value != null) {
                         fldlen += IrbisEncoding.getByteCount(subfield.value, encoding);
