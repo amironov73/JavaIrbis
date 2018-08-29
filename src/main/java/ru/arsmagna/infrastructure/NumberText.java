@@ -2,6 +2,7 @@ package ru.arsmagna.infrastructure;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.arsmagna.Utility;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -20,42 +21,32 @@ public class NumberText implements Cloneable, Comparable<NumberText> {
      */
     class Chunk implements Cloneable, Comparable<Chunk> {
 
-        public boolean havePrefix() {
-            return !isNullOrEmpty(prefix);
-        }
-
         public String prefix;
         public boolean haveValue;
         public long value;
         public long length;
 
-        public boolean setup(@NotNull StringBuilder str,
+        public boolean havePrefix() { return !isNullOrEmpty(prefix); }
+
+        public void setup(@NotNull StringBuilder str,
                              @NotNull StringBuilder number) {
-            boolean result = false;
             if (str.length() != 0) {
-                result = true;
                 prefix = str.toString();
             }
+
             if (number.length() != 0) {
-                result = true;
                 haveValue = true;
                 length = number.length();
                 value = Long.parseLong(number.toString());
             }
-
-            return result;
         }
 
         public int compareTo(@NotNull Chunk other) {
-            int result = Boolean.compare(havePrefix(), other.havePrefix());
-
-            if (result == 0 && havePrefix()) {
-                result = prefix.compareTo(other.prefix);
-            }
+            int result = Utility.safeCompare(prefix, other.prefix);
 
             if (result == 0) {
                 result = haveValue && other.haveValue
-                        ? Long.signum(value - other.value)
+                        ? Long.compare(value, other.value)
                         : Boolean.compare(haveValue, other.haveValue);
             }
 
@@ -93,6 +84,16 @@ public class NumberText implements Cloneable, Comparable<NumberText> {
             }
 
             return result.toString();
+        }
+
+        @Override
+        public int hashCode() {
+            int result = prefix == null ? 0: prefix.hashCode();
+            if (haveValue) {
+                result = result * 137 + Long.hashCode(value);
+            }
+
+            return result;
         }
     }
 
@@ -150,24 +151,45 @@ public class NumberText implements Cloneable, Comparable<NumberText> {
 
     public int compareTo(@NotNull NumberText other) {
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
-            Chunk c1 = get(i);
-            Chunk c2 = other.get(i);
-            if (c1 != null && c2 != null) {
-                int result = c1.compareTo(c2);
+            Chunk left = get(i);
+            Chunk right = other.get(i);
+
+            if (left != null && right != null) {
+                int result = left.compareTo(right);
                 if (result != 0) {
                     return result;
                 }
             }
             else {
-                if (c1 == null && c2 == null) {
+                if (left == null && right == null) {
                     return 0;
                 }
 
-                return c1 != null ? 1 : -1;
+                return left != null ? 1 : -1;
             }
         }
 
         return 0;
+    }
+
+    public String getPrefix(int index) {
+        Chunk chunk = get(index);
+        return chunk == null ? null : chunk.prefix;
+    }
+
+    public long getValue(int index) {
+        Chunk chunk = get(index);
+        return chunk == null ? 0 : chunk.value;
+    }
+
+    public boolean havePrefix(int index) {
+        Chunk chunk = get(index);
+        return chunk != null && chunk.havePrefix();
+    }
+
+    public boolean haveValue(int index) {
+        Chunk chunk = get(index);
+        return chunk != null && chunk.haveValue;
     }
 
     public NumberText increment(int index, int delta) {
@@ -244,13 +266,39 @@ public class NumberText implements Cloneable, Comparable<NumberText> {
             }
         }
 
-        if (!chunk.setup(str, number)) {
-            _chunks.removeLast();
-        }
+        chunk.setup(str, number);
     }
 
     public int size() {
         return _chunks.size();
+    }
+
+    public NumberText removeValue(int index) {
+        Chunk chunk = get(index);
+        if (chunk != null) {
+            chunk.haveValue = false;
+        }
+
+        return this;
+    }
+
+    public NumberText setPrefix(int index, @Nullable String prefix) {
+        Chunk chunk = get(index);
+        if (chunk != null) {
+            chunk.prefix = prefix;
+        }
+
+        return this;
+    }
+
+    public NumberText setValue(int index, long value) {
+        Chunk chunk = get(index);
+        if (chunk != null) {
+            chunk.value = value;
+            chunk.haveValue = true;
+        }
+
+        return this;
     }
 
     @Override
@@ -272,5 +320,25 @@ public class NumberText implements Cloneable, Comparable<NumberText> {
         }
 
         return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NumberText that = (NumberText) o;
+
+        return compareTo(that) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 0;
+        for (Chunk chunk: _chunks) {
+            result = result * 137 + result;
+        }
+
+        return result;
     }
 }
