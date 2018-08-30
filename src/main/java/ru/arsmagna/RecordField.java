@@ -267,6 +267,51 @@ public final class RecordField implements Cloneable {
         return result;
     }
 
+    /**
+     * Разбор строки.
+     *
+     * @param tag Field tag
+     * @param line Text to parse
+     * @return Parsed field
+     * @throws IOException Error during input-output
+     */
+    @NotNull
+    public static RecordField parse (int tag, @NotNull String line) throws IOException {
+        StringReader reader = new StringReader(line);
+        RecordField result = new RecordField(tag);
+        result.value = Utility.readTo(reader, '^');
+        while (true) {
+            int next = reader.read();
+            if (next < 0) {
+                break;
+            }
+
+            char code = Character.toLowerCase((char) next);
+            String value = Utility.readTo(reader, '^');
+            SubField subField = new SubField(code, value);
+            result.subFields.add(subField);
+        }
+
+        return result;
+    }
+
+    public String toText() {
+        StringBuilder result = new StringBuilder();
+
+        if (!isNullOrEmpty(value)) {
+            result.append(value);
+        }
+
+        for (SubField subField: subFields) {
+            String text = subField.toString();
+            if (!isNullOrEmpty(text)) {
+                result.append(text);
+            }
+        }
+
+        return result.toString();
+    }
+
     //=========================================================================
 
     @Override

@@ -4,8 +4,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * Кодировки.
@@ -51,6 +53,18 @@ public final class IrbisEncoding {
         }
 
         return _windows1251;
+    }
+
+    //=========================================================================
+
+    public static byte[] encode(@NotNull Charset encoding, @NotNull String text) {
+        ByteBuffer buffer = encoding.encode(text);
+        byte[] result = buffer.array();
+        if (buffer.limit() != result.length) {
+            result = Arrays.copyOf(result, buffer.limit());
+        }
+
+        return result;
     }
 
     //=========================================================================

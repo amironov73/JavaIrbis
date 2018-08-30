@@ -38,6 +38,11 @@ public final class MarcRecord implements Cloneable {
      */
     public int version;
 
+    /**
+     * Смещение предыдущей версии записи в MST-файле.
+     */
+    public long previousOffset;
+
     public final Collection<RecordField> fields = new ArrayList<>();
 
     /**
