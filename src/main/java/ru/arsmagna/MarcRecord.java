@@ -97,6 +97,7 @@ public final class MarcRecord implements Cloneable {
         for (SubField subField : subFields) {
             field.subFields.add(subField);
         }
+        fields.add(field);
 
         return this;
     }
@@ -107,6 +108,7 @@ public final class MarcRecord implements Cloneable {
             for (SubField subField : subFields) {
                 field.subFields.add(subField);
             }
+            fields.add(field);
         }
 
         return this;

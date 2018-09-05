@@ -65,6 +65,11 @@ public final class IrbisConnection {
     public int queryId;
 
     /**
+     * Полученный с сервера INI-файл.
+     */
+    public IniFile iniFile;
+
+    /**
      * Произвольные пользовательские данные.
      */
     @SuppressFBWarnings("UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD")
@@ -121,7 +126,7 @@ public final class IrbisConnection {
     @Nullable
     public IniFile connect() throws IOException, IrbisException {
         if (_isConnected) {
-            return null;
+            return iniFile;
         }
 
         logInfo("Connecting to " + host + ":" + port);
@@ -139,9 +144,9 @@ public final class IrbisConnection {
                     response.readAnsi();
                     _isConnected = true;
 
-                    IniFile result = IniFile.parse(response);
+                    iniFile = IniFile.parse(response);
 
-                    return result;
+                    return iniFile;
                 }
             }
         }
@@ -1263,6 +1268,19 @@ public final class IrbisConnection {
         }
 
         executeAndForget(query);
+    }
+
+    /**
+     * Сохранение записи на сервере.
+     *
+     * @param record Запись для сохранения (новая или ранее считанная)
+     * @return Новый максимальный MFN
+     * @throws IOException Ошибка ввода-вывода
+     * @throws IrbisException Ошибка протокола
+     */
+    public int writeRecord(@NotNull MarcRecord record)
+        throws IOException, IrbisException {
+        return writeRecord(record, false, true, false);
     }
 
     /**
