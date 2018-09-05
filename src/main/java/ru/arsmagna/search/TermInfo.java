@@ -35,8 +35,6 @@ public final class TermInfo implements Cloneable {
      */
     @NotNull
     public static TermInfo[] parse (@NotNull ServerResponse response) {
-        if (response == null) { throw new IllegalArgumentException(); }
-
         ArrayList<TermInfo> result = new ArrayList<>();
         while (true) {
             String line = response.readUtf();
@@ -60,6 +58,7 @@ public final class TermInfo implements Cloneable {
      *
      * @return Копию.
      */
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public TermInfo clone() {
         TermInfo result = new TermInfo();
         result.count = count;

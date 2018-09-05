@@ -54,6 +54,7 @@ public final class PostingParameters implements Cloneable {
      * @return Копию.
      */
     @NotNull
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public PostingParameters clone() {
         PostingParameters result = new PostingParameters();
         result.database = database;

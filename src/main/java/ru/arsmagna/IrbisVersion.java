@@ -40,8 +40,6 @@ public final class IrbisVersion {
      * @return Версия сервера.
      */
     public static IrbisVersion parse (@NotNull ServerResponse response) {
-        if (response == null) { throw new IllegalArgumentException(); }
-
         String[] lines = response.readRemainingAnsiLines();
         IrbisVersion result = new IrbisVersion();
         if (lines.length == 3) {

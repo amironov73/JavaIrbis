@@ -40,6 +40,7 @@ public final class TermParameters implements Cloneable {
      * @return Копию.
      */
     @NotNull
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public TermParameters clone() {
         TermParameters result = new TermParameters();
         result.database = database;

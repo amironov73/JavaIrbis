@@ -216,6 +216,28 @@ public class Utility {
         return left.compareTo(right);
     }
 
+    /**
+     * Безопасное преобразование строки в целое число.
+     *
+     * @param text Строка
+     * @return Результат преобразования
+     */
+    public static int safeParseInt32(@Nullable String text) {
+        if (isNullOrEmpty(text)) {
+            return 0;
+        }
+
+        int result;
+        try {
+            result = Integer.parseInt(text);
+        }
+        catch (Exception ex) {
+            result = 0;
+        }
+
+        return result;
+    }
+
     @NotNull
     @Contract(pure = true)
     public static String nullToEmpty(@Nullable String value) {

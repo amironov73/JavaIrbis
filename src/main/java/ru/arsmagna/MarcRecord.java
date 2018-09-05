@@ -138,6 +138,7 @@ public final class MarcRecord implements Cloneable {
      *
      * @return Копию записи.
      */
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public MarcRecord clone() {
         MarcRecord result = new MarcRecord();
         result.database = database;

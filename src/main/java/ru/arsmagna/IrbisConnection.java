@@ -1,26 +1,21 @@
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import ru.arsmagna.infrastructure.ClientQuery;
-import ru.arsmagna.infrastructure.IniFile;
-import ru.arsmagna.infrastructure.RawRecord;
-import ru.arsmagna.infrastructure.ServerResponse;
+import ru.arsmagna.infrastructure.*;
 import ru.arsmagna.search.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.net.Socket;
 import java.util.*;
 
-import static ru.arsmagna.Utility.iif;
-import static ru.arsmagna.Utility.isNullOrEmpty;
-import static ru.arsmagna.Utility.logInfo;
+import static ru.arsmagna.Utility.*;
 import static ru.arsmagna.infrastructure.CommandCode.*;
 
 /**
@@ -131,20 +126,24 @@ public final class IrbisConnection {
 
         logInfo("Connecting to " + host + ":" + port);
 
-        queryId = 0;
-        clientId = 100000 + new Random().nextInt(800000);
-        ClientQuery query = new ClientQuery(this, REGISTER_CLIENT);
-        query.addAnsi(username);
-        query.addAnsiNoLF(password);
-        try (ServerResponse response = execute(query)) {
-            response.checkReturnCode();
-            response.readAnsi();
-            //response.readAnsi();
-            _isConnected = true;
+        while (true) {
+            queryId = 0;
+            clientId = 100000 + new Random().nextInt(800000);
+            ClientQuery query = new ClientQuery(this, REGISTER_CLIENT);
+            query.addAnsi(username);
+            query.addAnsiNoLF(password);
+            try (ServerResponse response = execute(query)) {
+                int[] allowed = {-3337};
+                response.checkReturnCode(allowed);
+                if (response.returnCode != -3337) {
+                    response.readAnsi();
+                    _isConnected = true;
 
-            IniFile result = IniFile.parse(response);
+                    IniFile result = IniFile.parse(response);
 
-            return result;
+                    return result;
+                }
+            }
         }
     }
 
@@ -158,8 +157,8 @@ public final class IrbisConnection {
      * @throws IrbisException Ошибка протокола.
      */
     public void createDatabase(@NotNull String databaseName,
-                                     @NotNull String description,
-                                     boolean readerAccess)
+                               @NotNull String description,
+                               boolean readerAccess)
             throws IOException, IrbisException {
         ClientQuery query = new ClientQuery(this, CREATE_DATABASE);
         query.addAnsi(databaseName);
@@ -209,7 +208,7 @@ public final class IrbisConnection {
      * Удаление записи по её MFN.
      *
      * @param mfn MFN удаляемой записи.
-     * @throws IOException Ошибка ввода-вывода.
+     * @throws IOException    Ошибка ввода-вывода.
      * @throws IrbisException Ошибка протокола.
      */
     public void deleteRecord(int mfn) throws IOException, IrbisException {
@@ -325,8 +324,10 @@ public final class IrbisConnection {
      * @throws IrbisException Ошибка протокола.
      */
     public String formatRecord(@NotNull String format,
-                                     @NotNull MarcRecord record)
+                               @NotNull MarcRecord record)
             throws IOException, IrbisException {
+        format = IrbisFormat.prepareFormat(format);
+
         ClientQuery query = new ClientQuery(this, FORMAT_RECORD);
         query.addAnsi(database);
         query.addAnsi(format);
@@ -336,6 +337,30 @@ public final class IrbisConnection {
         try (ServerResponse response = execute(query)) {
             response.checkReturnCode();
             String result = response.readRemainingUtfText();
+
+            return result;
+        }
+    }
+
+    public String[] formatRecords(@NotNull String format, @NotNull int[] mfns)
+        throws IOException, IrbisException {
+        if (mfns.length == 0) {
+            return new String[0];
+        }
+
+        format = IrbisFormat.prepareFormat(format);
+
+        ClientQuery query = new ClientQuery(this, FORMAT_RECORD);
+        query.addAnsi(database);
+        query.addAnsi(format);
+        query.add(mfns.length);
+        for (int i = 0; i < mfns.length; i++) {
+            query.add(mfns[i]);
+        }
+
+        try (ServerResponse response = execute(query)) {
+            response.checkReturnCode();
+            String[] result = response.readRemainingUtfLines();
 
             return result;
         }
@@ -352,7 +377,7 @@ public final class IrbisConnection {
         ClientQuery query = new ClientQuery(this, RECORD_LIST);
         query.addAnsi(databaseName);
 
-        try(ServerResponse response = execute(query)) {
+        try (ServerResponse response = execute(query)) {
             response.checkReturnCode();
             DatabaseInfo result = DatabaseInfo.parse(response);
 
@@ -447,6 +472,43 @@ public final class IrbisConnection {
     }
 
     /**
+     * Получение списка баз данных с сервера.
+     *
+     * @param iniFile Серверный INI-файл (полученный при подключении к серверу)
+     * @param defaultFileName Имя файла со списком баз по умолчанию
+     * @return Массив баз данных
+     * @throws IOException Ошибка ввода-вывода
+     */
+    public DatabaseInfo[] listDatabases(@NotNull IniFile iniFile, @NotNull String defaultFileName)
+            throws IOException {
+        String fileName = iniFile.getValue("Main", "DBNNAMECAT", defaultFileName);
+        if (fileName == null) {
+            return new DatabaseInfo[0];
+        }
+
+        FileSpecification specification = new FileSpecification(IrbisPath.DATA, null, fileName);
+        MenuFile menuFile = readMenuFile(specification);
+        DatabaseInfo[] result = DatabaseInfo.parse(menuFile);
+
+        return result;
+    }
+
+    /**
+     * Загрузка списка баз данных с сервера.
+     *
+     * @param specification Спецификация
+     * @return Список баз данных
+     * @throws IOException Ошибка ввода-вывода
+     */
+    public DatabaseInfo[] listDatabases(@NotNull FileSpecification specification)
+        throws IOException {
+        MenuFile menuFile = readMenuFile(specification);
+        DatabaseInfo[] result = DatabaseInfo.parse(menuFile);
+
+        return result;
+    }
+
+    /**
      * Получение списка файлов с сервера.
      *
      * @param specification Спецификация файлов (поддерживаются метасимволы).
@@ -517,6 +579,38 @@ public final class IrbisConnection {
 
             return result;
         }
+    }
+
+    /**
+     * Мониторинг (ждем окончания указанной операции).
+     *
+     * @param operation Какую операцию ждем
+     * @return Серверный лог-файл (результат выполнения операции)
+     */
+    public String monitorOperation(@NotNull String operation)
+            throws IOException, IrbisException, InterruptedException {
+        String clientId = Integer.toString(this.clientId);
+
+        while (true) {
+            boolean found = false;
+            IrbisProcessInfo[] processes = listProcesses();
+            for (IrbisProcessInfo process: processes) {
+                if (process.clientId == clientId
+                   && process.lastCommand == operation) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                break;
+            }
+            Thread.sleep(1000);
+        }
+
+        String filename = clientId + ".ibf";
+        FileSpecification specification = new FileSpecification(IrbisPath.SYSTEM, null, filename);
+        String result = readTextContent(specification);
+
+        return result;
     }
 
     /**
@@ -609,6 +703,7 @@ public final class IrbisConnection {
 
     /**
      * Расформатирование таблицы.
+     *
      * @param definition Определение таблицы.
      * @return Результат расформатирования.
      * @throws IOException Ошибка ввода-вывода.
@@ -663,8 +758,7 @@ public final class IrbisConnection {
                 return null;
             }
             result = Utility.readToEnd(stream);
-        }
-        finally {
+        } finally {
             if (stream != null) {
                 stream.close();
             }
@@ -687,6 +781,40 @@ public final class IrbisConnection {
         ServerResponse response = execute(query);
 
         return response.getBinaryFile();
+    }
+
+    /**
+     * Чтение INI-файла с сервера.
+     *
+     * @param specification Спецификация
+     * @return INI-файл
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    public IniFile readIniFile(@NotNull FileSpecification specification)
+        throws IOException {
+        String text = readTextContent(specification);
+        StringReader reader = new StringReader(text);
+        Scanner scanner = new Scanner(reader);
+        IniFile result = IniFile.parse(scanner);
+
+        return result;
+    }
+
+    /**
+     * Чтение MNU-файла с сервера.
+     *
+     * @param specification Спецификация
+     * @return MNU-файл
+     * @throws IOException Ошибка ввода-вывода
+     */
+    public MenuFile readMenuFile(@NotNull FileSpecification specification)
+        throws IOException {
+        String text = readTextContent(specification);
+        StringReader reader = new StringReader(text);
+        Scanner scanner = new Scanner(reader);
+        MenuFile result = MenuFile.parse(scanner);
+
+        return result;
     }
 
     /**
@@ -739,25 +867,25 @@ public final class IrbisConnection {
     }
 
     /**
-     * Считывание записи с указанным MFN.
+     * Чтение записи с указанным MFN.
      *
-     * @param mfn MFN записи.
-     * @return Считанная запись.
-     * @throws IOException    Ошибка ввода-вывода.
-     * @throws IrbisException Ошибка протокола.
+     * @param mfn MFN записи
+     * @return Загруженная запись
+     * @throws IOException    Ошибка ввода-вывода
+     * @throws IrbisException Ошибка протокола
      */
     public MarcRecord readRecord(int mfn) throws IOException, IrbisException {
         return readRecord(database, mfn);
     }
 
     /**
-     * Считывание записи с указанным MFN.
+     * Чтение записи с указанным MFN.
      *
-     * @param databaseName База данных.
-     * @param mfn          MFN записи.
-     * @return Считанная запись.
-     * @throws IOException    Ошибка ввода-вывода.
-     * @throws IrbisException Ошибка протокола.
+     * @param databaseName База данных
+     * @param mfn          MFN записи
+     * @return  Загруженная запись
+     * @throws IOException    Ошибка ввода-вывода
+     * @throws IrbisException Ошибка протокола
      */
     public MarcRecord readRecord(@NotNull String databaseName, int mfn)
             throws IOException, IrbisException {
@@ -776,14 +904,14 @@ public final class IrbisConnection {
     }
 
     /**
-     * Считывание указанной версии записи.
+     * Чтение указанной версии записи.
      *
-     * @param databaseName  База данных.
-     * @param mfn           MFN записи.
-     * @param versionNumber Номер версии.
-     * @return Считанная запись.
-     * @throws IOException    Ошибка ввода-вывода.
-     * @throws IrbisException Ошибка протокола.
+     * @param databaseName  База данных
+     * @param mfn           MFN записи
+     * @param versionNumber Номер версии
+     * @return Загруженная запись
+     * @throws IOException    Ошибка ввода-вывода
+     * @throws IrbisException Ошибка протокола
      */
     public MarcRecord readRecord(@NotNull String databaseName, int mfn,
                                  int versionNumber)
@@ -804,6 +932,21 @@ public final class IrbisConnection {
 
             return result;
         }
+    }
+
+    /**
+     * Загрузка сценариев поиска с сервера.
+     *
+     * @param specification Спецификация
+     * @return Загруженные сценарии
+     * @throws IOException Ошибка ввода-вывода
+     */
+    public SearchScenario[] readSearchScenario(@NotNull FileSpecification specification)
+        throws IOException {
+        IniFile iniFile = readIniFile(specification);
+        SearchScenario[] result = SearchScenario.parse(iniFile);
+
+        return result;
     }
 
     /**
@@ -1071,7 +1214,7 @@ public final class IrbisConnection {
      * @throws IOException Ошибка ввода-вывода.
      */
     public void unlockRecords(@NotNull String databaseName,
-                                    @NotNull int... mfnList)
+                              @NotNull int... mfnList)
             throws IOException {
         if (mfnList.length == 0) {
             return;
@@ -1114,7 +1257,7 @@ public final class IrbisConnection {
     public void updateUserList(@NotNull UserInfo[] userList)
             throws IOException {
         ClientQuery query = new ClientQuery(this, SET_USER_LIST);
-        for (UserInfo user: userList) {
+        for (UserInfo user : userList) {
             String line = user.encode();
             query.addAnsi(line);
         }
@@ -1134,7 +1277,7 @@ public final class IrbisConnection {
      * @throws IrbisException Ошибка протокола.
      */
     public int writeRecord(@NotNull MarcRecord record, boolean lockFlag,
-                                 boolean actualize, boolean dontParseResponse)
+                           boolean actualize, boolean dontParseResponse)
             throws IOException, IrbisException {
         String databaseName = iif(record.database, database);
         ClientQuery query = new ClientQuery(this, UPDATE_RECORD);
@@ -1175,7 +1318,7 @@ public final class IrbisConnection {
      * @throws IrbisException Ошибка протокола.
      */
     public int writeRecords(@NotNull MarcRecord[] records, boolean lockFlag,
-                                  boolean actualize, boolean dontParseResponse)
+                            boolean actualize, boolean dontParseResponse)
             throws IOException, IrbisException {
         if (records.length == 0) {
             return getMaxMfn(database);

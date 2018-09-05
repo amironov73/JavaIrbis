@@ -19,7 +19,7 @@ public class NumberText implements Cloneable, Comparable<NumberText> {
     /**
      * Fragment: a prefix plus a number.
      */
-    class Chunk implements Cloneable, Comparable<Chunk> {
+    private static class Chunk implements Cloneable, Comparable<Chunk> {
 
         public String prefix;
         public boolean haveValue;

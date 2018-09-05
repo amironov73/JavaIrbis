@@ -4,6 +4,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import ru.arsmagna.infrastructure.MenuEntry;
+import ru.arsmagna.infrastructure.MenuFile;
 import ru.arsmagna.infrastructure.ServerResponse;
 
 import java.io.File;
@@ -136,6 +138,31 @@ public final class DatabaseInfo {
         return result.toArray(new DatabaseInfo[0]);
     }
 
+    /**
+     * Разбор MNU-файла с сервера.
+     *
+     * @param menuFile MNU-файл
+     * @return Найденные базы данных
+     */
+    public static DatabaseInfo[] parse(@NotNull MenuFile menuFile) {
+        ArrayList<DatabaseInfo> result = new ArrayList<>();
+        for (MenuEntry entry: menuFile.entries) {
+            String name = entry.code;
+            String description = entry.comment;
+            boolean readOnly = false;
+            if (name.startsWith("-")) {
+                name = name.substring(1);
+                readOnly = true;
+            }
+            DatabaseInfo info = new DatabaseInfo();
+            info.name = name;
+            info.description = description;
+            info.readOnly = readOnly;
+            result.add(info);
+        }
+
+        return result.toArray(new DatabaseInfo[0]);
+    }
     //=========================================================================
 
     @Override

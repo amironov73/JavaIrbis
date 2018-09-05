@@ -152,6 +152,7 @@ public final class RecordField implements Cloneable {
      *
      * @return Копию поля.
      */
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public RecordField clone() {
         RecordField result = new RecordField(tag, value);
         for (SubField sub : subFields) {

@@ -49,8 +49,6 @@ public final class TermPosting implements Cloneable {
      */
     @NotNull
     public static TermPosting[] parse (@NotNull ServerResponse response) {
-        if (response == null) { throw new IllegalArgumentException(); }
-
         ArrayList<TermPosting> result = new ArrayList<>();
         while (true) {
             String line = response.readUtf();
@@ -82,6 +80,7 @@ public final class TermPosting implements Cloneable {
      *
      * @return Копию.
      */
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public TermPosting clone() {
         TermPosting result = new TermPosting();
         result.mfn = mfn;
