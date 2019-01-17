@@ -1,3 +1,6 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -125,14 +128,14 @@ public final class UserInfo {
             if (lines == null) {
                 break;
             }
+
             if (lines.length == 0) {
                 break;
             }
 
             UserInfo user = new UserInfo();
-            if (lines.length != 0) {
-                user.number = emptyToNull(lines[0]);
-            }
+            user.number = emptyToNull(lines[0]);
+
             if (lines.length > 1) {
                 user.name = emptyToNull(lines[1]);
             }

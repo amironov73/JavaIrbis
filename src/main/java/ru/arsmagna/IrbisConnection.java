@@ -1,3 +1,6 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -600,8 +603,8 @@ public final class IrbisConnection {
             boolean found = false;
             IrbisProcessInfo[] processes = listProcesses();
             for (IrbisProcessInfo process: processes) {
-                if (process.clientId == clientId
-                   && process.lastCommand == operation) {
+                if (clientId.compareTo(process.clientId) == 0
+                   && operation.compareTo(process.lastCommand) == 0) {
                     found = true;
                 }
             }

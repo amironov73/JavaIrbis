@@ -1,3 +1,6 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 package ru.arsmagna.direct;
 
 import org.jetbrains.annotations.NotNull;
@@ -78,7 +81,7 @@ public class IfpControlRecord64 {
 
     @Override
     public String toString() {
-        return String.format("NextOffset=%ld, NodeBlockCount=%d, "
+        return String.format("NextOffset=%d, NodeBlockCount=%d, "
             + "LeafBlockCount=%d, Reserved=%d", nextOffset,
                 nodeBlockCount, leafBlockCount, reserved);
     }

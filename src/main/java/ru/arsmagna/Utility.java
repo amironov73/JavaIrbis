@@ -1,3 +1,6 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 package ru.arsmagna;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -182,7 +185,7 @@ public class Utility {
 
     @Contract(pure = true)
     public static boolean sameString(@Nullable String s1, @Nullable String s2) {
-        if (s1 == s2) {
+        if (s1 == s2) { //-V6013
             return true;
         }
 
