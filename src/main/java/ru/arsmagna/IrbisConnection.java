@@ -411,7 +411,29 @@ public final class IrbisConnection {
 
             return response.returnCode;
         }
-    }
+    } // getMaxMfn
+
+    /**
+     * Получение постингов для указанных записи и префикса.
+     *
+     * @param mfn MFN записи.
+     * @param prefix Префикс в виде "A=$".
+     * @return Массив постингов.
+     * @throws IOException Ошибка ввода-вывода.
+     * @throws IrbisException Ошибка протокола.
+     */
+    public TermPosting[] getRecordPostings(int mfn, String prefix)
+            throws IOException, IrbisException {
+        ClientQuery query = new ClientQuery(this, GET_RECORD_POSTINGS);
+        query.addAnsi(database);
+        query.add(mfn);
+        query.addUtf(prefix);
+
+        try (ServerResponse response = execute(query)) {
+            response.checkReturnCode();
+            return TermPosting.parse(response);
+        }
+    } // getRecordPostings
 
     /**
      * Получение статистики с сервера.

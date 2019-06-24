@@ -26,4 +26,7 @@ hs_err_pid*
 target/
 
 # IDEA files
-/.idea/workspace.xml
+.idea/
+
+# PVS-Studio
+.PVS-Studio/
