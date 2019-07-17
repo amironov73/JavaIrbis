@@ -1103,6 +1103,81 @@ public final class IrbisConnection {
     }
 
     /**
+     * Чтение двоичного файла с сервера.
+     *
+     * @param specification Спецификация файла.
+     * @return Содержимое файла или null.
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    public byte[] requireBinaryFile(@NotNull FileSpecification specification)
+            throws IOException, IrbisFileNotFoundException {
+        byte[] result = readBinaryContent(specification);
+        if (result == null || result.length == 0) {
+            throw new IrbisFileNotFoundException(specification);
+        }
+
+        return result;
+    }
+
+    /**
+     * Чтение INI-файла с сервера.
+     *
+     * @param specification Спецификация
+     * @return INI-файл
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    public IniFile requireIniFile(@NotNull FileSpecification specification)
+            throws IOException, IrbisFileNotFoundException {
+        String text = readTextContent(specification);
+        if (isNullOrEmpty(text)) {
+            throw new IrbisFileNotFoundException(specification);
+        }
+
+        StringReader reader = new StringReader(text);
+        Scanner scanner = new Scanner(reader);
+        IniFile result = IniFile.parse(scanner);
+
+        return result;
+    }
+
+    /**
+     * Чтение MNU-файла с сервера.
+     *
+     * @param specification Спецификация
+     * @return MNU-файл
+     * @throws IOException Ошибка ввода-вывода
+     */
+    public MenuFile requireMenuFile(@NotNull FileSpecification specification)
+            throws IOException, IrbisFileNotFoundException {
+        String text = readTextContent(specification);
+        if (isNullOrEmpty(text)) {
+            throw new IrbisFileNotFoundException(specification);
+        }
+        StringReader reader = new StringReader(text);
+        Scanner scanner = new Scanner(reader);
+        MenuFile result = MenuFile.parse(scanner);
+
+        return result;
+    }
+
+    /**
+     * Получение текстового файла с сервера.
+     *
+     * @param specification Спецификация файла.
+     * @return Текст файла (пустая строка, если файл не найден).
+     * @throws IOException Ошибка ввода-вывода.
+     */
+    public String requireTextFile(@NotNull FileSpecification specification)
+            throws IOException, IrbisFileNotFoundException {
+        String result = readTextContent(specification);
+        if (isNullOrEmpty(result)) {
+            throw new IrbisFileNotFoundException(specification);
+        }
+
+        return result;
+    }
+
+    /**
      * Перезапуск сервера (без утери подключенных клиентов).
      *
      * @throws IOException Ошибка ввода-вывода.
