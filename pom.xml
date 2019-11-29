@@ -81,6 +81,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>chat.tamtam</groupId>
+            <artifactId>tamtam-bot-api</artifactId>
+            <version>0.1.8</version>
+        </dependency>
+
     </dependencies>
 
     <build>
