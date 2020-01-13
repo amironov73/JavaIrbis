@@ -30,3 +30,6 @@ target/
 
 # PVS-Studio
 .PVS-Studio/
+
+# Doxygen
+doxygen/
