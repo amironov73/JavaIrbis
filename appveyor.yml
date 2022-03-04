@@ -9,6 +9,8 @@ build_script:
 
     utils\PomPatcher pom.xml %APPVEYOR_BUILD_VERSION%
 
+    utils\Doxygen
+
     mvn --version
 
     mvn package
